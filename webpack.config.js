@@ -2,6 +2,7 @@ const path = require('path');
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const miniCss = require('mini-css-extract-plugin');
 
 const baseConfig = {
     entry: path.resolve(__dirname, './src/index.ts'),
@@ -16,6 +17,14 @@ const baseConfig = {
                 test: /\.ts$/i,
                 use: 'ts-loader',
                 include: [path.resolve(__dirname, 'src')]
+            },
+            {
+                test: /\.(s*)css$/,
+                use: [
+                    miniCss.loader,
+                    'css-loader',
+                    'sass-loader',
+                ]
             },
         ],
     },
@@ -32,6 +41,9 @@ const baseConfig = {
             filename: 'index.html',
         }),
         new CleanWebpackPlugin(),
+        new miniCss({
+            filename: 'style.css',
+        }),
     ],
 };
 
