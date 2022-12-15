@@ -30,6 +30,10 @@ function addModalProduct(id: number, parent: HTMLElement): void {
   inStock.classList.add('small-text');
   inStock.innerHTML = `In stock: ${goodsData.products[id - 1].stock}`;
 
+  const rating = document.createElement('p');
+  rating.classList.add('small-text');
+  rating.innerHTML = `Rating: ${goodsData.products[id - 1].rating}`;
+
   const description = document.createElement('p');
   description.classList.add('small-text');
   description.innerHTML = `${goodsData.products[id - 1].description}`;
@@ -64,6 +68,7 @@ function addModalProduct(id: number, parent: HTMLElement): void {
   goodInfo.appendChild(productName);
   goodInfo.appendChild(price);
   goodInfo.appendChild(inStock);
+  goodInfo.appendChild(rating);
   goodInfo.appendChild(description);
   goodInfo.appendChild(amountButtons);
   amountButtons.appendChild(minusButton);

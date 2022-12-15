@@ -36,4 +36,16 @@ export const getValues = {
     const maxStock: number = Math.max.apply(Math, this.getAllStock());
     return maxStock;
   },
+
+  getProductStock(id: number): number {
+    return goodsData.products[id + 1].stock;
+  },
+
+  getProductPrice(id: number): number {
+    return goodsData.products[id + 1].price;
+  },
+
+  getProductDiscount(id: number): number {
+    return goodsData.products[id + 1].discountPercentage;
+  },
 };
