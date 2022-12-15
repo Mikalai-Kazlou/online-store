@@ -1,0 +1,1 @@
+import goodsData from '../goods';
