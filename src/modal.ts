@@ -7,52 +7,52 @@ const btnCloseModal: HTMLElement = document.querySelector('.close-modal') as HTM
 const btnOpenModal: HTMLElement = document.querySelector('.goods-items') as HTMLElement;
 
 function addModalProduct(id: number, parent: HTMLElement): void {
-  let good = document.createElement('button');
+  const good = document.createElement('button');
   good.classList.add('good-item-modal');
 
-  let picture = document.createElement('div');
+  const picture = document.createElement('div');
   picture.classList.add('picture');
   picture.classList.add('big-picture');
   picture.style.backgroundImage = `url("${goodsData.products[id - 1].images[0]}")`;
 
-  let goodInfo = document.createElement('div');
+  const goodInfo = document.createElement('div');
   goodInfo.classList.add('good-info');
 
-  let productName = document.createElement('p');
+  const productName = document.createElement('p');
   productName.innerHTML = `${goodsData.products[id - 1].title}`;
   productName.classList.add('main-text');
 
-  let price = document.createElement('p');
+  const price = document.createElement('p');
   price.classList.add('main-text');
   price.innerHTML = `$${goodsData.products[id - 1].price}`;
 
-  let inStock = document.createElement('p');
+  const inStock = document.createElement('p');
   inStock.classList.add('small-text');
   inStock.innerHTML = `In stock: ${goodsData.products[id - 1].stock}`;
 
-  let description = document.createElement('p');
+  const description = document.createElement('p');
   description.classList.add('small-text');
   description.innerHTML = `${goodsData.products[id - 1].description}`;
 
-  let amountButtons = document.createElement('div');
+  const amountButtons = document.createElement('div');
   amountButtons.classList.add('amount-buttons');
   amountButtons.classList.add('main-text');
 
-  let minusButton = document.createElement('button');
+  const minusButton = document.createElement('button');
   minusButton.classList.add('amount-button');
   minusButton.classList.add('main-text');
   minusButton.innerHTML = '-';
 
-  let selectedAmount = document.createElement('p');
+  const selectedAmount = document.createElement('p');
   selectedAmount.classList.add('main-text');
   selectedAmount.innerHTML = '1';
 
-  let plusButton = document.createElement('button');
+  const plusButton = document.createElement('button');
   plusButton.classList.add('amount-button');
   plusButton.classList.add('main-text');
   plusButton.innerHTML = '+';
 
-  let addToCard = document.createElement('button');
+  const addToCard = document.createElement('button');
   addToCard.classList.add('button-add-card');
   addToCard.classList.add('main-text');
   addToCard.innerHTML = `Add to card`;
@@ -72,7 +72,7 @@ function addModalProduct(id: number, parent: HTMLElement): void {
   goodInfo.appendChild(addToCard);
 }
 
-let openModal = function (event: Event): void {
+const openModal = function (event: Event): void {
   if (event.target) {
     const target = event.target as HTMLButtonElement;
     const clickedOption = target.closest('button');
@@ -86,7 +86,7 @@ let openModal = function (event: Event): void {
   }
 };
 
-let closeModal = function (): void {
+const closeModal = function (): void {
   const modalContent: HTMLElement = <HTMLElement>document.querySelector('.modal');
   removeItem(modalContent);
   modal.classList.add('hide');

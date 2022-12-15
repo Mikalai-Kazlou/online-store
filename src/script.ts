@@ -1,4 +1,4 @@
-import goodsData from "./goods";
+import goodsData from './goods';
 import { elementNullCheck } from './types/type-checks';
 
 function getCategories(): Set<string> {
@@ -11,13 +11,13 @@ function getCategories(): Set<string> {
 }
 
 function getBrands(): Set<string> {
-    const length = goodsData.products.length;
-    const result: string[] = [];
-    for (let i = 0; i < length; i++) {
-      result.push(goodsData.products[i].brand);
-    }
-    return new Set(result);
+  const length = goodsData.products.length;
+  const result: string[] = [];
+  for (let i = 0; i < length; i++) {
+    result.push(goodsData.products[i].brand);
   }
+  return new Set(result);
+}
 
 const categoriesSet = getCategories();
 const categoriesArray = Array.from(categoriesSet);
@@ -27,17 +27,17 @@ const categoryButtons = elementNullCheck(document, '.filter-category-buttons');
 const brandButtons = elementNullCheck(document, '.filter-brand-buttons');
 
 function printButtons(array: string[], parent: Element, cls: string): void {
-    for (let i = 0; i < array.length; i++) {
-      let btn = document.createElement("button");
-      btn.classList.add("button");
-      btn.classList.add(`${cls}`);
-      btn.classList.add("small-text");
-      let t = document.createTextNode(array[i]);
-      btn.appendChild(t);
-      btn.setAttribute("id", array[i]);
-      parent.appendChild(btn);
-    }
+  for (let i = 0; i < array.length; i++) {
+    const btn = document.createElement('button');
+    btn.classList.add('button');
+    btn.classList.add(`${cls}`);
+    btn.classList.add('small-text');
+    const t = document.createTextNode(array[i]);
+    btn.appendChild(t);
+    btn.setAttribute('id', array[i]);
+    parent.appendChild(btn);
   }
+}
 
 printButtons(categoriesArray, categoryButtons, 'category-button');
 printButtons(brandsArray, brandButtons, 'brand-button');
@@ -46,27 +46,27 @@ const goodsItems = elementNullCheck(document, '.goods-items');
 
 function printGoods(): void {
   for (let i = 0; i < goodsData.products.length; i++) {
-    let good = document.createElement("button");
-    good.classList.add("good-item");
+    const good = document.createElement('button');
+    good.classList.add('good-item');
 
-    let picture = document.createElement("div");
-    picture.classList.add("picture");
+    const picture = document.createElement('div');
+    picture.classList.add('picture');
     picture.style.backgroundImage = `url("${goodsData.products[i].thumbnail}")`;
 
-    let productName = document.createElement("div");
+    const productName = document.createElement('div');
     productName.innerHTML = `${goodsData.products[i].title}`;
-    productName.classList.add("main-text");
+    productName.classList.add('main-text');
 
-    let price = document.createElement("div");
-    price.classList.add("small-text");
+    const price = document.createElement('div');
+    price.classList.add('small-text');
     price.innerHTML = `$${goodsData.products[i].price}`;
 
-    let description = document.createElement("div");
-    description.classList.add("small-text");
+    const description = document.createElement('div');
+    description.classList.add('small-text');
     description.innerHTML = `${goodsData.products[i].description}`;
 
     goodsItems.appendChild(good);
-    good.setAttribute("id", goodsData.products[i].id.toString());
+    good.setAttribute('id', goodsData.products[i].id.toString());
     good.appendChild(picture);
     good.appendChild(productName);
     good.appendChild(price);
@@ -76,7 +76,7 @@ function printGoods(): void {
 
 printGoods();
 
-let goodsNumber = elementNullCheck(document, '.goods-number');
+const goodsNumber = elementNullCheck(document, '.goods-number');
 
 function filter(event: Event): void {
   let remainingGoods = 100;
@@ -97,4 +97,4 @@ function filter(event: Event): void {
   }
 }
 
-categoryButtons.addEventListener("click", filter);
+categoryButtons.addEventListener('click', filter);
