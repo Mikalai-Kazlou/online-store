@@ -30,6 +30,10 @@ const baseConfig = {
                     name: '[name].[ext]',
                 },
             },
+            // {
+            //     test: /\.html$/i,
+            //     loader: "html-loader",
+            //   },
         ],
     },
     resolve: {
@@ -44,6 +48,14 @@ const baseConfig = {
             template: path.resolve(__dirname, './src/index.html'),
             filename: 'index.html',
         }),
+        new HtmlWebpackPlugin({
+            filename: '404.html',
+            template: path.resolve(__dirname, './src/404.html'),
+          }),
+        new HtmlWebpackPlugin({
+            filename: 'card.html',
+            template: path.resolve(__dirname, './src/card.html'),
+          }),
         new CleanWebpackPlugin(),
         new miniCss({
             filename: 'style.css',

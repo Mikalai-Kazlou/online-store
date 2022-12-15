@@ -1,4 +1,4 @@
-import './index.scss';
-
-const uiButton: HTMLElement = document.querySelector('.button') as HTMLElement;
-uiButton.addEventListener('click', () => alert('Hello World!'));
+import './style.scss';
+import './script.js';
+import './modal.js';
+import './goods.js';
