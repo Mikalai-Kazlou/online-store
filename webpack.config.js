@@ -66,7 +66,11 @@ const baseConfig = {
             filename: 'style.css',
         }),
         new CopyWebpackPlugin(
-            { patterns: [{ from: './src/assets', to: 'assets' }] },
+            {
+                patterns: [
+                    { from: './src/assets', to: 'assets' },
+                    { from: './src/.htaccess', to: './' }]
+            },
         ),
     ],
 };
