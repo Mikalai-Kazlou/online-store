@@ -1,6 +1,7 @@
 import goodsData from './goods';
 import { elementNullCheck } from './types/type-checks';
 
+if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
 const modal: HTMLElement = elementNullCheck(document, '.modal') as HTMLElement;
 const overlay: HTMLElement = document.querySelector('.overlay') as HTMLElement;
 const btnCloseModal: HTMLElement = document.querySelector('.close-modal') as HTMLElement;
@@ -107,3 +108,4 @@ function removeItem(parent: HTMLElement): void {
 btnOpenModal.addEventListener('click', openModal);
 btnCloseModal.addEventListener('click', closeModal);
 overlay.addEventListener('click', closeModal);
+}

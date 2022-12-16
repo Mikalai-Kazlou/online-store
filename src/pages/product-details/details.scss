@@ -1,0 +1,51 @@
+.goods-button {
+    display: block;
+    background: transparent;
+    border: transparent;
+    text-align: justify;
+    border-radius: 0.5rem;
+    border: 0.1rem solid #e8e8e8;
+    padding: 1rem;
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.3);
+        background: #f3f2f2;
+    }
+
+    &:active {
+        border: 0.1rem solid darkorchid;
+    }
+
+    @media screen and (max-width: 768px) {
+        width: 150px;
+        height: 25px;
+    }
+}
+
+.bread-text {
+    font-size: 3rem;
+    font-weight: 500;
+    text-transform: capitalize;
+
+    &:hover {
+        cursor: pointer;
+        color: darkorchid;
+    }
+}
+
+.breadcrumb {
+    display: flex;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-left: 10vw;
+    gap: 1rem;
+
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+}

@@ -388,7 +388,12 @@ body {
     display: flex;
     gap: 1rem;
     transition: 0.25s;
+}
 
+.good-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .big-picture {

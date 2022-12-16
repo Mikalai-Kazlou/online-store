@@ -2,6 +2,8 @@ import { getValues } from './get-values';
 import goodsData from '../goods';
 import { elementNullCheck } from '../types/type-checks';
 
+if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
+
 const goodsNumber = elementNullCheck(document, '.goods-number');
 
 const minPriceContainer = elementNullCheck(document, '.min-price');
@@ -76,3 +78,4 @@ function stockFilter(event: Event): void {
 
 priceSlider.addEventListener('input', priceFilter);
 stockSlider.addEventListener('input', stockFilter);
+}

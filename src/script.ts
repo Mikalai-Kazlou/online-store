@@ -2,7 +2,7 @@ import goodsData from './goods';
 import GoodsCatalog from './components/GoodsCatalog/GoodsCatalog';
 import { elementNullCheck } from './types/type-checks';
 
-if (document.location.pathname === '/') {
+if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   function getCategories(): Set<string> {
     const length = goodsData.products.length;
     const result: string[] = [];

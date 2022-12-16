@@ -29,12 +29,17 @@ export default class GoodsCatalogItem {
     uiDescription.classList.add('small-text');
     uiDescription.innerHTML = `${this.goods.description}`;
 
+    const uiGoodButtons = document.createElement('div');
+    uiGoodButtons.classList.add('good-buttons');
+
     const uiAddToCart = document.createElement('button');
     uiAddToCart.classList.add('add-to-cart');
+    uiAddToCart.classList.add('goods-button');
     uiAddToCart.addEventListener('click', () => this.addToCart(this.goods));
 
     const uiDetails = document.createElement('button');
     uiDetails.classList.add('details');
+    uiDetails.classList.add('goods-button');
     uiDetails.textContent = 'Details';
     uiDetails.addEventListener('click', () => this.showDetails(this.goods));
 
@@ -43,8 +48,9 @@ export default class GoodsCatalogItem {
     this.uiElement.append(uiProductName);
     this.uiElement.append(uiPrice);
     this.uiElement.append(uiDescription);
-    this.uiElement.append(uiAddToCart);
-    this.uiElement.append(uiDetails);
+    this.uiElement.append(uiGoodButtons);
+    uiGoodButtons.append(uiAddToCart);
+    uiGoodButtons.append(uiDetails);
 
     this.refresh();
   }
