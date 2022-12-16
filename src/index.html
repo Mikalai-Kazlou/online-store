@@ -5,13 +5,104 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Online-store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>The Greatest Online Store</title>
 </head>
 
-<body>
-  <img src="./assets/images/bird.jpg" alt="Bird">
-  <img src="./assets/icons/logo.svg" alt="Logo">
-  <button class="button">Click me!</button>
+<body class="main">
+  <div class="modal hide">
+    <button class="close-modal">x</button>
+  </div>
+  <div class="overlay hide"></div>
+  <header class="header-container">
+    <div class="wrapper">
+      <div class="header-content">
+        <div class="header-logo"></div>
+        <nav class="header-navbar">
+          <a class="header-link link-active" href="#home">Products</a>
+          <a class="header-link" href="#about">About</a>
+          <a class="header-link" href="./404.html">404</a>
+        </nav>
+        <a href="./card.html" class="header-basket button">
+          <p class="basket-text main-text">Card</p>
+          <div class="basket-img">
+            <span class="basket-amount">0</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </header>
+  <div class="intersection">
+    <div class="wrapper">
+      <h1 class="title">Products</h1>
+    </div>
+  </div>
+  <div class="wrapper">
+    <main class="main-container">
+      <aside class="filters-container">
+        <div class="filters-content">
+          <input type="text" name="text" placeholder="Search" class="search-input" value="">
+          <h4 class="main-text">Category</h4>
+          <div class="filter-category-buttons main-text"></div>
+          <h4 class="main-text">Brand</h4>
+          <div class="filter-brand-buttons main-text"></div>
+          <div class="filter-price-slider">
+            <p class="main-text">Price</p>
+            <div class="price-values values-container">
+              <div class="min-price small-text">$0</div>
+              <div class="double-arrow">⟷</div>
+              <div class="max-price small-text">$1000</div>
+            </div>
+            <input type="range" min="0" max="1000" value="1000" class="price-slider slider" id="range">
+          </div>
+          <div class="filter-stock-slider">
+            <p class="main-text">Stock</p>
+            <div class="stock-values values-container">
+              <div class="min-stock small-text">2</div>
+              <div class="double-arrow">⟷</div>
+              <div class="max-stock small-text">150</div>
+            </div>
+            <input type="range" min="2" max="150" value="150" class="stock-slider slider" id="range">
+          </div>
+      </aside>
+      <section class="goods-container">
+        <div class="goods-first-line">
+          <div class="goods-sorting">
+            <p class="main-text">Sort by</p>
+            <select name="sort-by" id="sort-by" class="sort-input main-text">
+              <option value="price-lowest">price (lowest)</option>
+              <option value="price-highest">price (highest)</option>
+              <option value="name-a">name (a - z)</option>
+              <option value="name-z">name (z - a)</option>
+            </select>
+          </div>
+          <div class="goods-number main-text">Found: 100</div>
+        </div>
+        <div class="goods-items"></div>
+      </section>
+    </main>
+  </div>
+  <footer class="footer-container">
+    <div class="wrapper">
+      <div class="footer-content">
+        <a href="https://rs.school/js/">
+          <div class="footer-logo"></div>
+        </a>
+        <div class="link mobile-hide">Winter 2022</div>
+        <div class="authors-link">
+          <a href="https://github.com/rockmonolit" class="link text_hover"
+            localization-key="authorGH">mikalai-kazlou</a>
+          <a href="https://github.com/rockmonolit" class="link text_hover" localization-key="authorGH">rockmonolit</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script type="module" src="script.js"></script>
+  <script type="module" src="modal.js"></script>
 </body>
 
 </html>
