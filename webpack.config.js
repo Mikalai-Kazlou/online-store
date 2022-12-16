@@ -49,19 +49,28 @@ const baseConfig = {
             filename: 'index.html',
         }),
         new HtmlWebpackPlugin({
-            filename: '404.html',
-            template: path.resolve(__dirname, './src/404.html'),
-          }),
+            filename: 'details.html',
+            template: path.resolve(__dirname, './src/details.html'),
+        }),
         new HtmlWebpackPlugin({
             filename: 'card.html',
             template: path.resolve(__dirname, './src/card.html'),
-          }),
+        }),
+        new HtmlWebpackPlugin({
+            filename: '404.html',
+            template: path.resolve(__dirname, './src/404.html'),
+        }),
+
         new CleanWebpackPlugin(),
         new miniCss({
             filename: 'style.css',
         }),
         new CopyWebpackPlugin(
-            { patterns: [{ from: './src/assets', to: 'assets' }] },
+            {
+                patterns: [
+                    { from: './src/assets', to: 'assets' },
+                    { from: './src/.htaccess', to: './' }]
+            },
         ),
     ],
 };
