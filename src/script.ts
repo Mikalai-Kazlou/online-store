@@ -1,4 +1,5 @@
 import goodsData from './goods';
+import GoodsCatalog from './components/GoodsCatalog/GoodsCatalog';
 import { elementNullCheck } from './types/type-checks';
 
 function getCategories(): Set<string> {
@@ -42,9 +43,11 @@ function printButtons(array: string[], parent: Element, cls: string): void {
 printButtons(categoriesArray, categoryButtons, 'category-button');
 printButtons(brandsArray, brandButtons, 'brand-button');
 
-const goodsItems = elementNullCheck(document, '.goods-items');
+const uiGoodsItems = elementNullCheck(document, '.goods-items') as HTMLElement;
+const goodsCatalog = new GoodsCatalog(uiGoodsItems);
+goodsCatalog.draw();
 
-function printGoods(): void {
+/*function printGoods(): void {
   for (let i = 0; i < goodsData.products.length; i++) {
     const good = document.createElement('button');
     good.classList.add('good-item');
@@ -74,7 +77,7 @@ function printGoods(): void {
   }
 }
 
-printGoods();
+printGoods();*/
 
 const goodsNumber = elementNullCheck(document, '.goods-number');
 
