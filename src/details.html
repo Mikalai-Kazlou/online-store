@@ -18,7 +18,7 @@
         <div class="wrapper">
             <div class="header-content">
                 <div class="header-logo"></div>
-                <nav class="header-navbar">
+                <nav class="header-navbar mobile-hide">
                     <a class="header-link" href="./index.html">Products</a>
                     <a class="header-link" href="#about">About</a>
                     <a class="header-link" href="./404.html">404</a>
@@ -44,10 +44,34 @@
             </div>
         </div>
     </div>
-    <div class="wrapper">
-        <main class="main-container-404">
-            <div class="error-message">
-                <h2 class="title">Product</h2>
+    <div class="product-wrapper">
+        <main class="main-container-product">
+            <div class="brand-and-title big-text">Brand Title</div>
+            <div class="product-info-container">
+                <div class="produst-pictures tablet-column">
+                <div class="side-pictures tablet-row"></div>
+                <div class="picture-container">
+                    <img class="selected-picture" alt="" src=""></img>
+                </div>
+            </div>
+                <div class="info-container">
+                    <p class="info-title main-text">Title</p>
+                    <p class="info-brand main-text">Brand</p>
+                    <p class="info-rating small-text">Rating</p>
+                    <p class="info-discount small-text">Discount</p>
+                    <p class="info-description small-text">Description</p>
+                    <p class="info-stock small-text">Stock</p>
+                    <p class="info-price main-text">Price</p>
+                    <div class="amount-buttons main-text">
+                        <button class="amount-button main-text button-decrement">-</button>
+                        <p class="main-text selected-stock">1</p>
+                        <button class="amount-button main-text button-increment">+</button>
+                    </div>
+                    <div class="good-buttons tablet-column">
+                        <button class="add-to-cart product-button main-text">Add to Cart</button>
+                        <button class="buy-now product-button main-text">Buy Now</button>
+                    </div>
+                </div>
             </div>
         </main>
     </div>

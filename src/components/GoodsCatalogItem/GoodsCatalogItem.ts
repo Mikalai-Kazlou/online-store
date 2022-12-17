@@ -55,6 +55,10 @@ export default class GoodsCatalogItem {
     this.refresh();
   }
 
+  fillProductInfo(id: Goods) {
+
+  }
+
   private refresh() {
     const uiAddToCart = this.uiElement.querySelector('.add-to-cart') as HTMLElement;
     if (!this.cart.has(this.goods)) {
