@@ -1,6 +1,7 @@
 import goodsData from './goods';
 import GoodsCatalog from './components/GoodsCatalog/GoodsCatalog';
 import { elementNullCheck } from './types/type-checks';
+import Header from './components/Header/Header';
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   function getCategories(): Set<string> {

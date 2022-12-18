@@ -3,12 +3,22 @@ import Goods from '../../components/Goods/Goods';
 import GoodsCatalogItem from '../../components/GoodsCatalogItem/GoodsCatalogItem';
 import { elementNullCheck } from '../../types/type-checks';
 import Cart from '../../components/Cart/Cart';
+import Header from '../../components/Header/Header';
 
 const categoryContainer = elementNullCheck(document, '.product-category');
 const brandContainer = elementNullCheck(document, '.product-brand');
 const nameContainer = elementNullCheck(document, '.product-name');
 const currentProductID = +document.location.search.toString().split('=')[1];
 const currentProduct = new Goods(currentProductID);
+const uiElement = elementNullCheck(document, '.main-container-product') as HTMLElement;
+const cart = new Cart();
+const currentItem = new GoodsCatalogItem(uiElement, currentProduct, cart);
+currentItem.fillProductInfo();
+
+const totalContainer = elementNullCheck(document, '.total') as HTMLParagraphElement;
+const basketContainer = elementNullCheck(document, '.basket-amount') as HTMLSpanElement;
+const header = new Header(totalContainer, basketContainer, cart);
+header.refreshHeader();
 
 export default class Breadcrumb {
   private category: string;
@@ -44,7 +54,7 @@ function fillProductPage(product: Goods): void {
   infoTitle.innerHTML = `Product name: ${product.title};`;
   infoBrand.innerHTML = `Brand: ${product.brand};`;
   infoRating.innerHTML = `Rating: ${product.rating};`;
-  infoDiscount.innerHTML = `Discount percentage: ${product.discountPercentage};`;
+  infoDiscount.innerHTML = `Discount percentage: ${product.discountPercentage}%;`;
   infoDescription.innerHTML = `Description: ${product.description};`;
   infoStock.innerHTML = `Stock: ${product.stock};`;
 
@@ -111,21 +121,12 @@ let setStock = function (event: Event): void {
       setPrice(infoPrice, currentProduct.price, currentStock);
     }
   }
+  currentItem.saveState();
 };
 
 const pageBreadcrumb = new Breadcrumb(currentProduct.category, currentProduct.brand, currentProduct.title);
 pageBreadcrumb.fillBreadcrumb(categoryContainer, brandContainer, nameContainer);
 fillProductPage(currentProduct);
+
 stockButtons.addEventListener('click', setStock);
 const addToCardButton = document.querySelector('.add-to-cart') as HTMLButtonElement;
-
-function addToCard() {
-  const goods: number[] = JSON.parse(localStorage.getItem('rs-online-store-cart-goods') as string) || [];
-  if (goods.includes(currentProductID)) {
-    addToCardButton.innerHTML = 'Drop from Cart';
-  } else {
-    addToCardButton.innerHTML = 'Add to Cart';
-  }
-}
-
-addToCard();

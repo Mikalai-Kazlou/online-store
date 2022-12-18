@@ -184,6 +184,11 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     opacity: 0.5;
+
+    @media screen and (max-width: 500px) {
+        width: 11rem;
+        height: 3rem;
+    }
 }
 
 .header-basket {
@@ -325,6 +330,13 @@ body {
     gap: 2.5rem;
 }
 
+.header-nav-and-total {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
 .link-active {
     border-bottom: 1px solid black;
     cursor: default;
@@ -375,6 +387,7 @@ body {
     justify-content: flex-start;
     background: transparent;
     text-align: justify;
+    justify-content: space-between;
 }
 
 .picture {

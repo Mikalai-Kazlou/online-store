@@ -1,7 +1,7 @@
 import Goods from "../Goods/Goods";
 
 export default class Cart {
-  private goods: Goods[] = [];
+  goods: Goods[] = [];
 
   constructor() {
     this.restore();
@@ -19,6 +19,18 @@ export default class Cart {
   drop(goods: Goods): void {
     this.goods.splice(this.goods.indexOf(goods), 1);
     this.save();
+  }
+
+  getLength(): number {
+    return this.goods.length;
+  }
+
+  getTotal(): number {
+    const money: number[] = this.goods.map(item => item.price);
+    const result = money.reduce((accumulator, value) => {
+      return accumulator + value;
+    }, 0);
+    return result;
   }
 
   private save(): void {

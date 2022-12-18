@@ -89,6 +89,7 @@
     &:active {
         border: 0.1rem solid darkorchid;
     }
+
     @media screen and (max-width: 1070px) {
         width: 8rem;
         height: 8rem;
@@ -155,6 +156,7 @@
     border-radius: 0.5rem;
     border: 0.1rem solid #e8e8e8;
     padding: 1rem;
+    width: 12vw;
 
     &:hover {
         cursor: pointer;
@@ -167,8 +169,8 @@
     }
 
     @media screen and (max-width: 768px) {
-        width: 150px;
-        height: 25px;
+        width: 15rem;
+        height: 4rem;
     }
 }
 
@@ -176,10 +178,10 @@
     display: block;
     background: transparent;
     border: transparent;
-    text-align: justify;
     border-radius: 0.5rem;
     border: 0.1rem solid #e8e8e8;
     padding: 1rem;
+    width: 100%;
 
     &:hover {
         cursor: pointer;

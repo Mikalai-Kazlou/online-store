@@ -1,5 +1,5 @@
-import Cart from "../Cart/Cart";
-import Goods from "../Goods/Goods";
+import Cart from '../Cart/Cart';
+import Goods from '../Goods/Goods';
 
 export default class GoodsCatalogItem {
   private uiElement: HTMLElement;
@@ -55,8 +55,20 @@ export default class GoodsCatalogItem {
     this.refresh();
   }
 
-  fillProductInfo(id: Goods) {
+  fillProductInfo() {
+    const uiAddToCart = this.uiElement.querySelector('.add-to-cart') as HTMLButtonElement;
+    uiAddToCart.addEventListener('click', () => this.addToCart(this.goods));
+    this.refresh();
+  }
 
+  saveState() {
+    const uiStockNumber = this.uiElement.querySelector('.selected-stock') as HTMLParagraphElement;
+    const objectToStringify = {
+      ID: this.goods.id,
+      Price: this.goods.price * +uiStockNumber.innerHTML,
+      SelectedStock: uiStockNumber.innerHTML,
+    };
+    localStorage.setItem('RS-Saved-Products', JSON.stringify(objectToStringify));
   }
 
   private refresh() {
