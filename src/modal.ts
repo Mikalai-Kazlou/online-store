@@ -1,5 +1,10 @@
 import goodsData from './goods';
 import { elementNullCheck } from './types/type-checks';
+import Header from './components/Header/Header';
+import Cart from './components/Cart/Cart';
+import GoodsCatalogItem from './components/GoodsCatalogItem/GoodsCatalogItem';
+import Goods from './components/Goods/Goods';
+
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   const modal: HTMLElement = elementNullCheck(document, '.modal') as HTMLElement;
@@ -58,8 +63,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     plusButton.innerHTML = '+';
 
     const addToCard = document.createElement('button');
-    addToCard.classList.add('button-add-card');
-    addToCard.classList.add('main-text');
+    addToCard.classList.add('add-to-cart');
+    addToCard.classList.add('big-button');
     addToCard.innerHTML = `Add to card`;
 
     parent.appendChild(good);
@@ -76,6 +81,13 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     amountButtons.appendChild(selectedAmount);
     amountButtons.appendChild(plusButton);
     goodInfo.appendChild(addToCard);
+
+    const cart = new Cart();
+    const currentProductID = goodsData.products[id - 1].id;
+    const currentProduct = new Goods(currentProductID);
+    const uiElement = good;
+    const currentItem = new GoodsCatalogItem(uiElement, currentProduct, cart);
+    currentItem.fillProductInfo();
   }
 
   const openModal = function (event: Event): void {
@@ -85,7 +97,6 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
       if (clickedOption) {
         const id: number = +clickedOption.id;
         addModalProduct(id, modal);
-        console.log(clickedOption);
         modal.classList.remove('hide');
         overlay.classList.remove('hide');
       }

@@ -492,6 +492,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 3rem;
+    justify-content: space-around;
+    height: 100%;
 }
 
 .button-add-card {
@@ -525,7 +527,26 @@ body {
     display: none;
 }
 
+.big-button {
+    display: block;
+    background: transparent;
+    border: transparent;
+    border-radius: 0.5rem;
+    border: 0.1rem solid #e8e8e8;
+    padding: 1rem;
+    width: 100%;
+    font-size: 2rem;
 
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.3);
+        background: #f3f2f2;
+    }
+
+    &:active {
+        border: 0.1rem solid darkorchid;
+    }
+}
 
 @media screen and (max-width: 1035px) {
     .good-item {

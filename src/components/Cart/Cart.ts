@@ -43,6 +43,10 @@ export default class Cart {
     return result;
   }
 
+  getEntries(): Goods[] {
+    return this.goods;
+  }
+
   private save(): void {
     const goods: number[] = this.goods.map((item) => item.id);
     localStorage.setItem('rs-online-store-cart-goods', JSON.stringify(goods));

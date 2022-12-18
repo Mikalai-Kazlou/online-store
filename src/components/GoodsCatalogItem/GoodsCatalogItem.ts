@@ -80,12 +80,16 @@ export default class GoodsCatalogItem {
   }
 
   private refresh() {
+    const totalContainer = document.querySelector('.total') as HTMLParagraphElement;
+    const basketContainer = document.querySelector('.basket-amount') as HTMLSpanElement;
+    const header = new Header(totalContainer, basketContainer, this.cart);
     const uiAddToCart = this.uiElement.querySelector('.add-to-cart') as HTMLElement;
     if (!this.cart.has(this.goods)) {
       uiAddToCart.textContent = 'Add to Cart';
     } else {
       uiAddToCart.textContent = 'Drop from Cart';
     }
+    header.refreshHeader();
   }
 
   private addToCart(goods: Goods) {

@@ -136,4 +136,3 @@ pageBreadcrumb.fillBreadcrumb(categoryContainer, brandContainer, nameContainer);
 fillProductPage(currentProduct);
 
 stockButtons.addEventListener('click', setStock);
-const addToCardButton = document.querySelector('.add-to-cart') as HTMLButtonElement;
