@@ -9,8 +9,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     const target: HTMLSelectElement = event.target as HTMLSelectElement;
     const allItems = document.querySelectorAll('.good-item');
     if (target.value === `price-lowest`) {
-      let itemsArr = [];
-      for (let i in allItems) {
+      const itemsArr = [];
+      for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
           itemsArr.push(allItems[i]);
         }
@@ -28,8 +28,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         goodsItems.appendChild(itemsArr[i]);
       }
     } else if (target.value === `price-highest`) {
-      let itemsArr = [];
-      for (let i in allItems) {
+      const itemsArr = [];
+      for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
           itemsArr.push(allItems[i]);
         }
@@ -47,8 +47,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         goodsItems.appendChild(itemsArr[i]);
       }
     } else if (target.value === `name-a`) {
-      let itemsArr = [];
-      for (let i in allItems) {
+      const itemsArr = [];
+      for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
           itemsArr.push(allItems[i]);
         }
@@ -66,8 +66,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         goodsItems.appendChild(itemsArr[i]);
       }
     } else if (target.value === `name-z`) {
-      let itemsArr = [];
-      for (let i in allItems) {
+      const itemsArr = [];
+      for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
           itemsArr.push(allItems[i]);
         }

@@ -1,6 +1,6 @@
 import goodsData from '../../goods';
-import Goods from "../Goods/Goods";
-import Cart from "../Cart/Cart";
+import Goods from '../Goods/Goods';
+import Cart from '../Cart/Cart';
 import GoodsCatalogItem from '../GoodsCatalogItem/GoodsCatalogItem';
 
 export default class GoodsCatalog {

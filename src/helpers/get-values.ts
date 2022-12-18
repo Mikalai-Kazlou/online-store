@@ -2,7 +2,7 @@ import goodsData from '../goods';
 
 export const getValues = {
   getAllPrices(): number[] {
-    let allPrices: number[] = [];
+    const allPrices: number[] = [];
     for (let i = 0; i < goodsData.products.length; i++) {
       allPrices.push(goodsData.products[i].price);
     }
@@ -20,7 +20,7 @@ export const getValues = {
   },
 
   getAllStock(): number[] {
-    let allStock: number[] = [];
+    const allStock: number[] = [];
     for (let i = 0; i < goodsData.products.length; i++) {
       allStock.push(goodsData.products[i].stock);
     }

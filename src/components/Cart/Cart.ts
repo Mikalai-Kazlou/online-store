@@ -1,4 +1,4 @@
-import Goods from "../Goods/Goods";
+import Goods from '../Goods/Goods';
 
 export default class Cart {
   goods: Goods[] = [];
@@ -21,11 +21,12 @@ export default class Cart {
   //   this.save();
   // }
 
-  drop(goods: Goods): void { // removes all instances of the product
+  drop(goods: Goods): void {
+    // removes all instances of the product
     const removeAll = (arr: Goods[], val: number) => {
       return arr.filter((item) => item.id !== val);
     };
-    const result = removeAll(this.goods, goods.id)
+    const result = removeAll(this.goods, goods.id);
     this.goods = result;
     this.save();
   }

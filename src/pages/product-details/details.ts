@@ -103,7 +103,7 @@ function setPrice(parent: Element, price: number, selectedStock: number) {
 const stockButtons = elementNullCheck(document, '.amount-buttons');
 let currentStock = 1;
 
-let setStock = function (event: Event): void {
+const setStock = function (event: Event): void {
   const maxStock = currentProduct.stock;
   const selectedStockContainer = elementNullCheck(document, '.selected-stock');
   const infoPrice = elementNullCheck(document, '.info-price');
