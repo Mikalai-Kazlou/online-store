@@ -2,6 +2,7 @@ import goodsData from './goods';
 import GoodsCatalog from './components/GoodsCatalog/GoodsCatalog';
 import { elementNullCheck } from './types/type-checks';
 import Header from './components/Header/Header';
+import Cart from './components/Cart/Cart';
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   function getCategories(): Set<string> {
@@ -48,6 +49,12 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   const uiGoodsItems = elementNullCheck(document, '.goods-items') as HTMLElement;
   const goodsCatalog = new GoodsCatalog(uiGoodsItems);
   goodsCatalog.draw();
+
+  const cart = new Cart();
+  const totalContainer = elementNullCheck(document, '.total') as HTMLParagraphElement;
+  const basketContainer = elementNullCheck(document, '.basket-amount') as HTMLSpanElement;
+  const header = new Header(totalContainer, basketContainer, cart);
+  header.refreshHeader();
 
   /*function printGoods(): void {
     for (let i = 0; i < goodsData.products.length; i++) {

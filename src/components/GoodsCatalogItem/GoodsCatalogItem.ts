@@ -1,18 +1,25 @@
 import Cart from '../Cart/Cart';
 import Goods from '../Goods/Goods';
+import Header from '../Header/Header';
 
 export default class GoodsCatalogItem {
   private uiElement: HTMLElement;
   private goods: Goods;
   private cart: Cart;
+  private header?: Header;
 
-  constructor(uiElement: HTMLElement, goods: Goods, cart: Cart) {
+  constructor(uiElement: HTMLElement, goods: Goods, cart: Cart, header?: Header) {
     this.uiElement = uiElement;
     this.goods = goods;
     this.cart = cart;
+    this.header = header;
   }
 
   draw() {
+    const totalContainer = document.querySelector('.total') as HTMLParagraphElement;
+    const basketContainer = document.querySelector('.basket-amount') as HTMLSpanElement;
+    const header = new Header(totalContainer, basketContainer, this.cart);
+
     const uiPicture = document.createElement('div');
     uiPicture.classList.add('picture');
     uiPicture.style.backgroundImage = `url("${this.goods.thumbnail}")`;
@@ -36,6 +43,7 @@ export default class GoodsCatalogItem {
     uiAddToCart.classList.add('add-to-cart');
     uiAddToCart.classList.add('goods-button');
     uiAddToCart.addEventListener('click', () => this.addToCart(this.goods));
+    uiAddToCart.addEventListener('click', () => header.refreshHeader());
 
     const uiDetails = document.createElement('button');
     uiDetails.classList.add('details');

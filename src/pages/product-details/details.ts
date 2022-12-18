@@ -115,13 +115,20 @@ let setStock = function (event: Event): void {
       currentStock++;
       selectedStockContainer.innerHTML = `${currentStock}`;
       setPrice(infoPrice, currentProduct.price, currentStock);
+      if (cart.has(currentProduct)) {
+        cart.add(currentProduct);
+      }
     } else if (clickedOption?.innerHTML === '-' && currentStock > 1) {
       currentStock--;
       selectedStockContainer.innerHTML = `${currentStock}`;
       setPrice(infoPrice, currentProduct.price, currentStock);
+      if (cart.has(currentProduct)) {
+        cart.drop(currentProduct);
+      }
     }
   }
   currentItem.saveState();
+  header.refreshHeader();
 };
 
 const pageBreadcrumb = new Breadcrumb(currentProduct.category, currentProduct.brand, currentProduct.title);
