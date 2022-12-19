@@ -5,3 +5,6 @@ import './goods.ts';
 import './helpers/get-values';
 import './helpers/filters';
 import './helpers/sorting';
+import './pages/product-details/details.scss';
+import './pages/product-details/details';
+import './components/Header/Header';

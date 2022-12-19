@@ -1,18 +1,25 @@
-import Cart from "../Cart/Cart";
-import Goods from "../Goods/Goods";
+import Cart from '../Cart/Cart';
+import Goods from '../Goods/Goods';
+import Header from '../Header/Header';
 
 export default class GoodsCatalogItem {
   private uiElement: HTMLElement;
   private goods: Goods;
   private cart: Cart;
+  private header?: Header;
 
-  constructor(uiElement: HTMLElement, goods: Goods, cart: Cart) {
+  constructor(uiElement: HTMLElement, goods: Goods, cart: Cart, header?: Header) {
     this.uiElement = uiElement;
     this.goods = goods;
     this.cart = cart;
+    this.header = header;
   }
 
   draw() {
+    const totalContainer = document.querySelector('.total') as HTMLParagraphElement;
+    const basketContainer = document.querySelector('.basket-amount') as HTMLSpanElement;
+    const header = new Header(totalContainer, basketContainer, this.cart);
+
     const uiPicture = document.createElement('div');
     uiPicture.classList.add('picture');
     uiPicture.style.backgroundImage = `url("${this.goods.thumbnail}")`;
@@ -29,12 +36,18 @@ export default class GoodsCatalogItem {
     uiDescription.classList.add('small-text');
     uiDescription.innerHTML = `${this.goods.description}`;
 
+    const uiGoodButtons = document.createElement('div');
+    uiGoodButtons.classList.add('good-buttons');
+
     const uiAddToCart = document.createElement('button');
     uiAddToCart.classList.add('add-to-cart');
+    uiAddToCart.classList.add('goods-button');
     uiAddToCart.addEventListener('click', () => this.addToCart(this.goods));
+    uiAddToCart.addEventListener('click', () => header.refreshHeader());
 
     const uiDetails = document.createElement('button');
     uiDetails.classList.add('details');
+    uiDetails.classList.add('goods-button');
     uiDetails.textContent = 'Details';
     uiDetails.addEventListener('click', () => this.showDetails(this.goods));
 
@@ -43,19 +56,40 @@ export default class GoodsCatalogItem {
     this.uiElement.append(uiProductName);
     this.uiElement.append(uiPrice);
     this.uiElement.append(uiDescription);
-    this.uiElement.append(uiAddToCart);
-    this.uiElement.append(uiDetails);
+    this.uiElement.append(uiGoodButtons);
+    uiGoodButtons.append(uiAddToCart);
+    uiGoodButtons.append(uiDetails);
 
     this.refresh();
   }
 
+  fillProductInfo() {
+    const uiAddToCart = this.uiElement.querySelector('.add-to-cart') as HTMLButtonElement;
+    uiAddToCart.addEventListener('click', () => this.addToCart(this.goods));
+    this.refresh();
+  }
+
+  saveState() {
+    const uiStockNumber = this.uiElement.querySelector('.selected-stock') as HTMLParagraphElement;
+    const objectToStringify = {
+      ID: this.goods.id,
+      Price: this.goods.price * +uiStockNumber.innerHTML,
+      SelectedStock: uiStockNumber.innerHTML,
+    };
+    localStorage.setItem('RS-Saved-Products', JSON.stringify(objectToStringify));
+  }
+
   private refresh() {
+    const totalContainer = document.querySelector('.total') as HTMLParagraphElement;
+    const basketContainer = document.querySelector('.basket-amount') as HTMLSpanElement;
+    const header = new Header(totalContainer, basketContainer, this.cart);
     const uiAddToCart = this.uiElement.querySelector('.add-to-cart') as HTMLElement;
     if (!this.cart.has(this.goods)) {
       uiAddToCart.textContent = 'Add to Cart';
     } else {
       uiAddToCart.textContent = 'Drop from Cart';
     }
+    header.refreshHeader();
   }
 
   private addToCart(goods: Goods) {

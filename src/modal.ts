@@ -1,109 +1,122 @@
 import goodsData from './goods';
 import { elementNullCheck } from './types/type-checks';
+import Header from './components/Header/Header';
+import Cart from './components/Cart/Cart';
+import GoodsCatalogItem from './components/GoodsCatalogItem/GoodsCatalogItem';
+import Goods from './components/Goods/Goods';
 
-const modal: HTMLElement = elementNullCheck(document, '.modal') as HTMLElement;
-const overlay: HTMLElement = document.querySelector('.overlay') as HTMLElement;
-const btnCloseModal: HTMLElement = document.querySelector('.close-modal') as HTMLElement;
-const btnOpenModal: HTMLElement = document.querySelector('.goods-items') as HTMLElement;
 
-function addModalProduct(id: number, parent: HTMLElement): void {
-  const good = document.createElement('button');
-  good.classList.add('good-item-modal');
+if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
+  const modal: HTMLElement = elementNullCheck(document, '.modal') as HTMLElement;
+  const overlay: HTMLElement = document.querySelector('.overlay') as HTMLElement;
+  const btnCloseModal: HTMLElement = document.querySelector('.close-modal') as HTMLElement;
+  const btnOpenModal: HTMLElement = document.querySelector('.goods-items') as HTMLElement;
 
-  const picture = document.createElement('div');
-  picture.classList.add('picture');
-  picture.classList.add('big-picture');
-  picture.style.backgroundImage = `url("${goodsData.products[id - 1].images[0]}")`;
+  function addModalProduct(id: number, parent: HTMLElement): void {
+    const good = document.createElement('button');
+    good.classList.add('good-item-modal');
 
-  const goodInfo = document.createElement('div');
-  goodInfo.classList.add('good-info');
+    const picture = document.createElement('div');
+    picture.classList.add('picture');
+    picture.classList.add('big-picture');
+    picture.style.backgroundImage = `url("${goodsData.products[id - 1].images[0]}")`;
 
-  const productName = document.createElement('p');
-  productName.innerHTML = `${goodsData.products[id - 1].title}`;
-  productName.classList.add('main-text');
+    const goodInfo = document.createElement('div');
+    goodInfo.classList.add('good-info');
 
-  const price = document.createElement('p');
-  price.classList.add('main-text');
-  price.innerHTML = `$${goodsData.products[id - 1].price}`;
+    const productName = document.createElement('p');
+    productName.innerHTML = `${goodsData.products[id - 1].title}`;
+    productName.classList.add('main-text');
 
-  const inStock = document.createElement('p');
-  inStock.classList.add('small-text');
-  inStock.innerHTML = `In stock: ${goodsData.products[id - 1].stock}`;
+    const price = document.createElement('p');
+    price.classList.add('main-text');
+    price.innerHTML = `$${goodsData.products[id - 1].price}`;
 
-  const rating = document.createElement('p');
-  rating.classList.add('small-text');
-  rating.innerHTML = `Rating: ${goodsData.products[id - 1].rating}`;
+    const inStock = document.createElement('p');
+    inStock.classList.add('small-text');
+    inStock.innerHTML = `In stock: ${goodsData.products[id - 1].stock}`;
 
-  const description = document.createElement('p');
-  description.classList.add('small-text');
-  description.innerHTML = `${goodsData.products[id - 1].description}`;
+    const rating = document.createElement('p');
+    rating.classList.add('small-text');
+    rating.innerHTML = `Rating: ${goodsData.products[id - 1].rating}`;
 
-  const amountButtons = document.createElement('div');
-  amountButtons.classList.add('amount-buttons');
-  amountButtons.classList.add('main-text');
+    const description = document.createElement('p');
+    description.classList.add('small-text');
+    description.innerHTML = `${goodsData.products[id - 1].description}`;
 
-  const minusButton = document.createElement('button');
-  minusButton.classList.add('amount-button');
-  minusButton.classList.add('main-text');
-  minusButton.innerHTML = '-';
+    const amountButtons = document.createElement('div');
+    amountButtons.classList.add('amount-buttons');
+    amountButtons.classList.add('main-text');
 
-  const selectedAmount = document.createElement('p');
-  selectedAmount.classList.add('main-text');
-  selectedAmount.innerHTML = '1';
+    const minusButton = document.createElement('button');
+    minusButton.classList.add('amount-button');
+    minusButton.classList.add('main-text');
+    minusButton.innerHTML = '-';
 
-  const plusButton = document.createElement('button');
-  plusButton.classList.add('amount-button');
-  plusButton.classList.add('main-text');
-  plusButton.innerHTML = '+';
+    const selectedAmount = document.createElement('p');
+    selectedAmount.classList.add('main-text');
+    selectedAmount.innerHTML = '1';
 
-  const addToCard = document.createElement('button');
-  addToCard.classList.add('button-add-card');
-  addToCard.classList.add('main-text');
-  addToCard.innerHTML = `Add to card`;
+    const plusButton = document.createElement('button');
+    plusButton.classList.add('amount-button');
+    plusButton.classList.add('main-text');
+    plusButton.innerHTML = '+';
 
-  parent.appendChild(good);
-  good.setAttribute('id', goodsData.products[id - 1].id.toString());
-  good.appendChild(picture);
-  good.appendChild(goodInfo);
-  goodInfo.appendChild(productName);
-  goodInfo.appendChild(price);
-  goodInfo.appendChild(inStock);
-  goodInfo.appendChild(rating);
-  goodInfo.appendChild(description);
-  goodInfo.appendChild(amountButtons);
-  amountButtons.appendChild(minusButton);
-  amountButtons.appendChild(selectedAmount);
-  amountButtons.appendChild(plusButton);
-  goodInfo.appendChild(addToCard);
-}
+    const addToCard = document.createElement('button');
+    addToCard.classList.add('add-to-cart');
+    addToCard.classList.add('big-button');
+    addToCard.innerHTML = `Add to card`;
 
-const openModal = function (event: Event): void {
-  if (event.target) {
-    const target = event.target as HTMLButtonElement;
-    const clickedOption = target.closest('button');
-    if (clickedOption) {
-      const id: number = +clickedOption.id;
-      addModalProduct(id, modal);
-      console.log(clickedOption);
-      modal.classList.remove('hide');
-      overlay.classList.remove('hide');
+    parent.appendChild(good);
+    good.setAttribute('id', goodsData.products[id - 1].id.toString());
+    good.appendChild(picture);
+    good.appendChild(goodInfo);
+    goodInfo.appendChild(productName);
+    goodInfo.appendChild(price);
+    goodInfo.appendChild(inStock);
+    goodInfo.appendChild(rating);
+    goodInfo.appendChild(description);
+    goodInfo.appendChild(amountButtons);
+    amountButtons.appendChild(minusButton);
+    amountButtons.appendChild(selectedAmount);
+    amountButtons.appendChild(plusButton);
+    goodInfo.appendChild(addToCard);
+
+    const cart = new Cart();
+    const currentProductID = goodsData.products[id - 1].id;
+    const currentProduct = new Goods(currentProductID);
+    const uiElement = good;
+    const currentItem = new GoodsCatalogItem(uiElement, currentProduct, cart);
+    currentItem.fillProductInfo();
+  }
+
+  const openModal = function (event: Event): void {
+    if (event.target) {
+      const target = event.target as HTMLButtonElement;
+      const clickedOption = target.closest('button');
+      if (clickedOption) {
+        const id: number = +clickedOption.id;
+        addModalProduct(id, modal);
+        modal.classList.remove('hide');
+        overlay.classList.remove('hide');
+      }
+    }
+  };
+
+  const closeModal = function (): void {
+    const modalContent: HTMLElement = <HTMLElement>document.querySelector('.modal');
+    removeItem(modalContent);
+    modal.classList.add('hide');
+    overlay.classList.add('hide');
+  };
+
+  function removeItem(parent: HTMLElement): void {
+    while (parent.firstChild) {
+      parent.removeChild(parent.lastChild as Node);
     }
   }
-};
 
-const closeModal = function (): void {
-  const modalContent: HTMLElement = <HTMLElement>document.querySelector('.modal');
-  removeItem(modalContent);
-  modal.classList.add('hide');
-  overlay.classList.add('hide');
-};
-
-function removeItem(parent: HTMLElement): void {
-  while (parent.firstChild) {
-    parent.removeChild(parent.lastChild as Node);
-  }
+  btnOpenModal.addEventListener('click', openModal);
+  btnCloseModal.addEventListener('click', closeModal);
+  overlay.addEventListener('click', closeModal);
 }
-
-btnOpenModal.addEventListener('click', openModal);
-btnCloseModal.addEventListener('click', closeModal);
-overlay.addEventListener('click', closeModal);
