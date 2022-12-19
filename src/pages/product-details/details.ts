@@ -4,6 +4,7 @@ import GoodsCatalogItem from '../../components/GoodsCatalogItem/GoodsCatalogItem
 import { elementNullCheck } from '../../types/type-checks';
 import Cart from '../../components/Cart/Cart';
 import Header from '../../components/Header/Header';
+import StockButtons from '../../components/StockButtons/StockButtons';
 
 const categoryContainer = elementNullCheck(document, '.product-category');
 const brandContainer = elementNullCheck(document, '.product-brand');
@@ -19,6 +20,10 @@ const totalContainer = elementNullCheck(document, '.total') as HTMLParagraphElem
 const basketContainer = elementNullCheck(document, '.basket-amount') as HTMLSpanElement;
 const header = new Header(totalContainer, basketContainer, cart);
 header.refreshHeader();
+
+const infoContainer = elementNullCheck(document, '.info-container') as HTMLElement;
+const stock = new StockButtons(infoContainer, currentProduct, cart, header);
+// stock.draw();
 
 export default class Breadcrumb {
   private category: string;
@@ -77,7 +82,7 @@ function fillProductPage(product: Goods): void {
 
   addPictures(sidePicturesContainer, product.images);
   displaySelectedPicture(selectedPicture, product.images, product.title, 0);
-  setPrice(infoPrice, product.price, currentStock);
+  stock.setPrice(infoPrice, product.price, currentStock);
 }
 
 function addPictures(parent: Element, images: string[]): void {
