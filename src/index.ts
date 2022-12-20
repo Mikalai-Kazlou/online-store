@@ -7,4 +7,5 @@ import './helpers/filters';
 import './helpers/sorting';
 import './pages/product-details/details.scss';
 import './pages/product-details/details';
+import './pages/cart/cart';
 import './components/Header/Header';
