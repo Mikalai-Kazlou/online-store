@@ -16,18 +16,8 @@ export default class Cart {
     this.save();
   }
 
-  // drop(goods: Goods): void {
-  //   this.goods.splice(this.goods.indexOf(goods), 1);
-  //   this.save();
-  // }
-
   drop(goods: Goods): void {
-    // removes all instances of the product
-    const removeAll = (arr: Goods[], val: number) => {
-      return arr.filter((item) => item.id !== val);
-    };
-    const result = removeAll(this.goods, goods.id);
-    this.goods = result;
+    this.goods = this.goods.filter((item) => item.id !== goods.id);
     this.save();
   }
 
@@ -36,11 +26,7 @@ export default class Cart {
   }
 
   getTotal(): number {
-    const money: number[] = this.goods.map((item) => item.price);
-    const result = money.reduce((accumulator, value) => {
-      return accumulator + value;
-    }, 0);
-    return result;
+    return this.goods.reduce((total, goods) => total + goods.price, 0);
   }
 
   getEntries(): Goods[] {
