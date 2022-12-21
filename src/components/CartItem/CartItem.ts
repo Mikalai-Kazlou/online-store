@@ -58,6 +58,9 @@ export default class CartItem {
     if (this.quantity < this.goods.stock) {
       this.quantity++;
       this.refresh();
+
+      const event = new Event('carthasbeenchanged');
+      document.body.dispatchEvent(event);
     }
   }
 
@@ -65,6 +68,9 @@ export default class CartItem {
     if (this.quantity > 1) {
       this.quantity--;
       this.refresh();
+
+      const event = new Event('carthasbeenchanged');
+      document.body.dispatchEvent(event);
     }
   }
 }

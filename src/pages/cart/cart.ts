@@ -5,8 +5,12 @@ import Header from '../../components/Header/Header';
 import Cart from '../../components/Cart/Cart';
 
 if (document.location.pathname.includes('cart')) {
-  const uiCart = elementNullCheck(document, '.main-container-cart') as HTMLElement;
+  function onCartHasBeenChanged() {
+    cart.save();
+    cart.refresh();
+  }
 
+  const uiCart = elementNullCheck(document, '.main-container-cart') as HTMLElement;
   const cart = new Cart(uiCart);
   cart.draw();
 
@@ -15,4 +19,6 @@ if (document.location.pathname.includes('cart')) {
 
   const header = new Header(uiTotalContainer, uiBasketContainer, cart);
   header.refreshHeader();
+
+  document.body.addEventListener('carthasbeenchanged', onCartHasBeenChanged, false);
 }

@@ -17,7 +17,6 @@ export default class Cart {
 
   draw() {
     if (!this.uiCart) return;
-    let uiElement: HTMLElement;
 
     const uiTemplate: HTMLTemplateElement = this.uiCart.querySelector('#cart-item-template') as HTMLTemplateElement;
     const uiFragment: DocumentFragment = document.createDocumentFragment();
@@ -32,8 +31,15 @@ export default class Cart {
     uiCartItems.innerHTML = '';
     uiCartItems.append(uiFragment);
 
+    this.refresh();
+  }
+
+  refresh() {
+    if (!this.uiCart) return;
+    let uiElement: HTMLElement;
+
     uiElement = this.uiCart.querySelector('.total-quantity') as HTMLElement;
-    uiElement.textContent = `Products: ${this.getLength()}`;
+    uiElement.textContent = `Products: ${this.getQuantity()}`;
 
     uiElement = this.uiCart.querySelector('.total-amount') as HTMLElement;
     uiElement.textContent = `Total: $${this.getTotal()}`;
@@ -57,15 +63,19 @@ export default class Cart {
     return this.items.length;
   }
 
+  getQuantity() {
+    return this.items.reduce((total, item) => total + item.quantity, 0);
+  }
+
   getTotal(): number {
-    return this.items.reduce((total, item) => total + item.goods.price, 0);
+    return this.items.reduce((total, item) => total + item.goods.price * item.quantity, 0);
   }
 
   getEntries(): Goods[] {
     return this.items.map((item) => item.goods);
   }
 
-  private save(): void {
+  save(): void {
     const items: SavedCartItems[] =
       this.items.map((item) => {
         return { id: item.goods.id, quantity: item.quantity }
