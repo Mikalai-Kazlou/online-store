@@ -1,4 +1,4 @@
-import goodsData from '../../goods';
+import goodsData from '../modules/goods';
 
 export default class Goods {
   readonly id: number = 0;

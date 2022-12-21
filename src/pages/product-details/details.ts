@@ -1,10 +1,11 @@
-import goodsData from '../../goods';
-import Goods from '../../components/Goods/Goods';
-import GoodsCatalogItem from '../../components/GoodsCatalogItem/GoodsCatalogItem';
-import { elementNullCheck } from '../../types/type-checks';
-import Cart from '../../components/Cart/Cart';
-import Header from '../../components/Header/Header';
-import StockButtons from '../../components/StockButtons/StockButtons';
+import './details.scss';
+import goodsData from '../../modules/goods';
+import Goods from '../../components/Goods';
+import GoodsCatalogItem from '../../components/GoodsCatalogItem';
+import { elementNullCheck } from '../../modules/type-checks';
+import Cart from '../../components/Cart';
+import Header from '../../components/Header';
+import StockButtons from '../../components/StockButtons';
 
 const categoryContainer = elementNullCheck(document, '.product-category');
 const brandContainer = elementNullCheck(document, '.product-brand');
@@ -155,3 +156,4 @@ let currentStock = 1;
 const pageBreadcrumb = new Breadcrumb(currentProduct.category, currentProduct.brand, currentProduct.title);
 pageBreadcrumb.fillBreadcrumb(categoryContainer, brandContainer, nameContainer);
 fillProductPage(currentProduct);
+}

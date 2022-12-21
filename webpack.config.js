@@ -50,7 +50,7 @@ const baseConfig = {
         }),
         new HtmlWebpackPlugin({
             filename: 'details.html',
-            template: path.resolve(__dirname, './src/details.html'),
+            template: path.resolve(__dirname, './src/pages/product-details/details.html'),
         }),
         new HtmlWebpackPlugin({
             filename: 'cart.html',
@@ -58,7 +58,7 @@ const baseConfig = {
         }),
         new HtmlWebpackPlugin({
             filename: '404.html',
-            template: path.resolve(__dirname, './src/404.html'),
+            template: path.resolve(__dirname, './src/pages/404/404.html'),
         }),
 
         new CleanWebpackPlugin(),

@@ -71,14 +71,10 @@ body {
     @media screen and (max-width: 500px) {
         font-size: 1.6rem;
     }
-}
+
     &:hover {
         scale: 1.02;
         color: rgb(255, 255, 255);
-    }
-
-    @media screen and (max-width: 500px) {
-        font-size: 1.6rem;
     }
 }
 

@@ -1,5 +1,5 @@
-import Goods from '../Goods/Goods';
-import Cart from '../Cart/Cart';
+import Goods from './Goods';
+import Cart from './Cart';
 
 export default class Header {
   public uiTotal: HTMLParagraphElement;

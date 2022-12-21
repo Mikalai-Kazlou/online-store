@@ -1,8 +1,9 @@
-import goodsData from './goods';
-import GoodsCatalog from './components/GoodsCatalog/GoodsCatalog';
-import { elementNullCheck } from './types/type-checks';
-import Header from './components/Header/Header';
-import Cart from './components/Cart/Cart';
+import './modal.ts';
+import goodsData from '../../modules/goods';
+import GoodsCatalog from '../../components/GoodsCatalog';
+import { elementNullCheck } from '../../modules/type-checks';
+import Header from '../../components/Header';
+import Cart from '../../components/Cart';
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   function getCategories(): Set<string> {
@@ -55,38 +56,6 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   const basketContainer = elementNullCheck(document, '.basket-amount') as HTMLSpanElement;
   const header = new Header(totalContainer, basketContainer, cart);
   header.refreshHeader();
-
-  /*function printGoods(): void {
-    for (let i = 0; i < goodsData.products.length; i++) {
-      const good = document.createElement('button');
-      good.classList.add('good-item');
-  
-      const picture = document.createElement('div');
-      picture.classList.add('picture');
-      picture.style.backgroundImage = `url("${goodsData.products[i].thumbnail}")`;
-  
-      const productName = document.createElement('div');
-      productName.innerHTML = `${goodsData.products[i].title}`;
-      productName.classList.add('main-text');
-  
-      const price = document.createElement('div');
-      price.classList.add('small-text');
-      price.innerHTML = `$${goodsData.products[i].price}`;
-  
-      const description = document.createElement('div');
-      description.classList.add('small-text');
-      description.innerHTML = `${goodsData.products[i].description}`;
-  
-      goodsItems.appendChild(good);
-      good.setAttribute('id', goodsData.products[i].id.toString());
-      good.appendChild(picture);
-      good.appendChild(productName);
-      good.appendChild(price);
-      good.appendChild(description);
-    }
-  }
-  
-  printGoods();*/
 
   const goodsNumber = elementNullCheck(document, '.goods-number');
 

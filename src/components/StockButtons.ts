@@ -1,6 +1,6 @@
-import Cart from '../Cart/Cart';
-import Goods from '../Goods/Goods';
-import Header from '../Header/Header';
+import Cart from './Cart';
+import Goods from './Goods';
+import Header from './Header';
 
 export default class StockButtons {
   private parent: HTMLElement;

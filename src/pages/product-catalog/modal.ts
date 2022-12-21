@@ -1,9 +1,9 @@
-import goodsData from './goods';
-import { elementNullCheck } from './types/type-checks';
-import Header from './components/Header/Header';
-import Cart from './components/Cart/Cart';
-import GoodsCatalogItem from './components/GoodsCatalogItem/GoodsCatalogItem';
-import Goods from './components/Goods/Goods';
+import goodsData from '../../modules/goods';
+import { elementNullCheck } from '../../modules/type-checks';
+import Header from '../../components/Header';
+import Cart from '../../components/Cart';
+import GoodsCatalogItem from '../../components/GoodsCatalogItem';
+import Goods from '../../components/Goods';
 
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
@@ -62,10 +62,10 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     plusButton.classList.add('main-text');
     plusButton.innerHTML = '+';
 
-    const addToCard = document.createElement('button');
-    addToCard.classList.add('add-to-cart');
-    addToCard.classList.add('big-button');
-    addToCard.innerHTML = `Add to card`;
+    const addToCart = document.createElement('button');
+    addToCart.classList.add('add-to-cart');
+    addToCart.classList.add('big-button');
+    addToCart.innerHTML = `Add to cart`;
 
     parent.appendChild(good);
     good.setAttribute('id', goodsData.products[id - 1].id.toString());
@@ -80,7 +80,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     amountButtons.appendChild(minusButton);
     amountButtons.appendChild(selectedAmount);
     amountButtons.appendChild(plusButton);
-    goodInfo.appendChild(addToCard);
+    goodInfo.appendChild(addToCart);
 
     const cart = new Cart();
     const currentProductID = goodsData.products[id - 1].id;

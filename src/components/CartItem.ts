@@ -1,4 +1,4 @@
-import Goods from '../Goods/Goods';
+import Goods from './Goods';
 
 export default class CartItem {
   private uiQuantity: HTMLElement | undefined;
