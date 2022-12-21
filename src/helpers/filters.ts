@@ -151,6 +151,18 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   paintRange(priceSliderFrom, priceSliderTo);
   paintRange(stockSliderFrom, stockSliderTo);
 
+  const categoryContainer = document.querySelector('.filter-category-buttons');
+  const brandContainer = document.querySelector('.filter-category-buttons');
+
+  const scrollBar = (parent: HTMLElement, slider: HTMLInputElement) => {
+        const height = getComputedStyle(parent).height;
+        parent.style.top = `${height}px`;
+    }
+
+function splitString(string: string, separator: string): number {
+  return +string.split(separator)[0];
+}
+
   priceSliderTo.addEventListener('input', priceFilter);
   priceSliderFrom.addEventListener('input', priceFilterFrom);
   stockSliderTo.addEventListener('input', stockFilter);
