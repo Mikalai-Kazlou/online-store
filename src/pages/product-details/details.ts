@@ -21,9 +21,10 @@ const basketContainer = elementNullCheck(document, '.basket-amount') as HTMLSpan
 const header = new Header(totalContainer, basketContainer, cart);
 header.refreshHeader();
 
-const infoContainer = elementNullCheck(document, '.info-container') as HTMLElement;
+const infoContainer = elementNullCheck(document, '.info-stock-container') as HTMLElement;
 const stock = new StockButtons(infoContainer, currentProduct, cart, header);
-// stock.draw();
+stock.draw();
+stock.getCurrentAmount(currentProduct);
 
 export default class Breadcrumb {
   private category: string;
@@ -98,46 +99,39 @@ function addPictures(parent: Element, images: string[]): void {
 function displaySelectedPicture(parent: Element, images: string[], productName: string, imageID: number): void {
   parent.setAttribute('alt', `${productName}`);
   parent.setAttribute('src', images[imageID]);
-}
-
-function setPrice(parent: Element, price: number, selectedStock: number) {
-  const finalPrice = price * selectedStock;
-  parent.innerHTML = `$${finalPrice}`;
-}
+  }
 
 const stockButtons = elementNullCheck(document, '.amount-buttons');
 let currentStock = 1;
 
-const setStock = function (event: Event): void {
-  const maxStock = currentProduct.stock;
-  const selectedStockContainer = elementNullCheck(document, '.selected-stock');
-  const infoPrice = elementNullCheck(document, '.info-price');
-  if (event.target) {
-    const target = event.target as HTMLButtonElement;
-    const clickedOption = target.closest('button');
-    if (clickedOption?.innerHTML === '+' && currentStock < maxStock) {
-      console.log();
-      currentStock++;
-      selectedStockContainer.innerHTML = `${currentStock}`;
-      setPrice(infoPrice, currentProduct.price, currentStock);
-      if (cart.has(currentProduct)) {
-        cart.add(currentProduct);
-      }
-    } else if (clickedOption?.innerHTML === '-' && currentStock > 1) {
-      currentStock--;
-      selectedStockContainer.innerHTML = `${currentStock}`;
-      setPrice(infoPrice, currentProduct.price, currentStock);
-      if (cart.has(currentProduct)) {
-        cart.drop(currentProduct);
-      }
-    }
-  }
-  currentItem.saveState();
-  header.refreshHeader();
-};
+// const setStock = function (event: Event): void {
+//   const maxStock = currentProduct.stock;
+//   const selectedStockContainer = elementNullCheck(document, '.selected-stock');
+//   const infoPrice = elementNullCheck(document, '.info-price');
+//   if (event.target) {
+//     const target = event.target as HTMLButtonElement;
+//     const clickedOption = target.closest('button');
+//     if (clickedOption?.innerHTML === '+' && currentStock < maxStock) {
+//       console.log();
+//       currentStock++;
+//       selectedStockContainer.innerHTML = `${currentStock}`;
+//       setPrice(infoPrice, currentProduct.price, currentStock);
+//       if (cart.has(currentProduct)) {
+//         cart.add(currentProduct);
+//       }
+//     } else if (clickedOption?.innerHTML === '-' && currentStock > 1) {
+//       currentStock--;
+//       selectedStockContainer.innerHTML = `${currentStock}`;
+//       setPrice(infoPrice, currentProduct.price, currentStock);
+//       if (cart.has(currentProduct)) {
+//         cart.drop(currentProduct);
+//       }
+//     }
+//   }
+//   currentItem.saveState();
+//   header.refreshHeader();
+// };
 
 const pageBreadcrumb = new Breadcrumb(currentProduct.category, currentProduct.brand, currentProduct.title);
 pageBreadcrumb.fillBreadcrumb(categoryContainer, brandContainer, nameContainer);
 fillProductPage(currentProduct);
-
-stockButtons.addEventListener('click', setStock);

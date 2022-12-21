@@ -50,9 +50,17 @@
         <div class="filters-content">
           <input type="text" name="text" placeholder="Search" class="search-input" value="">
           <h4 class="main-text">Category</h4>
-          <div class="filter-category-buttons main-text"></div>
+          <div class="filter-category-buttons main-text">
+            <div class="nice-scrollbar-border">
+              <input class="scrollbar" orient="vertical" type="range" min="1" max="100" value="1">
+            </div>
+          </div>
           <h4 class="main-text">Brand</h4>
-          <div class="filter-brand-buttons main-text"></div>
+          <div class="filter-brand-buttons main-text">
+            <div class="nice-scrollbar-border">
+              <input class="scrollbar" orient="vertical" type="range" min="1" max="100" value="1">
+            </div>
+          </div>
           <div class="filter-price-slider">
             <p class="main-text">Price</p>
             <div class="price-values values-container">
@@ -60,7 +68,12 @@
               <div class="double-arrow">⟷</div>
               <div class="max-price small-text">$1000</div>
             </div>
-            <input type="range" min="0" max="1000" value="1000" class="price-slider slider" id="range">
+            <div class="price-slider-container">
+              <input type="range" min="0" max="1000" value="1000"
+                class="price-slider slider fromSlider price-slider-from" id="range">
+              <input type="range" min="0" max="1000" value="1000" class="price-slider slider toSlider price-slider-to"
+                id="range">
+            </div>
           </div>
           <div class="filter-stock-slider">
             <p class="main-text">Stock</p>
@@ -69,7 +82,12 @@
               <div class="double-arrow">⟷</div>
               <div class="max-stock small-text">150</div>
             </div>
-            <input type="range" min="2" max="150" value="150" class="stock-slider slider" id="range">
+            <div class="stock-slider-container">
+              <input type="range" min="2" max="150" value="150" class="stock-slider slider fromSlider stock-slider-from"
+                id="range">
+              <input type="range" min="2" max="150" value="150" class="stock-slider slider toSlider stock-slider-to"
+                id="range">
+            </div>
           </div>
       </aside>
       <section class="goods-container">
