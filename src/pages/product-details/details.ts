@@ -99,7 +99,7 @@ function addPictures(parent: Element, images: string[]): void {
 function displaySelectedPicture(parent: Element, images: string[], productName: string, imageID: number): void {
   parent.setAttribute('alt', `${productName}`);
   parent.setAttribute('src', images[imageID]);
-}
+  }
 
 const stockButtons = elementNullCheck(document, '.amount-buttons');
 let currentStock = 1;

@@ -14,10 +14,10 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
 
   const priceSliderTo: HTMLInputElement = document.querySelector('.price-slider-to') as HTMLInputElement;
   const stockSliderTo: HTMLInputElement = document.querySelector('.stock-slider-to') as HTMLInputElement;
-
   function setValue(element: Element, attr: string, n: number): void {
     element.setAttribute(attr, `${n}`);
   }
+
 
   setValue(priceSliderFrom, 'min', getValues.getMinimumPrice());
   setValue(priceSliderFrom, 'max', getValues.getMaximumPrice());
@@ -72,6 +72,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
           goodsNumber.innerHTML = `Found: ${remainingGoods}`;
         }
       });
+
     } paintRange(priceSliderFrom, priceSliderTo);
   }
 
