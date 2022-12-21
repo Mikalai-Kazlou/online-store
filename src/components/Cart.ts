@@ -1,5 +1,5 @@
-import CartItem from '../CartItem/CartItem';
-import Goods from '../Goods/Goods';
+import CartItem from './CartItem';
+import Goods from './Goods';
 
 interface SavedCartItems {
   id: number;

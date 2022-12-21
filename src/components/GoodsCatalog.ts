@@ -1,7 +1,7 @@
-import goodsData from '../../goods';
-import Goods from '../Goods/Goods';
-import Cart from '../Cart/Cart';
-import GoodsCatalogItem from '../GoodsCatalogItem/GoodsCatalogItem';
+import goodsData from '../modules/goods';
+import Goods from './Goods';
+import Cart from './Cart';
+import GoodsCatalogItem from './GoodsCatalogItem';
 
 export default class GoodsCatalog {
   private uiElement: HTMLElement;

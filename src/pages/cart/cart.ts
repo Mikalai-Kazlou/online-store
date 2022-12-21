@@ -1,8 +1,8 @@
 import './cart.scss';
 
-import { elementNullCheck } from '../../types/type-checks';
-import Header from '../../components/Header/Header';
-import Cart from '../../components/Cart/Cart';
+import { elementNullCheck } from '../../modules/type-checks';
+import Header from '../../components/Header';
+import Cart from '../../components/Cart';
 
 if (document.location.pathname.includes('cart')) {
   function onCartHasBeenChanged() {

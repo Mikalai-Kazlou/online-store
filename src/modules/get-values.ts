@@ -1,4 +1,4 @@
-import goodsData from '../goods';
+import goodsData from './goods';
 
 export const getValues = {
   getAllPrices(): number[] {

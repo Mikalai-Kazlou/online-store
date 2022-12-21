@@ -1,6 +1,6 @@
 import { getValues } from './get-values';
-import goodsData from '../goods';
-import { elementNullCheck } from '../types/type-checks';
+import goodsData from './goods';
+import { elementNullCheck } from './type-checks';
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   const goodsNumber = elementNullCheck(document, '.goods-number');

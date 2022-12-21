@@ -1,5 +1,5 @@
-import goodsData from '../goods';
-import { elementNullCheck } from '../types/type-checks';
+import goodsData from './goods';
+import { elementNullCheck } from './type-checks';
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   const sortingContainer = elementNullCheck(document, '.sort-input') as HTMLSelectElement;
