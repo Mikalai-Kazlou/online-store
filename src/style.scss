@@ -55,11 +55,11 @@ body {
     border: transparent;
     cursor: pointer;
     text-align: justify;
-}
 
-.button:hover {
-    color: #000000;
-    text-shadow: 0.1rem 0.1rem 0.1rem #7e7e7e;
+    &:hover {
+        color: #000000;
+        text-shadow: 0.1rem 0.1rem 0.1rem #7e7e7e;
+    }
 }
 
 .link {
@@ -68,14 +68,14 @@ body {
     text-decoration: none;
     transition: 0.25s;
 
+    &:hover {
+        scale: 1.02;
+        color: rgb(255, 255, 255);
+    }
+
     @media screen and (max-width: 500px) {
         font-size: 1.6rem;
     }
-}
-
-.link:hover {
-    scale: 1.02;
-    color: rgb(255, 255, 255);
 }
 
 .header-link {
@@ -198,10 +198,10 @@ body {
     cursor: pointer;
     position: relative;
     text-decoration: none;
-}
 
-.header-basket:hover {
-    scale: 1.05;
+    &:hover {
+        scale: 1.05;
+    }
 }
 
 .basket-img {
@@ -268,6 +268,12 @@ body {
     margin-bottom: 1.2rem;
 }
 
+.price-slider-container,
+.stock-slider-container {
+    position: relative;
+    min-height: 3rem;
+}
+
 .filter-stock-slider,
 .price-stock-slider {
     display: flex;
@@ -283,36 +289,50 @@ body {
 
 .slider {
     -webkit-appearance: none;
+    appearance: none;
+    height: 0.3rem;
     width: 100%;
-    height: 1rem;
-    border-radius: 0.5rem;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-}
-
-.slider:hover {
+    position: absolute;
+    background-color: #C6C6C6;
+    pointer-events: none;
+    margin-top: 1.7rem;
     opacity: 1;
 }
 
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    appearance: none;
-    width: 1.5rem;
-    height: 1.5rem;
+    pointer-events: all;
+    width: 2rem;
+    height: 2rem;
+    background-color: #fff;
     border-radius: 50%;
-    background: #8708ff;
+    box-shadow: 0 0 0 0.1rem #C6C6C6;
     cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
-    width: 1.5rem;
-    height: 1.5rem;
+    -webkit-appearance: none;
+    pointer-events: all;
+    width: 2rem;
+    height: 2rem;
+    background-color: #fff;
     border-radius: 50%;
-    background: #8708ff;
+    box-shadow: 0 0 0 0.1rem #C6C6C6;
     cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb:hover {
+    background: #f7f7f7;
+}
+
+.slider::-webkit-slider-thumb:active {
+    box-shadow: inset 0 0 0.3rem #8708ff, 0 0 0.6rem #8708ff;
+    -webkit-box-shadow: inset 0 0 0.3rem #8708ff, 0 0 0.6rem #8708ff;
+}
+
+.fromSlider {
+    height: 0;
+    z-index: 1;
 }
 
 .filter-category-buttons,
@@ -323,6 +343,7 @@ body {
     white-space: pre-line;
     max-height: 25rem;
     overflow: auto;
+    overflow-y: auto;
 }
 
 .header-navbar {
@@ -372,6 +393,7 @@ body {
     display: flex;
     max-width: 50rem;
     min-width: 25rem;
+    max-height: 43rem;
     width: 32%;
     height: auto;
     flex-direction: column;
