@@ -28,6 +28,7 @@ export default class StockButtons {
     const amountButtons = document.createElement('div');
     amountButtons.classList.add('amount-buttons');
     amountButtons.classList.add('main-text');
+
     const minusButton = document.createElement('button');
     minusButton.classList.add('amount-button');
     minusButton.classList.add('main-text');
@@ -105,6 +106,5 @@ export default class StockButtons {
   setPrice(parent: Element, price: number, selectedStock: number): void {
     const finalPrice = price * selectedStock;
     parent.innerHTML = `Price: $${finalPrice}`;
-
   }
 }

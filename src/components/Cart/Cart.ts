@@ -1,59 +1,90 @@
+import CartItem from '../CartItem/CartItem';
 import Goods from '../Goods/Goods';
 
-export default class Cart {
-  goods: Goods[] = [];
+interface SavedCartItems {
+  id: number;
+  quantity: number;
+}
 
-  constructor() {
+export default class Cart {
+  private readonly uiCart: HTMLElement | undefined;
+  items: CartItem[] = [];
+
+  constructor(uiCart?: HTMLElement) {
+    this.uiCart = uiCart;
     this.restore();
   }
 
-  has(goods: Goods): boolean {
-    return this.goods.includes(goods);
+  draw() {
+    if (!this.uiCart) return;
+
+    const uiTemplate: HTMLTemplateElement = this.uiCart.querySelector('#cart-item-template') as HTMLTemplateElement;
+    const uiFragment: DocumentFragment = document.createDocumentFragment();
+
+    this.items.forEach((item) => {
+      const clone: HTMLElement = uiTemplate.content.cloneNode(true) as HTMLElement;
+      item.draw(clone);
+      uiFragment.append(clone);
+    });
+
+    const uiCartItems = this.uiCart.querySelector('.cart-items') as HTMLElement;
+    uiCartItems.innerHTML = '';
+    uiCartItems.append(uiFragment);
+
+    this.refresh();
   }
 
-  add(goods: Goods): void {
-    this.goods.push(goods);
+  refresh() {
+    if (!this.uiCart) return;
+    let uiElement: HTMLElement;
+
+    uiElement = this.uiCart.querySelector('.total-quantity') as HTMLElement;
+    uiElement.textContent = `Products: ${this.getQuantity()}`;
+
+    uiElement = this.uiCart.querySelector('.total-amount') as HTMLElement;
+    uiElement.textContent = `Total: $${this.getTotal()}`;
+  }
+
+  has(goods: Goods): boolean {
+    return Boolean(this.items.find((item) => item.goods === goods));
+  }
+
+  add(goods: Goods, quantity = 1): void {
+    this.items.push(new CartItem(goods, quantity));
     this.save();
   }
 
-  // drop(goods: Goods): void {
-  //   this.goods.splice(this.goods.indexOf(goods), 1);
-  //   this.save();
-  // }
-
   drop(goods: Goods): void {
-    // removes all instances of the product
-    const removeAll = (arr: Goods[], val: number) => {
-      return arr.filter((item) => item.id !== val);
-    };
-    const result = removeAll(this.goods, goods.id);
-    this.goods = result;
+    this.items = this.items.filter((item) => item.goods.id !== goods.id);
     this.save();
   }
 
   getLength(): number {
-    return this.goods.length;
+    return this.items.length;
+  }
+
+  getQuantity() {
+    return this.items.reduce((total, item) => total + item.quantity, 0);
   }
 
   getTotal(): number {
-    const money: number[] = this.goods.map((item) => item.price);
-    const result = money.reduce((accumulator, value) => {
-      return accumulator + value;
-    }, 0);
-    return result;
+    return this.items.reduce((total, item) => total + item.goods.price * item.quantity, 0);
   }
 
   getEntries(): Goods[] {
-    return this.goods;
+    return this.items.map((item) => item.goods);
   }
 
-  private save(): void {
-    const goods: number[] = this.goods.map((item) => item.id);
-    localStorage.setItem('rs-online-store-cart-goods', JSON.stringify(goods));
+  save(): void {
+    const items: SavedCartItems[] =
+      this.items.map((item) => {
+        return { id: item.goods.id, quantity: item.quantity }
+      });
+    localStorage.setItem('rs-online-store-cart', JSON.stringify(items));
   }
 
   private restore(): void {
-    const goods: number[] = JSON.parse(localStorage.getItem('rs-online-store-cart-goods') as string) || [];
-    this.goods = goods.map((id) => new Goods(id));
+    const items: SavedCartItems[] = JSON.parse(localStorage.getItem('rs-online-store-cart') as string) || [];
+    this.items = items.map((item) => new CartItem(new Goods(item.id), item.quantity));
   }
 }
