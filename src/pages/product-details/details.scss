@@ -148,6 +148,12 @@
     }
 }
 
+.stock-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
 .goods-button {
     display: block;
     background: transparent;
