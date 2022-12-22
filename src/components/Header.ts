@@ -2,20 +2,19 @@ import Goods from './Goods';
 import Cart from './Cart';
 
 export default class Header {
-  public uiTotal: HTMLParagraphElement;
-  public uiBasket: HTMLSpanElement;
-  public goods?: Goods;
-  public cart: Cart;
+  public uiHeader: HTMLElement;
 
-  constructor(uiTotal: HTMLParagraphElement, uiBasket: HTMLSpanElement, cart: Cart, goods?: Goods) {
-    this.uiTotal = uiTotal;
-    this.uiBasket = uiBasket;
-    this.goods = goods;
-    this.cart = cart;
+  constructor(uiHeader: HTMLElement) {
+    this.uiHeader = uiHeader;
   }
 
-  refreshHeader(): void {
-    this.uiBasket.innerHTML = `${this.cart.getLength()}`;
-    this.uiTotal.innerHTML = `Total: $${this.cart.getTotal()}`;
+  refresh(): void {
+    const cart = new Cart();
+
+    const uiTotal = this.uiHeader.querySelector('.total') as HTMLElement;
+    uiTotal.innerHTML = `Total: $${cart.getTotalAmount()}`;
+
+    const uiBasket = this.uiHeader.querySelector('.basket-amount') as HTMLElement;
+    uiBasket.innerHTML = `${cart.getTotalQuantity()}`;
   }
 }

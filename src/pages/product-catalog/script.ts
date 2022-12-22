@@ -1,9 +1,8 @@
 import './modal.ts';
 import goodsData from '../../modules/goods';
 import GoodsCatalog from '../../components/GoodsCatalog';
-import { elementNullCheck } from '../../modules/type-checks';
 import Header from '../../components/Header';
-import Cart from '../../components/Cart';
+import { elementNullCheck } from '../../modules/type-checks';
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   function getCategories(): Set<string> {
@@ -51,11 +50,9 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   const goodsCatalog = new GoodsCatalog(uiGoodsItems);
   goodsCatalog.draw();
 
-  const cart = new Cart();
-  const totalContainer = elementNullCheck(document, '.total') as HTMLParagraphElement;
-  const basketContainer = elementNullCheck(document, '.basket-amount') as HTMLSpanElement;
-  const header = new Header(totalContainer, basketContainer, cart);
-  header.refreshHeader();
+  const uiHeader = elementNullCheck(document, '.header-content') as HTMLElement;
+  const header = new Header(uiHeader);
+  header.refresh();
 
   const goodsNumber = elementNullCheck(document, '.goods-number');
 
