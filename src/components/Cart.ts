@@ -82,15 +82,13 @@ export default class Cart {
     return this.items.reduce((total, item) => total + item.goods.price * item.quantity, 0);
   }
 
-  /*getEntries(): Goods[] {
-    return this.items.map((item) => item.goods);
-  }*/
-
   save(): void {
     const items: SavedCartItems[] =
-      this.items.map((item) => {
-        return { id: item.goods.id, quantity: item.quantity }
-      });
+      this.items
+        .filter((item) => item.quantity > 0)
+        .map((item) => {
+          return { id: item.goods.id, quantity: item.quantity }
+        });
     localStorage.setItem('rs-online-store-cart', JSON.stringify(items));
   }
 

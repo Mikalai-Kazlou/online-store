@@ -48,6 +48,15 @@ export default class CartItem {
     uiElement.addEventListener('click', () => this.increaseQuantity());
   }
 
+  drop() {
+    if (this.uiQuantity) {
+      const uiItem = this.uiQuantity.closest('.cart-item');
+      if (uiItem) {
+        uiItem.remove();
+      }
+    }
+  }
+
   refresh() {
     if (this.uiQuantity) {
       this.uiQuantity.textContent = String(this.quantity);
@@ -65,9 +74,14 @@ export default class CartItem {
   }
 
   decreaseQuantity() {
-    if (this.quantity > 1) {
+    if (this.quantity > 0) {
       this.quantity--;
-      this.refresh();
+
+      if (this.quantity === 0) {
+        this.drop();
+      } else {
+        this.refresh();
+      }
 
       const event = new Event('carthasbeenchanged');
       document.body.dispatchEvent(event);
