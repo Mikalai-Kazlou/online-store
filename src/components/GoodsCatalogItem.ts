@@ -16,9 +16,8 @@ export default class GoodsCatalogItem {
   }
 
   draw() {
-    const totalContainer = document.querySelector('.total') as HTMLParagraphElement;
-    const basketContainer = document.querySelector('.basket-amount') as HTMLSpanElement;
-    const header = new Header(totalContainer, basketContainer, this.cart);
+    const uiHeader = document.querySelector('.header-content') as HTMLElement;
+    const header = new Header(uiHeader);
 
     const uiPicture = document.createElement('div');
     uiPicture.classList.add('picture');
@@ -43,7 +42,7 @@ export default class GoodsCatalogItem {
     uiAddToCart.classList.add('add-to-cart');
     uiAddToCart.classList.add('goods-button');
     uiAddToCart.addEventListener('click', () => this.addToCart(this.goods));
-    uiAddToCart.addEventListener('click', () => header.refreshHeader());
+    uiAddToCart.addEventListener('click', () => header.refresh());
 
     const uiDetails = document.createElement('button');
     uiDetails.classList.add('details');
@@ -57,6 +56,7 @@ export default class GoodsCatalogItem {
     this.uiElement.append(uiPrice);
     this.uiElement.append(uiDescription);
     this.uiElement.append(uiGoodButtons);
+
     uiGoodButtons.append(uiAddToCart);
     uiGoodButtons.append(uiDetails);
 
@@ -80,16 +80,16 @@ export default class GoodsCatalogItem {
   }
 
   private refresh() {
-    const totalContainer = document.querySelector('.total') as HTMLParagraphElement;
-    const basketContainer = document.querySelector('.basket-amount') as HTMLSpanElement;
-    const header = new Header(totalContainer, basketContainer, this.cart);
+    const uiHeader = document.querySelector('.header-content') as HTMLElement;
+    const header = new Header(uiHeader);
+
     const uiAddToCart = this.uiElement.querySelector('.add-to-cart') as HTMLElement;
     if (!this.cart.has(this.goods)) {
       uiAddToCart.textContent = 'Add to Cart';
     } else {
       uiAddToCart.textContent = 'Drop from Cart';
     }
-    header.refreshHeader();
+    header.refresh();
   }
 
   private addToCart(goods: Goods) {

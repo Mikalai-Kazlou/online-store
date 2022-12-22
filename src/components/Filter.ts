@@ -13,15 +13,25 @@ export default class GoodsCatalogItem {
     this.counter = counter;
   }
 
-  refreshCounter(): void {
-    if (this.foundItems.length > 0) {
-      this.counter.innerHTML = `Found: ${this.foundItems.length}`;
+  refreshCounter(foundItems: number[]): void {
+    if (foundItems.length > 0) {
+      this.counter.innerHTML = `Found: ${foundItems.length}`;
+    } else {
+      this.counter.innerHTML = `Found: ${this.getTotalProducts()}`;
     }
-    this.counter.innerHTML = `Found: ${this.getTotalProducts}`;
   }
 
   getMatchedResults(uiElement: HTMLElement) {
+    this.setMatchedResults(this.uiElement);
+    this.refreshCounter(this.foundItems);
+    console.log(this.foundItems);
+  }
+
+  setMatchedResults(uiElement: HTMLElement) {
     let matrix: Goods[][] = [];
+    if (this.findByText(this.uiElement).length > 0) {
+      matrix.push(this.findByText(this.uiElement));
+    }
     if (this.findByCategories(this.uiElement).length > 0) {
       matrix.push(this.findByCategories(this.uiElement));
     }
@@ -39,7 +49,27 @@ export default class GoodsCatalogItem {
         return a.indexOf(v) !== -1;
       });
     });
-    return matrix;
+    this.foundItems = result?.map((item) => item.id) || [];
+  }
+
+  findByText(uiElement: HTMLElement) {
+    const searchQueryContainer = uiElement.querySelector('.search-input') as HTMLInputElement;
+    let searchQuery = searchQueryContainer.value;
+    let searchResults: Goods[] = [];
+    for (let i = 0; i < goodsData.products.length; i++) {
+      if (goodsData.products[i].brand.toLowerCase().includes(searchQuery.toLowerCase())) {
+        searchResults.push(goodsData.products[i]);
+      } else if (goodsData.products[i].title.toLowerCase().includes(searchQuery.toLowerCase())) {
+        searchResults.push(goodsData.products[i]);
+      }
+    }
+    let result = [...new Set(searchResults)];
+    if (searchQuery.length > 0 && result.length === 0) {
+      searchQueryContainer.setAttribute('maxlength', `${searchQuery.length - 1}`);
+    } else {
+      searchQueryContainer.removeAttribute('maxlength');
+    }
+    return result;
   }
 
   findByCategories(uiElement: HTMLElement): Goods[] {

@@ -2,9 +2,8 @@ import './modal.ts';
 import '../../components/Filter';
 import goodsData from '../../modules/goods';
 import GoodsCatalog from '../../components/GoodsCatalog';
-import { elementNullCheck } from '../../modules/type-checks';
 import Header from '../../components/Header';
-import Cart from '../../components/Cart';
+import { elementNullCheck } from '../../modules/type-checks';
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   function getCategories(): Set<string> {
@@ -52,32 +51,30 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   const goodsCatalog = new GoodsCatalog(uiGoodsItems);
   goodsCatalog.draw();
 
-  const cart = new Cart();
-  const totalContainer = elementNullCheck(document, '.total') as HTMLParagraphElement;
-  const basketContainer = elementNullCheck(document, '.basket-amount') as HTMLSpanElement;
-  const header = new Header(totalContainer, basketContainer, cart);
-  header.refreshHeader();
+  const uiHeader = elementNullCheck(document, '.header-content') as HTMLElement;
+  const header = new Header(uiHeader);
+  header.refresh();
 
   const goodsNumber = elementNullCheck(document, '.goods-number');
 
-  function filter(event: Event): void {
-    let remainingGoods = 100;
-    const target: HTMLElement = event.target as HTMLElement;
-    if (target !== null) {
-      const clickedOption = target.closest('button') as HTMLButtonElement;
-      const allItems = document.querySelectorAll('.good-item');
-      allItems.forEach((item) => {
-        if (item.classList.contains('hide')) item.classList.remove('hide');
-      });
-      allItems.forEach((item) => {
-        if (goodsData.products[+item.id - 1].category !== clickedOption.id) {
-          item.classList.add('hide');
-          remainingGoods--;
-          goodsNumber.innerHTML = `Found: ${remainingGoods}`;
-        }
-      });
-    }
-  }
+  // function filter(event: Event): void {
+  //   let remainingGoods = 100;
+  //   const target: HTMLElement = event.target as HTMLElement;
+  //   if (target !== null) {
+  //     const clickedOption = target.closest('button') as HTMLButtonElement;
+  //     const allItems = document.querySelectorAll('.good-item');
+  //     allItems.forEach((item) => {
+  //       if (item.classList.contains('hide')) item.classList.remove('hide');
+  //     });
+  //     allItems.forEach((item) => {
+  //       if (goodsData.products[+item.id - 1].category !== clickedOption.id) {
+  //         item.classList.add('hide');
+  //         remainingGoods--;
+  //         goodsNumber.innerHTML = `Found: ${remainingGoods}`;
+  //       }
+  //     });
+  //   }
+  // }
 
-  categoryButtons.addEventListener('click', filter);
+  // categoryButtons.addEventListener('click', filter);
 }

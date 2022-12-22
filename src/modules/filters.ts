@@ -47,98 +47,112 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   minStockContainer.innerHTML = `${getValues.getMinimumStock()}`;
   maxStockContainer.innerHTML = `${getValues.getMaximumStock()}`;
 
+  const searchInput = document.querySelector('.search-input') as HTMLInputElement;
+
+  searchInput.oninput = function (): void {
+    filter.getMatchedResults(filterContent);
+  };
+
   priceSliderFrom.oninput = function (): void {
     minPriceContainer.innerHTML = `$${priceSliderFrom.value}`;
+    filter.getMatchedResults(filterContent);
+    paintRange(priceSliderFrom, priceSliderTo);
   };
 
   priceSliderTo.oninput = function (): void {
     maxPriceContainer.innerHTML = `$${priceSliderTo.value}`;
+    filter.getMatchedResults(filterContent);
+    paintRange(priceSliderFrom, priceSliderTo);
   };
 
   stockSliderFrom.oninput = function (): void {
     minStockContainer.innerHTML = stockSliderFrom.value;
+    filter.getMatchedResults(filterContent);
+    paintRange(stockSliderFrom, stockSliderTo);
   };
 
   stockSliderTo.oninput = function (): void {
     maxStockContainer.innerHTML = stockSliderTo.value;
+    filter.getMatchedResults(filterContent);
+    paintRange(stockSliderFrom, stockSliderTo);
   };
 
-  function priceFilter(event: Event): void {
-    let remainingGoods = 100;
-    const target: HTMLInputElement = event.target as HTMLInputElement;
-    if (target !== null) {
-      const currentPrice: number = +target.value;
-      const allItems = document.querySelectorAll('.good-item');
-      allItems.forEach((item) => {
-        if (item.classList.contains('hide')) item.classList.remove('hide');
-      });
-      allItems.forEach((item) => {
-        if (goodsData.products[+item.id - 1].price > currentPrice) {
-          item.classList.add('hide');
-          remainingGoods--;
-          goodsNumber.innerHTML = `Found: ${remainingGoods}`;
-        }
-      });
+  // function priceFilter(event: Event): void {
+  //   let remainingGoods = 100;
+  //   const target: HTMLInputElement = event.target as HTMLInputElement;
+  //   if (target !== null) {
+  //     const currentPrice: number = +target.value;
+  //     const allItems = document.querySelectorAll('.good-item');
+  //     allItems.forEach((item) => {
+  //       if (item.classList.contains('hide')) item.classList.remove('hide');
+  //     });
+  //     allItems.forEach((item) => {
+  //       if (goodsData.products[+item.id - 1].price > currentPrice) {
+  //         item.classList.add('hide');
+  //         remainingGoods--;
+  //         goodsNumber.innerHTML = `Found: ${remainingGoods}`;
+  //       }
+  //     });
 
-    } paintRange(priceSliderFrom, priceSliderTo);
-  }
+  //   } paintRange(priceSliderFrom, priceSliderTo);
+  // }
 
-  function priceFilterFrom(event: Event): void {
-    let remainingGoods = 100;
-    const target: HTMLInputElement = event.target as HTMLInputElement;
-    if (target !== null) {
-      const currentPrice: number = +target.value;
-      const allItems = document.querySelectorAll('.good-item');
-      allItems.forEach((item) => {
-        if (item.classList.contains('hide')) item.classList.remove('hide');
-      });
-      allItems.forEach((item) => {
-        if (goodsData.products[+item.id - 1].price < currentPrice) {
-          item.classList.add('hide');
-          remainingGoods--;
-          goodsNumber.innerHTML = `Found: ${remainingGoods}`;
-        }
-      });
-    } paintRange(priceSliderFrom, priceSliderTo);
-  }
+  // function priceFilterFrom(event: Event): void {
+  //   let remainingGoods = 100;
+  //   const target: HTMLInputElement = event.target as HTMLInputElement;
+  //   if (target !== null) {
+  //     const currentPrice: number = +target.value;
+  //     const allItems = document.querySelectorAll('.good-item');
+  //     allItems.forEach((item) => {
+  //       if (item.classList.contains('hide')) item.classList.remove('hide');
+  //     });
+  //     allItems.forEach((item) => {
+  //       if (goodsData.products[+item.id - 1].price < currentPrice) {
+  //         item.classList.add('hide');
+  //         remainingGoods--;
+  //         goodsNumber.innerHTML = `Found: ${remainingGoods}`;
+  //       }
+  //     });
+  //   } paintRange(priceSliderFrom, priceSliderTo);
+  // }
 
-  function stockFilter(event: Event): void {
-    let remainingGoods = 100;
-    const target: HTMLInputElement = event.target as HTMLInputElement;
-    if (target !== null) {
-      const currentStock: number = +target.value;
-      const allItems = document.querySelectorAll('.good-item');
-      allItems.forEach((item) => {
-        if (item.classList.contains('hide')) item.classList.remove('hide');
-      });
-      allItems.forEach((item) => {
-        if (goodsData.products[+item.id - 1].stock > currentStock) {
-          item.classList.add('hide');
-          remainingGoods--;
-          goodsNumber.innerHTML = `Found: ${remainingGoods}`;
-        }
-      });
-    } paintRange(stockSliderFrom, stockSliderTo);
-  }
+  // function stockFilter(event: Event): void {
+  //   let remainingGoods = 100;
+  //   const target: HTMLInputElement = event.target as HTMLInputElement;
+  //   if (target !== null) {
+  //     const currentStock: number = +target.value;
+  //     const allItems = document.querySelectorAll('.good-item');
+  //     allItems.forEach((item) => {
+  //       if (item.classList.contains('hide')) item.classList.remove('hide');
+  //     });
+  //     allItems.forEach((item) => {
+  //       if (goodsData.products[+item.id - 1].stock > currentStock) {
+  //         item.classList.add('hide');
+  //         remainingGoods--;
+  //         goodsNumber.innerHTML = `Found: ${remainingGoods}`;
+  //       }
+  //     });
+  //   } paintRange(stockSliderFrom, stockSliderTo);
+  // }
 
-  function stockFilterFrom(event: Event): void {
-    let remainingGoods = 100;
-    const target: HTMLInputElement = event.target as HTMLInputElement;
-    if (target !== null) {
-      const currentStock: number = +target.value;
-      const allItems = document.querySelectorAll('.good-item');
-      allItems.forEach((item) => {
-        if (item.classList.contains('hide')) item.classList.remove('hide');
-      });
-      allItems.forEach((item) => {
-        if (goodsData.products[+item.id - 1].stock < currentStock) {
-          item.classList.add('hide');
-          remainingGoods--;
-          goodsNumber.innerHTML = `Found: ${remainingGoods}`;
-        }
-      });
-    } paintRange(stockSliderFrom, stockSliderTo);
-  }
+  // function stockFilterFrom(event: Event): void {
+  //   let remainingGoods = 100;
+  //   const target: HTMLInputElement = event.target as HTMLInputElement;
+  //   if (target !== null) {
+  //     const currentStock: number = +target.value;
+  //     const allItems = document.querySelectorAll('.good-item');
+  //     allItems.forEach((item) => {
+  //       if (item.classList.contains('hide')) item.classList.remove('hide');
+  //     });
+  //     allItems.forEach((item) => {
+  //       if (goodsData.products[+item.id - 1].stock < currentStock) {
+  //         item.classList.add('hide');
+  //         remainingGoods--;
+  //         goodsNumber.innerHTML = `Found: ${remainingGoods}`;
+  //       }
+  //     });
+  //   } paintRange(stockSliderFrom, stockSliderTo);
+  // }
 
   function paintRange(fromSlider: HTMLInputElement, toSlider: HTMLInputElement): void {
     const sliderColor = '#C6C6C6';
@@ -171,8 +185,10 @@ function splitString(string: string, separator: string): number {
   return +string.split(separator)[0];
 }
 
-  priceSliderTo.addEventListener('input', priceFilter);
-  priceSliderFrom.addEventListener('input', priceFilterFrom);
-  stockSliderTo.addEventListener('input', stockFilter);
-  stockSliderFrom.addEventListener('input', stockFilterFrom);
+
+
+  // priceSliderTo.addEventListener('input', priceFilter);
+  // priceSliderFrom.addEventListener('input', priceFilterFrom);
+  // stockSliderTo.addEventListener('input', stockFilter);
+  // stockSliderFrom.addEventListener('input', stockFilterFrom);
 }
