@@ -80,11 +80,7 @@ export default class StockButtons {
     let currentStock = +stock.innerHTML;
     if (amount > 1 && cart.has(goods) && currentStock > 1) {
       cart.add(goods, -1);
-      //cart.drop(goods);
       stock.innerHTML = `${currentStock - 1}`;
-      //for (let index = 0; index < currentStock - 1; index++) {
-      //  cart.add(goods);
-      //}
       this.header.refresh();
     } else if (!cart.has(goods) && currentStock > 1) {
       stock.innerHTML = `${currentStock - 1}`;
@@ -95,19 +91,7 @@ export default class StockButtons {
 
   getCurrentAmount(goods: Goods): number {
     const cartItem = this.cart.find(goods);
-    if (cartItem) {
-      return cartItem.quantity;
-    }
-    return 0;
-
-    /*const goodsArray = this.cart.getEntries().map((item) => item.id);
-    let result = 1;
-    if (goodsArray.filter((item) => item === goods.id).length > 0) {
-      result = goodsArray.filter((item) => item === goods.id).length;
-    } else {
-      result = 1;
-    }
-    return result;*/
+    return (cartItem) ? cartItem.quantity : 0;
   }
 
   setPrice(parent: Element, price: number, selectedStock: number): void {
