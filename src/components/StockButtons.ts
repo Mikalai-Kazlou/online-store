@@ -55,7 +55,7 @@ export default class StockButtons {
     amountButtons.appendChild(minusButton);
     amountButtons.appendChild(selectedAmount);
     amountButtons.appendChild(plusButton);
-    this.header.refreshHeader();
+    this.header.refresh();
   }
 
   incrementStock(goods: Goods, stock: HTMLParagraphElement, cart: Cart) {
@@ -66,10 +66,10 @@ export default class StockButtons {
     if (amount < maxStock && cart.has(goods)) {
       cart.add(goods);
       stock.innerHTML = `${currentStock + 1}`;
-      this.header.refreshHeader();
+      this.header.refresh();
     } else if (!cart.has(goods)) {
       stock.innerHTML = `${currentStock + 1}`;
-      this.header.refreshHeader();
+      this.header.refresh();
     }
     this.setPrice(priceContainer, goods.price, +stock.innerHTML);
   }
@@ -79,28 +79,35 @@ export default class StockButtons {
     const amount = this.getCurrentAmount(goods);
     let currentStock = +stock.innerHTML;
     if (amount > 1 && cart.has(goods) && currentStock > 1) {
-      cart.drop(goods);
+      cart.add(goods, -1);
+      //cart.drop(goods);
       stock.innerHTML = `${currentStock - 1}`;
-      for (let index = 0; index < currentStock - 1; index++) {
-        cart.add(goods);
-      }
-      this.header.refreshHeader();
+      //for (let index = 0; index < currentStock - 1; index++) {
+      //  cart.add(goods);
+      //}
+      this.header.refresh();
     } else if (!cart.has(goods) && currentStock > 1) {
       stock.innerHTML = `${currentStock - 1}`;
-      this.header.refreshHeader();
+      this.header.refresh();
     }
     this.setPrice(priceContainer, goods.price, +stock.innerHTML);
   }
 
   getCurrentAmount(goods: Goods): number {
-    const goodsArray = this.cart.getEntries().map((item) => item.id);
+    const cartItem = this.cart.find(goods);
+    if (cartItem) {
+      return cartItem.quantity;
+    }
+    return 0;
+
+    /*const goodsArray = this.cart.getEntries().map((item) => item.id);
     let result = 1;
     if (goodsArray.filter((item) => item === goods.id).length > 0) {
       result = goodsArray.filter((item) => item === goods.id).length;
     } else {
       result = 1;
     }
-    return result;
+    return result;*/
   }
 
   setPrice(parent: Element, price: number, selectedStock: number): void {

@@ -39,18 +39,29 @@ export default class Cart {
     let uiElement: HTMLElement;
 
     uiElement = this.uiCart.querySelector('.total-quantity') as HTMLElement;
-    uiElement.textContent = `Products: ${this.getQuantity()}`;
+    uiElement.textContent = `Products: ${this.getTotalQuantity()}`;
 
     uiElement = this.uiCart.querySelector('.total-amount') as HTMLElement;
-    uiElement.textContent = `Total: $${this.getTotal()}`;
+    uiElement.textContent = `Total: $${this.getTotalAmount()}`;
   }
 
   has(goods: Goods): boolean {
     return Boolean(this.items.find((item) => item.goods === goods));
   }
 
+  find(goods: Goods): CartItem | undefined {
+    return this.items.find((item) => item.goods === goods);
+  }
+
   add(goods: Goods, quantity = 1): void {
-    this.items.push(new CartItem(goods, quantity));
+    if (this.has(goods)) {
+      const item = this.items.find((item) => item.goods === goods);
+      if (item) {
+        item.quantity += quantity;
+      }
+    } else {
+      this.items.push(new CartItem(goods, quantity));
+    }
     this.save();
   }
 
@@ -63,17 +74,17 @@ export default class Cart {
     return this.items.length;
   }
 
-  getQuantity() {
+  getTotalQuantity() {
     return this.items.reduce((total, item) => total + item.quantity, 0);
   }
 
-  getTotal(): number {
+  getTotalAmount(): number {
     return this.items.reduce((total, item) => total + item.goods.price * item.quantity, 0);
   }
 
-  getEntries(): Goods[] {
+  /*getEntries(): Goods[] {
     return this.items.map((item) => item.goods);
-  }
+  }*/
 
   save(): void {
     const items: SavedCartItems[] =
