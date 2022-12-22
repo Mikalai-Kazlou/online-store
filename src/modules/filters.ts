@@ -1,9 +1,11 @@
 import { getValues } from './get-values';
 import goodsData from './goods';
 import { elementNullCheck } from './type-checks';
+import Filter from '../components/Filter'
+import Goods from '../components/Goods';
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
-  const goodsNumber = elementNullCheck(document, '.goods-number');
+  const goodsNumber = elementNullCheck(document, '.goods-number') as HTMLElement;
 
   let minPriceContainer = elementNullCheck(document, '.min-price');
   let maxPriceContainer = elementNullCheck(document, '.max-price');
@@ -14,6 +16,11 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
 
   const priceSliderTo: HTMLInputElement = document.querySelector('.price-slider-to') as HTMLInputElement;
   const stockSliderTo: HTMLInputElement = document.querySelector('.stock-slider-to') as HTMLInputElement;
+
+  const filterContent = elementNullCheck(document, '.filters-content') as HTMLElement;
+  const goods = new Goods(0)
+  const filter = new Filter(filterContent, goods, goodsNumber);
+
   function setValue(element: Element, attr: string, n: number): void {
     element.setAttribute(attr, `${n}`);
   }
