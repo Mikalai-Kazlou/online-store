@@ -1,4 +1,5 @@
 import './modal.ts';
+import '../../components/Filter';
 import goodsData from '../../modules/goods';
 import GoodsCatalog from '../../components/GoodsCatalog';
 import Header from '../../components/Header';
