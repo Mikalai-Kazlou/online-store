@@ -91,7 +91,7 @@ export default class StockButtons {
 
   getCurrentAmount(goods: Goods): number {
     const cartItem = this.cart.find(goods);
-    return (cartItem) ? cartItem.quantity : 0;
+    return (cartItem) ? cartItem.quantity : 1;
   }
 
   setPrice(parent: Element, price: number, selectedStock: number): void {

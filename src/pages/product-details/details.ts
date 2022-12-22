@@ -31,10 +31,8 @@ if (document.location.pathname.includes('details')) {
   const nameContainer = elementNullCheck(document, '.product-name');
   const currentProductID = +document.location.search.toString().split('=')[1];
   const currentProduct = new Goods(currentProductID);
-  const uiElement = elementNullCheck(document, '.main-container-product') as HTMLElement;
+
   const cart = new Cart();
-  const currentItem = new GoodsCatalogItem(uiElement, currentProduct, cart);
-  currentItem.fillProductInfo();
 
   const uiHeader = elementNullCheck(document, '.header-content') as HTMLElement;
   const header = new Header(uiHeader);
@@ -43,6 +41,10 @@ if (document.location.pathname.includes('details')) {
   const infoContainer = elementNullCheck(document, '.info-stock-container') as HTMLElement;
   const stock = new StockButtons(infoContainer, currentProduct, cart, header);
   stock.draw();
+
+  const uiElement = elementNullCheck(document, '.main-container-product') as HTMLElement;
+  const currentItem = new GoodsCatalogItem(uiElement, currentProduct, cart);
+  currentItem.fillProductInfo();
 
   function fillProductPage(product: Goods): void {
     const fullName = elementNullCheck(document, '.brand-and-title');
@@ -83,7 +85,7 @@ if (document.location.pathname.includes('details')) {
 
     addPictures(sidePicturesContainer, product.images);
     displaySelectedPicture(selectedPicture, product.images, product.title, 0);
-    stock.setPrice(infoPrice, product.price, currentStock);
+    stock.setPrice(infoPrice, product.price, 1);
   }
 
   function addPictures(parent: Element, images: string[]): void {
@@ -100,8 +102,6 @@ if (document.location.pathname.includes('details')) {
     parent.setAttribute('alt', `${productName}`);
     parent.setAttribute('src', images[imageID]);
   }
-
-  let currentStock = 1;
 
   const pageBreadcrumb = new Breadcrumb(currentProduct.category, currentProduct.brand, currentProduct.title);
   pageBreadcrumb.fillBreadcrumb(categoryContainer, brandContainer, nameContainer);
