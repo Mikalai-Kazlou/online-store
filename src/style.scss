@@ -610,7 +610,7 @@ body {
 
 .selected {
     color: darkorchid;
-    scale: 1.01;
+    border-bottom: 0.1rem solid darkorchid;
 }
 
 .disabled {

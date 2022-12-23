@@ -24,6 +24,7 @@ export default class GoodsCatalogItem {
   getMatchedResults(uiElement: HTMLElement) {
     this.setMatchedResults(this.uiElement);
     this.refreshCounter(this.foundItems);
+    this.hideItems();
     console.log(this.foundItems);
   }
 
@@ -73,15 +74,16 @@ export default class GoodsCatalogItem {
   }
 
   findByCategories(uiElement: HTMLElement): Goods[] {
-    const categories = Array.from(uiElement.querySelectorAll('category-button'));
+    const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     const selectedCategories = categories
       .filter((item) => item.classList.contains('selected'))
-      .map((item) => item.innerHTML);
+      .map((item) => item.innerHTML.toLowerCase());
+      console.log(selectedCategories);
     return goodsData.products.filter((item) => selectedCategories.includes(item.category));
   }
 
   findByBrands(uiElement: HTMLElement): Goods[] {
-    const brands = Array.from(uiElement.querySelectorAll('brand-button'));
+    const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
     const selectedBrands = brands.filter((item) => item.classList.contains('selected')).map((item) => item.innerHTML);
     return goodsData.products.filter((item) => selectedBrands.includes(item.brand));
   }
@@ -100,6 +102,18 @@ export default class GoodsCatalogItem {
     const minStock = +fromStockCOntainer.value;
     const maxStock = +toStockContainer.value;
     return goodsData.products.filter((item) => item.stock >= minStock && item.stock <= maxStock);
+  }
+
+  hideItems(): void {
+    const allItems = document.querySelectorAll('.good-item');
+    allItems.forEach((item) => {
+      if (item.classList.contains('hide')) item.classList.remove('hide');
+    });
+    allItems.forEach((item) => {
+      if (!this.foundItems.includes(+item.id)) {
+        item.classList.add('hide');
+      }
+    });
   }
 
   private getTotalProducts() {

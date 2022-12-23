@@ -185,6 +185,35 @@ function splitString(string: string, separator: string): number {
   return +string.split(separator)[0];
 }
 
+const categoryButtons = elementNullCheck(document, '.filter-category-buttons');
+function categoryfilter(event: Event): void {
+  const target: HTMLElement = event.target as HTMLElement;
+  if (target !== null) {
+    const clickedOption = target.closest('button') as HTMLButtonElement;
+    if (clickedOption.classList.contains('selected')) {
+      clickedOption.classList.remove('selected');
+    } else {
+      clickedOption.classList.add('selected');
+    }
+  } filter.getMatchedResults(filterContent);
+}
+
+const brandButtons = elementNullCheck(document, '.filter-brand-buttons');
+function brandfilter(event: Event): void {
+  const target: HTMLElement = event.target as HTMLElement;
+  if (target !== null) {
+    const clickedOption = target.closest('button') as HTMLButtonElement;
+    if (clickedOption.classList.contains('selected')) {
+      clickedOption.classList.remove('selected');
+    } else {
+      clickedOption.classList.add('selected');
+    }
+  } filter.getMatchedResults(filterContent);
+}
+
+categoryButtons.addEventListener('click', categoryfilter);
+brandButtons.addEventListener('click', brandfilter);
+
 
 
   // priceSliderTo.addEventListener('input', priceFilter);

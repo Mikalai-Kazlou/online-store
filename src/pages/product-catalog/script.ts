@@ -56,25 +56,5 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   header.refresh();
 
   const goodsNumber = elementNullCheck(document, '.goods-number');
-
-  // function filter(event: Event): void {
-  //   let remainingGoods = 100;
-  //   const target: HTMLElement = event.target as HTMLElement;
-  //   if (target !== null) {
-  //     const clickedOption = target.closest('button') as HTMLButtonElement;
-  //     const allItems = document.querySelectorAll('.good-item');
-  //     allItems.forEach((item) => {
-  //       if (item.classList.contains('hide')) item.classList.remove('hide');
-  //     });
-  //     allItems.forEach((item) => {
-  //       if (goodsData.products[+item.id - 1].category !== clickedOption.id) {
-  //         item.classList.add('hide');
-  //         remainingGoods--;
-  //         goodsNumber.innerHTML = `Found: ${remainingGoods}`;
-  //       }
-  //     });
-  //   }
-  // }
-
-  // categoryButtons.addEventListener('click', filter);
 }
+
