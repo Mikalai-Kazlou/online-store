@@ -1,4 +1,5 @@
 import Goods from './Goods';
+import * as helpers from '../modules/helpers';
 
 export default class CartItem {
   private uiQuantity: HTMLElement | undefined;
@@ -36,7 +37,7 @@ export default class CartItem {
     uiElement.textContent = `Stock: ${this.goods.stock}`;
 
     uiElement = uiCartItem.querySelector('.info-price') as HTMLElement;
-    uiElement.textContent = `Price: $${this.goods.price}`;
+    uiElement.textContent = `Price: ${helpers.formatAmount(this.goods.price)}`;
 
     this.uiQuantity = uiCartItem.querySelector('.selected-stock') as HTMLElement;
     this.uiQuantity.textContent = String(this.quantity);

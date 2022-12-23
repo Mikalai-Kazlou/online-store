@@ -1,5 +1,5 @@
 import goodsData from './goods';
-import { elementNullCheck } from './type-checks';
+import { elementNullCheck } from './helpers';
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   const sortingContainer = elementNullCheck(document, '.sort-input') as HTMLSelectElement;
@@ -20,8 +20,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         return goodsData.products[+a.id - 1].price == goodsData.products[+b.id - 1].price
           ? 0
           : goodsData.products[+a.id - 1].price > goodsData.products[+b.id - 1].price
-          ? 1
-          : -1;
+            ? 1
+            : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {
@@ -39,8 +39,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         return goodsData.products[+a.id - 1].price == goodsData.products[+b.id - 1].price
           ? 0
           : goodsData.products[+a.id - 1].price < goodsData.products[+b.id - 1].price
-          ? 1
-          : -1;
+            ? 1
+            : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {
@@ -58,8 +58,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         return goodsData.products[+a.id - 1].title == goodsData.products[+b.id - 1].title
           ? 0
           : goodsData.products[+a.id - 1].title > goodsData.products[+b.id - 1].title
-          ? 1
-          : -1;
+            ? 1
+            : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {
@@ -77,8 +77,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         return goodsData.products[+a.id - 1].title == goodsData.products[+b.id - 1].title
           ? 0
           : goodsData.products[+a.id - 1].title < goodsData.products[+b.id - 1].title
-          ? 1
-          : -1;
+            ? 1
+            : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {

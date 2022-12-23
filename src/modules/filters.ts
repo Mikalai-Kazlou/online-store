@@ -1,6 +1,6 @@
 import { getValues } from './get-values';
 import goodsData from './goods';
-import { elementNullCheck } from './type-checks';
+import { elementNullCheck } from './helpers';
 import Filter from '../components/Filter'
 import Goods from '../components/Goods';
 
@@ -163,13 +163,13 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   const brandContainer = document.querySelector('.filter-category-buttons');
 
   const scrollBar = (parent: HTMLElement, slider: HTMLInputElement) => {
-        const height = getComputedStyle(parent).height;
-        parent.style.top = `${height}px`;
-    }
+    const height = getComputedStyle(parent).height;
+    parent.style.top = `${height}px`;
+  }
 
-function splitString(string: string, separator: string): number {
-  return +string.split(separator)[0];
-}
+  function splitString(string: string, separator: string): number {
+    return +string.split(separator)[0];
+  }
 
   priceSliderTo.addEventListener('input', priceFilter);
   priceSliderFrom.addEventListener('input', priceFilterFrom);

@@ -5,3 +5,7 @@ export function elementNullCheck(parent: Element | Document, selector: string): 
   }
   return el;
 }
+
+export function formatAmount(amount: number): string {
+  return `$${String(amount.toFixed(2))}`;
+}

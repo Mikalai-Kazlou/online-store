@@ -1,6 +1,6 @@
 import './cart.scss';
 
-import { elementNullCheck } from '../../modules/type-checks';
+import { elementNullCheck } from '../../modules/helpers';
 import Header from '../../components/Header';
 import Cart from '../../components/Cart';
 import promoCodes from '../../modules/promo-codes';

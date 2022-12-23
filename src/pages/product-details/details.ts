@@ -2,7 +2,7 @@ import './details.scss';
 import goodsData from '../../modules/goods';
 import Goods from '../../components/Goods';
 import GoodsCatalogItem from '../../components/GoodsCatalogItem';
-import { elementNullCheck } from '../../modules/type-checks';
+import { elementNullCheck } from '../../modules/helpers';
 import Cart from '../../components/Cart';
 import Header from '../../components/Header';
 import StockButtons from '../../components/StockButtons';

@@ -3,7 +3,7 @@ import '../../components/Filter';
 import goodsData from '../../modules/goods';
 import GoodsCatalog from '../../components/GoodsCatalog';
 import Header from '../../components/Header';
-import { elementNullCheck } from '../../modules/type-checks';
+import { elementNullCheck } from '../../modules/helpers';
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   function getCategories(): Set<string> {
