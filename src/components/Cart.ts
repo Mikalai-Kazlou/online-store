@@ -1,21 +1,27 @@
 import CartItem from './CartItem';
 import Goods from './Goods';
+import { PromoCode } from '../modules/types';
+import promoCodes from '../modules/promo-codes';
 
-interface SavedCartItems {
-  id: number;
-  quantity: number;
+interface SavedCart {
+  promo: string[],
+  items: {
+    id: number;
+    qnt: number;
+  }[]
 }
 
 export default class Cart {
   private readonly uiCart: HTMLElement | undefined;
   items: CartItem[] = [];
+  promoCodes: Set<PromoCode> = new Set();
 
   constructor(uiCart?: HTMLElement) {
     this.uiCart = uiCart;
     this.restore();
   }
 
-  draw() {
+  draw(): void {
     if (!this.uiCart) return;
 
     const uiTemplate: HTMLTemplateElement = this.uiCart.querySelector('#cart-item-template') as HTMLTemplateElement;
@@ -34,7 +40,7 @@ export default class Cart {
     this.refresh();
   }
 
-  refresh() {
+  refresh(): void {
     if (!this.uiCart) return;
     let uiElement: HTMLElement;
 
@@ -43,6 +49,20 @@ export default class Cart {
 
     uiElement = this.uiCart.querySelector('.total-amount') as HTMLElement;
     uiElement.textContent = `Total: $${this.getTotalAmount()}`;
+
+    const uiPromoCodes = this.uiCart.querySelector('.promo-codes') as HTMLElement;
+    uiPromoCodes.innerHTML = '';
+
+    this.promoCodes.forEach((code) => {
+      const li = document.createElement('li');
+      li.textContent = code.id;
+      uiPromoCodes.append(li);
+
+      const bt = document.createElement('button');
+      bt.textContent = 'Delete';
+      bt.addEventListener('click', () => this.deletePromoCode(code));
+      uiPromoCodes.append(bt);
+    });
   }
 
   has(goods: Goods): boolean {
@@ -74,26 +94,57 @@ export default class Cart {
     return this.items.length;
   }
 
-  getTotalQuantity() {
+  getTotalQuantity(): number {
     return this.items.reduce((total, item) => total + item.quantity, 0);
   }
 
   getTotalAmount(): number {
+    const fullAmount = this.getFullAmount();
+
+    let totalAmount = fullAmount;
+    this.promoCodes.forEach((code) => {
+      totalAmount -= fullAmount * code.discount / 100;
+    });
+
+    return totalAmount;
+  }
+
+  getFullAmount(): number {
     return this.items.reduce((total, item) => total + item.goods.price * item.quantity, 0);
   }
 
+  addPromoCode(code: PromoCode): void {
+    this.promoCodes.add(code);
+    document.body.dispatchEvent(new Event('carthasbeenchanged'));
+  }
+
+  deletePromoCode(code: PromoCode): void {
+    this.promoCodes.delete(code);
+    document.body.dispatchEvent(new Event('carthasbeenchanged'));
+  }
+
   save(): void {
-    const items: SavedCartItems[] =
-      this.items
-        .filter((item) => item.quantity > 0)
-        .map((item) => {
-          return { id: item.goods.id, quantity: item.quantity }
-        });
-    localStorage.setItem('rs-online-store-cart', JSON.stringify(items));
+    const cart: SavedCart = {
+      items:
+        this.items
+          .filter((item) => item.quantity > 0)
+          .map((item) => {
+            return { id: item.goods.id, qnt: item.quantity }
+          }),
+      promo:
+        Array.from(this.promoCodes).map((code) => code.id)
+    };
+    localStorage.setItem('rs-online-store-cart', JSON.stringify(cart));
   }
 
   private restore(): void {
-    const items: SavedCartItems[] = JSON.parse(localStorage.getItem('rs-online-store-cart') as string) || [];
-    this.items = items.map((item) => new CartItem(new Goods(item.id), item.quantity));
+    const cart: SavedCart = JSON.parse(localStorage.getItem('rs-online-store-cart') as string) || { promo: [], items: [] };
+    this.items = cart.items.map((item) => new CartItem(new Goods(item.id), item.qnt));
+    cart.promo.forEach((promo) => {
+      const code = promoCodes.find((code) => code.id === promo);
+      if (code) {
+        this.promoCodes.add(code);
+      }
+    });
   }
 }

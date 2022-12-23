@@ -38,6 +38,9 @@
 }
 
 .cart-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   min-width: 20vw;
   padding: 1rem;
   border: 0.1rem solid #e8e8e8;
