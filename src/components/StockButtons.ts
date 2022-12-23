@@ -59,7 +59,7 @@ export default class StockButtons {
   }
 
   incrementStock(goods: Goods, stock: HTMLParagraphElement, cart: Cart) {
-    const priceContainer = document.querySelector('.info-price') as HTMLParagraphElement;
+    //const priceContainer = document.querySelector('.info-price') as HTMLParagraphElement;
     const amount = this.getCurrentAmount(goods);
     const maxStock = goods.stock;
     let currentStock = +stock.innerHTML;
@@ -75,7 +75,7 @@ export default class StockButtons {
   }
 
   decrementStock(goods: Goods, stock: HTMLParagraphElement, cart: Cart): void {
-    const priceContainer = document.querySelector('.info-price') as HTMLParagraphElement;
+    //const priceContainer = document.querySelector('.info-price') as HTMLParagraphElement;
     const amount = this.getCurrentAmount(goods);
     let currentStock = +stock.innerHTML;
     if (amount > 1 && cart.has(goods) && currentStock > 1) {

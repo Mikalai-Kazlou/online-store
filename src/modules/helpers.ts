@@ -7,5 +7,5 @@ export function elementNullCheck(parent: Element | Document, selector: string): 
 }
 
 export function formatAmount(amount: number): string {
-  return `$${String(amount.toFixed(2))}`;
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format((amount));
 }
