@@ -47,6 +47,53 @@
   border-radius: 0.5rem;
 }
 
+.totals {
+  padding: 1rem 0;
+}
+
 .full-amount {
   text-decoration: line-through;
+}
+
+.promo-codes {
+  list-style: none;
+}
+
+.promo-code {
+  display: flex;
+  margin: 1rem;
+}
+
+.promo-text {
+  display: inline-block;
+  width: 150px;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 2rem;
+  font-weight: 400;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #8480c2 0%, #8884c2 47%, #938fca 100%);
+}
+
+.promo-delete {
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 2rem;
+  font-weight: 400;
+  border-radius: 50%;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.promo-test {
+  padding: 1rem;
+  user-select: text;
+}
+
+.no-display {
+  display: none;
 }

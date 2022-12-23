@@ -44,6 +44,20 @@ export default class Cart {
   refresh(): void {
     if (!this.uiCart) return;
 
+    const uiMessage = this.uiCart.querySelector('.error-message') as HTMLElement;
+    const uiCartContent = this.uiCart.querySelector('.cart-content') as HTMLElement;
+    const uiCartSummary = this.uiCart.querySelector('.cart-summary') as HTMLElement;
+
+    if (this.items.length > 0) {
+      uiMessage.classList.add('no-display');
+      uiCartContent.classList.remove('no-display');
+      uiCartSummary.classList.remove('no-display');
+    } else {
+      uiMessage.classList.remove('no-display');
+      uiCartContent.classList.add('no-display');
+      uiCartSummary.classList.add('no-display');
+    }
+
     const uiTotalQuantity = this.uiCart.querySelector('.total-quantity') as HTMLElement;
     uiTotalQuantity.textContent = `Products: ${this.getTotalQuantity()}`;
 
@@ -56,22 +70,23 @@ export default class Cart {
     if (this.promoCodes.size > 0) {
       const uiFullAmount = uiTotalAmount.cloneNode(true) as HTMLElement;
       uiFullAmount.textContent = `Total: ${helpers.formatAmount(this.getFullAmount())}`;
-      uiFullAmount.classList.remove('total-amount');
-      uiFullAmount.classList.add('full-amount');
+      uiFullAmount.classList.replace('total-amount', 'full-amount');
       uiTotalAmount.prepend(uiFullAmount);
 
+      const uiTemplate: HTMLTemplateElement = this.uiCart.querySelector('#promo-code-template') as HTMLTemplateElement;
       this.promoCodes.forEach((code) => {
-        const li = document.createElement('li');
-        li.textContent = code.id;
-        uiPromoCodes.append(li);
+        const clone: HTMLElement = uiTemplate.content.cloneNode(true) as HTMLElement;
 
-        const bt = document.createElement('button');
-        bt.textContent = 'Delete';
-        bt.addEventListener('click', () => this.deletePromoCode(code));
-        uiPromoCodes.append(bt);
+        const uiPromoText = clone.querySelector('.promo-text') as HTMLElement;
+        uiPromoText.textContent = code.id;
+
+        const uiPromoDelete = clone.querySelector('.promo-delete') as HTMLElement;
+        uiPromoDelete.addEventListener('click', () => this.deletePromoCode(code));
+
+        uiPromoCodes.append(clone);
       });
     } else {
-      const uiFullAmount = this.uiCart.querySelector('full-amount');
+      const uiFullAmount = this.uiCart.querySelector('full-amount') as HTMLElement;
       uiFullAmount?.remove();
     }
   }
