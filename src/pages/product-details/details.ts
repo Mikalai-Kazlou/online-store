@@ -1,11 +1,11 @@
 import './details.scss';
-import goodsData from '../../modules/goods';
 import Goods from '../../components/Goods';
 import GoodsCatalogItem from '../../components/GoodsCatalogItem';
 import { elementNullCheck } from '../../modules/helpers';
 import Cart from '../../components/Cart';
 import Header from '../../components/Header';
 import StockButtons from '../../components/StockButtons';
+import * as helpers from '../../modules/helpers';
 
 export default class Breadcrumb {
   private category: string;
@@ -59,12 +59,13 @@ if (document.location.pathname.includes('details')) {
     const infoPrice = elementNullCheck(document, '.info-price');
 
     fullName.innerHTML = `${product.brand} ${product.title}`;
-    infoTitle.innerHTML = `Product name: ${product.title};`;
-    infoBrand.innerHTML = `Brand: ${product.brand};`;
-    infoRating.innerHTML = `Rating: ${product.rating};`;
-    infoDiscount.innerHTML = `Discount percentage: ${product.discountPercentage}%;`;
-    infoDescription.innerHTML = `Description: ${product.description};`;
-    infoStock.innerHTML = `Stock: ${product.stock};`;
+    infoTitle.innerHTML = `Product name: ${product.title}`;
+    infoBrand.innerHTML = `Brand: ${product.brand}`;
+    infoRating.innerHTML = `Rating: ${product.rating}`;
+    infoDiscount.innerHTML = `Discount percentage: ${product.discountPercentage}%`;
+    infoDescription.innerHTML = `Description: ${product.description}`;
+    infoStock.innerHTML = `Stock: ${product.stock}`;
+    infoPrice.innerHTML = `Price: ${helpers.formatAmount(product.stock)}`;
 
     function findImageID(event: Event): void {
       if (event.target) {
@@ -85,7 +86,7 @@ if (document.location.pathname.includes('details')) {
 
     addPictures(sidePicturesContainer, product.images);
     displaySelectedPicture(selectedPicture, product.images, product.title, 0);
-    stock.setPrice(infoPrice, product.price, 1);
+    //stock.setPrice(infoPrice, product.price, 1);
   }
 
   function addPictures(parent: Element, images: string[]): void {

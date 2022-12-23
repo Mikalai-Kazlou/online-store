@@ -71,7 +71,7 @@ export default class StockButtons {
       stock.innerHTML = `${currentStock + 1}`;
       this.header.refresh();
     }
-    this.setPrice(priceContainer, goods.price, +stock.innerHTML);
+    //this.setPrice(priceContainer, goods.price, +stock.innerHTML);
   }
 
   decrementStock(goods: Goods, stock: HTMLParagraphElement, cart: Cart): void {
@@ -86,7 +86,7 @@ export default class StockButtons {
       stock.innerHTML = `${currentStock - 1}`;
       this.header.refresh();
     }
-    this.setPrice(priceContainer, goods.price, +stock.innerHTML);
+    //this.setPrice(priceContainer, goods.price, +stock.innerHTML);
   }
 
   getCurrentAmount(goods: Goods): number {
@@ -94,8 +94,8 @@ export default class StockButtons {
     return (cartItem) ? cartItem.quantity : 1;
   }
 
-  setPrice(parent: Element, price: number, selectedStock: number): void {
+  /*setPrice(parent: Element, price: number, selectedStock: number): void {
     const finalPrice = price * selectedStock;
     parent.innerHTML = `Price: $${finalPrice}`;
-  }
+  }*/
 }
