@@ -1,6 +1,6 @@
 import { getValues } from './get-values';
 import goodsData from './goods';
-import { elementNullCheck } from './type-checks';
+import { elementNullCheck } from './helpers';
 import Filter from '../components/Filter'
 import Goods from '../components/Goods';
 

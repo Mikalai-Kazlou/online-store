@@ -27,7 +27,7 @@ export default class GoodsCatalogItem {
     this.refreshCounter(this.foundItems);
     // this.recalculateSliders(this.uiElement, this.foundItems);
     this.hideItems();
-    console.log(this.foundItems);
+    // console.log(this.foundItems);
   }
 
   setMatchedResults(uiElement: HTMLElement) {
@@ -82,7 +82,7 @@ export default class GoodsCatalogItem {
       .map((item) => item.innerHTML.toLowerCase());
     const result = goodsData.products.filter((item) => selectedCategories.includes(item.category));
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
-    this.buttonsDisabler(result, brands, selectedCategories, 'brand');
+    this.buttonsDisabler(result, brands, selectedCategories.length, 'brand');
     return result;
   }
 
@@ -91,7 +91,7 @@ export default class GoodsCatalogItem {
     const selectedBrands = brands.filter((item) => item.classList.contains('selected')).map((item) => item.innerHTML);
     const result = goodsData.products.filter((item) => selectedBrands.includes(item.brand));
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
-    this.buttonsDisabler(result, categories, selectedBrands, 'category');
+    this.buttonsDisabler(result, categories, selectedBrands.length, 'category');
     return result;
   }
 
@@ -100,7 +100,11 @@ export default class GoodsCatalogItem {
     const toPriceContainer = uiElement.querySelector('.price-slider-to') as HTMLInputElement;
     const minPrice = +fromPriceCOntainer.value;
     const maxPrice = +toPriceContainer.value;
-    return goodsData.products.filter((item) => item.price >= minPrice && item.price <= maxPrice);
+    const result = goodsData.products.filter((item) => item.price >= minPrice && item.price <= maxPrice);
+    const categories = Array.from(uiElement.querySelectorAll('.category-button'));
+    const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
+    this.buttonsDisablerSlider(result, brands, categories, result.length);
+    return result;
   }
 
   findByStockRange(uiElement: HTMLElement): Goods[] {
@@ -108,7 +112,11 @@ export default class GoodsCatalogItem {
     const toStockContainer = uiElement.querySelector('.stock-slider-to') as HTMLInputElement;
     const minStock = +fromStockCOntainer.value;
     const maxStock = +toStockContainer.value;
-    return goodsData.products.filter((item) => item.stock >= minStock && item.stock <= maxStock);
+    const result = goodsData.products.filter((item) => item.stock >= minStock && item.stock <= maxStock);
+    const categories = Array.from(uiElement.querySelectorAll('.category-button'));
+    const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
+    this.buttonsDisablerSlider(result, brands, categories, result.length);
+    return result;
   }
 
   hideItems(): void {
@@ -138,23 +146,41 @@ export default class GoodsCatalogItem {
   //   }
   // }
 
-  private buttonsDisabler(result: Goods[], buttons: Element[], selected: string[], prop: string): void {
+  private buttonsDisabler(result: Goods[], buttons: Element[], selected: number, prop: string): void {
     buttons.forEach((item) => {
-      if (item.classList.contains('disabled')) item.classList.remove('disabled');
+       if (item.classList.contains('disabled')) item.classList.remove('disabled');
     });
     if (prop === 'brand') {
       buttons.forEach((item) => {
-        if (!result.map((v) => v.brand).includes(item.id) && selected.length > 0) {
+        if (!result.map((v) => v.brand).includes(item.id) && selected > 0) {
           item.classList.add('disabled');
         }
       });
     } else if (prop === 'category') {
       buttons.forEach((item) => {
-        if (!result.map((v) => v.category).includes(item.id) && selected.length > 0) {
+        if (!result.map((v) => v.category).includes(item.id) && selected > 0) {
           item.classList.add('disabled');
         }
       });
     }
+  }
+
+  private buttonsDisablerSlider(
+    result: Goods[],
+    buttonsBrand: Element[],
+    buttonsCateg: Element[],
+    selected: number
+  ): void {
+    buttonsBrand.forEach((item) => {
+      if (!result.map((v) => v.brand).includes(item.id) && selected > 0) {
+        item.classList.add('disabled');
+      }
+    });
+    buttonsCateg.forEach((item) => {
+      if (!result.map((v) => v.category).includes(item.id) && selected > 0) {
+        item.classList.add('disabled');
+      }
+    });
   }
 
   private getTotalProducts() {
