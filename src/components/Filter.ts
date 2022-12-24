@@ -17,13 +17,15 @@ export default class GoodsCatalogItem {
     if (foundItems.length > 0) {
       this.counter.innerHTML = `Found: ${foundItems.length}`;
     } else {
-      this.counter.innerHTML = `Found: ${this.getTotalProducts()}`;
+      // this.counter.innerHTML = `Found: ${this.getTotalProducts()}`;
+      this.counter.innerHTML = `Found: 0`;
     }
   }
 
   getMatchedResults(uiElement: HTMLElement) {
     this.setMatchedResults(this.uiElement);
     this.refreshCounter(this.foundItems);
+    // this.recalculateSliders(this.uiElement, this.foundItems);
     this.hideItems();
     console.log(this.foundItems);
   }
@@ -50,7 +52,7 @@ export default class GoodsCatalogItem {
         return a.indexOf(v) !== -1;
       });
     });
-    this.foundItems = result?.map((item) => item.id) || [];
+    this.foundItems = result?.map((item) => item.id) || [0];
   }
 
   findByText(uiElement: HTMLElement) {
@@ -78,14 +80,19 @@ export default class GoodsCatalogItem {
     const selectedCategories = categories
       .filter((item) => item.classList.contains('selected'))
       .map((item) => item.innerHTML.toLowerCase());
-      console.log(selectedCategories);
-    return goodsData.products.filter((item) => selectedCategories.includes(item.category));
+    const result = goodsData.products.filter((item) => selectedCategories.includes(item.category));
+    const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
+    this.buttonsDisabler(result, brands, selectedCategories, 'brand');
+    return result;
   }
 
   findByBrands(uiElement: HTMLElement): Goods[] {
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
     const selectedBrands = brands.filter((item) => item.classList.contains('selected')).map((item) => item.innerHTML);
-    return goodsData.products.filter((item) => selectedBrands.includes(item.brand));
+    const result = goodsData.products.filter((item) => selectedBrands.includes(item.brand));
+    const categories = Array.from(uiElement.querySelectorAll('.category-button'));
+    this.buttonsDisabler(result, categories, selectedBrands, 'category');
+    return result;
   }
 
   findByPriceRange(uiElement: HTMLElement): Goods[] {
@@ -116,8 +123,42 @@ export default class GoodsCatalogItem {
     });
   }
 
+  // recalculateSliders(uiElement: HTMLElement, foundItems: number[]) {
+  //   if (foundItems.length > 0) {
+  //   const minPrice = uiElement.querySelector('.price-slider-from') as HTMLInputElement;
+  //   const maxPrice = uiElement.querySelector('.price-slider-to') as HTMLInputElement;
+  //   const minStock = uiElement.querySelector('.stock-slider-from') as HTMLInputElement;
+  //   const maxStock = uiElement.querySelector('.stock-slider-to') as HTMLInputElement;
+  //   const priceRange = foundItems.map((item) => goodsData.products[item + 1].price);
+  //   const stockRange = foundItems.map((item) => goodsData.products[item + 1].stock);
+  //   minPrice.value = `${Math.min(...priceRange)}`;
+  //   maxPrice.value = `${Math.max(...priceRange)}`;
+  //   minStock.value = `${Math.min(...stockRange)}`;
+  //   maxStock.value = `${Math.max(...stockRange)}`;
+  //   }
+  // }
+
+  private buttonsDisabler(result: Goods[], buttons: Element[], selected: string[], prop: string): void {
+    buttons.forEach((item) => {
+      if (item.classList.contains('disabled')) item.classList.remove('disabled');
+    });
+    if (prop === 'brand') {
+      buttons.forEach((item) => {
+        if (!result.map((v) => v.brand).includes(item.id) && selected.length > 0) {
+          item.classList.add('disabled');
+        }
+      });
+    } else if (prop === 'category') {
+      buttons.forEach((item) => {
+        if (!result.map((v) => v.category).includes(item.id) && selected.length > 0) {
+          item.classList.add('disabled');
+        }
+      });
+    }
+  }
+
   private getTotalProducts() {
-    return goodsData.products.length + 1;
+    return goodsData.products.length;
   }
 
   private createPath(): void {

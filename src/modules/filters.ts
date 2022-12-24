@@ -214,6 +214,21 @@ function brandfilter(event: Event): void {
 categoryButtons.addEventListener('click', categoryfilter);
 brandButtons.addEventListener('click', brandfilter);
 
+type objects = {
+  key: string;
+}
+
+const buildQuery = function (data: string | boolean[] | number[]) {
+	if (typeof (data) === 'string') return data;
+	var query = [];
+	for (var key in data) {
+		if (data.hasOwnProperty(key)) {
+			query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+		}
+	}
+	return query.join('&');
+};
+
 
 
   // priceSliderTo.addEventListener('input', priceFilter);
