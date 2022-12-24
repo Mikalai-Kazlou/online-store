@@ -25,7 +25,7 @@ export default class GoodsCatalogItem {
     this.setMatchedResults(this.uiElement);
     this.refreshCounter(this.foundItems);
     this.hideItems();
-    // console.log(this.foundItems)
+    console.log(this.foundItems);
   }
 
   setMatchedResults(uiElement: HTMLElement) {
@@ -81,7 +81,7 @@ export default class GoodsCatalogItem {
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     const selectedCategories = categories
       .filter((item) => item.classList.contains('selected'))
-      .map((item) => item.innerHTML.toLowerCase());
+      .map((item) => item.id);
     const result = goodsData.products.filter((item) => selectedCategories.includes(item.category));
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
     this.buttonsDisabler(result, brands, selectedCategories.length, 'brand');
@@ -90,7 +90,7 @@ export default class GoodsCatalogItem {
 
   findByBrands(uiElement: HTMLElement): Goods[] {
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
-    const selectedBrands = brands.filter((item) => item.classList.contains('selected')).map((item) => item.innerHTML);
+    const selectedBrands = brands.filter((item) => item.classList.contains('selected')).map((item) => item.id);
     const result = goodsData.products.filter((item) => selectedBrands.includes(item.brand));
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     this.buttonsDisabler(result, categories, selectedBrands.length, 'category');

@@ -36,9 +36,22 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
       const btn = document.createElement('button');
       btn.classList.add('button');
       btn.classList.add(`${cls}`);
+      const buttonName = document.createElement('div');
+      buttonName.classList.add('button-name');
+      const buttonAmount = document.createElement('div');
       btn.classList.add('small-text');
       const t = document.createTextNode(array[i]);
-      btn.appendChild(t);
+      let amount = 0;
+      if (cls === 'brand-button') {
+        amount = goodsData.products.filter((item) => item.brand === array[i]).length;
+      } else if (cls === 'category-button') {
+        amount = goodsData.products.filter((item) => item.category === array[i]).length;
+      }
+      const n = document.createTextNode(`(${amount}/${amount})`);
+      btn.appendChild(buttonName);
+      btn.appendChild(buttonAmount);
+      buttonName.appendChild(t);
+      buttonAmount.appendChild(n);
       btn.setAttribute('id', array[i]);
       parent.appendChild(btn);
     }
@@ -57,4 +70,5 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
 
   const goodsNumber = elementNullCheck(document, '.goods-number');
 }
+
 

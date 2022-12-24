@@ -407,6 +407,19 @@ body {
     overflow-y: auto;
 }
 
+.category-button,
+.brand-button {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+    padding-right: 1rem;
+}
+
+.button-name {
+    overflow: hidden;
+}
+
 .header-navbar {
     display: flex;
     gap: 2.5rem;
