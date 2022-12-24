@@ -621,6 +621,14 @@ body {
     pointer-events: none;
 }
 
+.disable {
+    opacity: 0.4;
+    cursor: default;
+    user-select: none;
+    text-decoration: none;
+    pointer-events: none;
+}
+
 .big-button {
     display: block;
     background: transparent;

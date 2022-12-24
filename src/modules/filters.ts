@@ -11,11 +11,11 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   let maxPriceContainer = elementNullCheck(document, '.max-price');
   let minStockContainer = elementNullCheck(document, '.min-stock');
   let maxStockContainer = elementNullCheck(document, '.max-stock');
-  const priceSliderFrom: HTMLInputElement = document.querySelector('.price-slider') as HTMLInputElement;
-  const stockSliderFrom: HTMLInputElement = document.querySelector('.stock-slider') as HTMLInputElement;
+  let priceSliderFrom: HTMLInputElement = document.querySelector('.price-slider') as HTMLInputElement;
+  let stockSliderFrom: HTMLInputElement = document.querySelector('.stock-slider') as HTMLInputElement;
 
-  const priceSliderTo: HTMLInputElement = document.querySelector('.price-slider-to') as HTMLInputElement;
-  const stockSliderTo: HTMLInputElement = document.querySelector('.stock-slider-to') as HTMLInputElement;
+  let priceSliderTo: HTMLInputElement = document.querySelector('.price-slider-to') as HTMLInputElement;
+  let stockSliderTo: HTMLInputElement = document.querySelector('.stock-slider-to') as HTMLInputElement;
 
   const filterContent = elementNullCheck(document, '.filters-content') as HTMLElement;
   const goods = new Goods(0)
