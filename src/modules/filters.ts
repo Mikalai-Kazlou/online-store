@@ -50,32 +50,60 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   const searchInput = document.querySelector('.search-input') as HTMLInputElement;
 
   searchInput.oninput = function (): void {
-    filter.getMatchedResults(filterContent);
+    // filter.getMatchedResults(filterContent);
+    // paintRange(priceSliderFrom, priceSliderTo);
+    refreshSliders();
   };
 
   priceSliderFrom.oninput = function (): void {
-    minPriceContainer.innerHTML = `$${priceSliderFrom.value}`;
-    filter.getMatchedResults(filterContent);
-    paintRange(priceSliderFrom, priceSliderTo);
+    // minPriceContainer.innerHTML = `$${priceSliderFrom.value}`;
+    // filter.getMatchedResults(filterContent);
+    // paintRange(priceSliderFrom, priceSliderTo);
+    refreshSliders();
   };
 
   priceSliderTo.oninput = function (): void {
-    maxPriceContainer.innerHTML = `$${priceSliderTo.value}`;
-    filter.getMatchedResults(filterContent);
-    paintRange(priceSliderFrom, priceSliderTo);
+    // maxPriceContainer.innerHTML = `$${priceSliderTo.value}`;
+    // filter.getMatchedResults(filterContent);
+    // paintRange(priceSliderFrom, priceSliderTo);
+    refreshSliders();
   };
 
   stockSliderFrom.oninput = function (): void {
-    minStockContainer.innerHTML = stockSliderFrom.value;
-    filter.getMatchedResults(filterContent);
-    paintRange(stockSliderFrom, stockSliderTo);
+    // minStockContainer.innerHTML = stockSliderFrom.value;
+    // filter.getMatchedResults(filterContent);
+    // paintRange(stockSliderFrom, stockSliderTo);
+    // paintRange(priceSliderFrom, priceSliderTo);
+    refreshSliders();
   };
 
   stockSliderTo.oninput = function (): void {
-    maxStockContainer.innerHTML = stockSliderTo.value;
-    filter.getMatchedResults(filterContent);
-    paintRange(stockSliderFrom, stockSliderTo);
+    refreshSliders()
   };
+
+  function refreshSliders(): void {
+    filter.getMatchedResults(filterContent);
+    minPriceContainer.innerHTML = `$${priceSliderFrom.value}`;
+    maxPriceContainer.innerHTML = `$${priceSliderTo.value}`;
+    maxStockContainer.innerHTML = stockSliderTo.value;
+    minStockContainer.innerHTML = stockSliderFrom.value;
+    paintRange(stockSliderFrom, stockSliderTo);
+    paintRange(priceSliderFrom, priceSliderTo);
+    sliderSwitcher();
+  }
+
+  function sliderSwitcher(): void {
+    if (+priceSliderFrom.value > +priceSliderTo.value) {
+      let temp = priceSliderFrom.value;
+      priceSliderFrom.value = priceSliderTo.value;
+      priceSliderTo.value = temp;
+    }
+    if (+stockSliderFrom.value > +stockSliderTo.value) {
+      let temp = stockSliderFrom.value;
+      stockSliderFrom.value = stockSliderTo.value;
+      stockSliderTo.value = temp;
+    }
+  }
 
   // function priceFilter(event: Event): void {
   //   let remainingGoods = 100;
@@ -196,6 +224,7 @@ function categoryfilter(event: Event): void {
       clickedOption.classList.add('selected');
     }
   } filter.getMatchedResults(filterContent);
+  paintRange(priceSliderFrom, priceSliderTo);
 }
 
 const brandButtons = elementNullCheck(document, '.filter-brand-buttons');
@@ -209,6 +238,7 @@ function brandfilter(event: Event): void {
       clickedOption.classList.add('selected');
     }
   } filter.getMatchedResults(filterContent);
+  paintRange(priceSliderFrom, priceSliderTo);
 }
 
 categoryButtons.addEventListener('click', categoryfilter);
@@ -236,3 +266,4 @@ const buildQuery = function (data: string | boolean[] | number[]) {
   // stockSliderTo.addEventListener('input', stockFilter);
   // stockSliderFrom.addEventListener('input', stockFilterFrom);
 }
+

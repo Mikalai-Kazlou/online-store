@@ -26,7 +26,7 @@ export default class GoodsCatalogItem {
     this.refreshCounter(this.foundItems);
     this.hideItems();
     this.setAmountRemainder(this.uiElement, this.foundItems);
-    console.log(this.foundItems);
+    // this.setPriceSlider(this.foundItems);
   }
 
   private setMatchedResults(uiElement: HTMLElement) {
@@ -135,28 +135,35 @@ export default class GoodsCatalogItem {
     });
   }
 
-  // recalculateSliders(uiElement: HTMLElement, foundItems: number[]) {
-  //   if (foundItems.length > 0 && foundItems[0]) {
-  //   let minPrice = uiElement.querySelector('.price-slider-from') as HTMLInputElement;
-  //   let maxPrice = uiElement.querySelector('.price-slider-to') as HTMLInputElement;
-  //   const minStock = uiElement.querySelector('.stock-slider-from') as HTMLInputElement;
-  //   const maxStock = uiElement.querySelector('.stock-slider-to') as HTMLInputElement;
-  //   const priceRange = foundItems.forEach((item) => goodsData.products[item].price);
-  //   const stockRange = foundItems.map((item) => goodsData.products[item + 1].stock);
-  //   minPrice.value = `${Math.min(...priceRange)}`;
-  //   maxPrice.value = `${Math.max(...priceRange)}`;
-  //   minStock.value = `${Math.min(...stockRange)}`;
-  //   maxStock.value = `${Math.max(...stockRange)}`;
-  //   let result = [minPrice.value, maxPrice.value]
-  //   if (+minPrice.value > +maxPrice.value) {
-  //     let temp = minPrice;
-  //     minPrice = maxPrice;
-  //     maxPrice = temp;
-  //     console.log(true)
-  //   }
-  //   console.log(result);
-  //   }
-  // }
+  recalculateSliders(uiElement: HTMLElement, foundItems: number[]) {
+    if (foundItems.length > 0) {
+      let minPrice = uiElement.querySelector('.price-slider-from') as HTMLInputElement;
+      let maxPrice = uiElement.querySelector('.price-slider-to') as HTMLInputElement;
+      const minStock = uiElement.querySelector('.stock-slider-from') as HTMLInputElement;
+      const maxStock = uiElement.querySelector('.stock-slider-to') as HTMLInputElement;
+      const prices = foundItems.map((item) => goodsData.products[item - 1].price);
+      const stock = foundItems.map((item) => goodsData.products[item - 1].stock);
+      const minPriceValue = Math.min.apply(Math, prices);
+      const maxPriceValue = Math.max.apply(Math, prices);
+      const minStockValue = Math.min.apply(Math, stock);
+      const maxStockValue = Math.max.apply(Math, stock);
+    }
+  }
+
+  setPriceSlider(foundItems: number[]) {
+    let minPrice = document.querySelector('.price-slider-from') as HTMLInputElement;
+    let maxPrice = document.querySelector('.price-slider-to') as HTMLInputElement;
+    const prices = foundItems.map((item) => goodsData.products[item - 1].price);
+    const minPriceValue = Math.min.apply(Math, prices);
+    const maxPriceValue = Math.max.apply(Math, prices);
+    if (foundItems.length > 0) {
+      minPrice.value = minPriceValue.toString();
+      maxPrice.value = maxPriceValue.toString();
+    } else {
+      minPrice.value;
+      maxPrice.value;
+    }
+  }
 
   private buttonsDisabler(result: Goods[], buttons: Element[], selected: number, prop: string): void {
     buttons.forEach((item) => {
