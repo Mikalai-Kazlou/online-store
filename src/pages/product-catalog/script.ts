@@ -44,8 +44,12 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
       let amount = 0;
       if (cls === 'brand-button') {
         amount = goodsData.products.filter((item) => item.brand === array[i]).length;
+        buttonAmount.classList.add('brand-remainder');
+        buttonAmount.setAttribute('id', `brand ${array[i]}`);
       } else if (cls === 'category-button') {
         amount = goodsData.products.filter((item) => item.category === array[i]).length;
+        buttonAmount.classList.add('category-remainder');
+        buttonAmount.setAttribute('id', `category ${array[i]}`);
       }
       const n = document.createTextNode(`(${amount}/${amount})`);
       btn.appendChild(buttonName);

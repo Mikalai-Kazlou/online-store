@@ -25,10 +25,11 @@ export default class GoodsCatalogItem {
     this.setMatchedResults(this.uiElement);
     this.refreshCounter(this.foundItems);
     this.hideItems();
+    this.setAmountRemainder(this.uiElement, this.foundItems);
     console.log(this.foundItems);
   }
 
-  setMatchedResults(uiElement: HTMLElement) {
+  private setMatchedResults(uiElement: HTMLElement) {
     let matrix: Goods[][] = [];
     if (this.findByText(uiElement).length > 0) {
       matrix.push(this.findByText(uiElement));
@@ -53,7 +54,7 @@ export default class GoodsCatalogItem {
     this.foundItems = result?.map((item) => item.id) || [0];
   }
 
-  findByText(uiElement: HTMLElement) {
+  private findByText(uiElement: HTMLElement) {
     const searchQueryContainer = uiElement.querySelector('.search-input') as HTMLInputElement;
     let searchQuery = searchQueryContainer.value;
     let searchResults: Goods[] = [];
@@ -67,7 +68,6 @@ export default class GoodsCatalogItem {
     let result = [...new Set(searchResults)];
     if (searchQuery.length > 0 && result.length === 0) {
       searchQueryContainer.setAttribute('maxlength', `${searchQuery.length - 1}`);
-      console.log(`kek`)
     } else {
       searchQueryContainer.removeAttribute('maxlength');
     }
@@ -77,18 +77,16 @@ export default class GoodsCatalogItem {
     return result;
   }
 
-  findByCategories(uiElement: HTMLElement): Goods[] {
+  private findByCategories(uiElement: HTMLElement): Goods[] {
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
-    const selectedCategories = categories
-      .filter((item) => item.classList.contains('selected'))
-      .map((item) => item.id);
+    const selectedCategories = categories.filter((item) => item.classList.contains('selected')).map((item) => item.id);
     const result = goodsData.products.filter((item) => selectedCategories.includes(item.category));
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
     this.buttonsDisabler(result, brands, selectedCategories.length, 'brand');
     return result;
   }
 
-  findByBrands(uiElement: HTMLElement): Goods[] {
+  private findByBrands(uiElement: HTMLElement): Goods[] {
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
     const selectedBrands = brands.filter((item) => item.classList.contains('selected')).map((item) => item.id);
     const result = goodsData.products.filter((item) => selectedBrands.includes(item.brand));
@@ -97,7 +95,7 @@ export default class GoodsCatalogItem {
     return result;
   }
 
-  findByPriceRange(uiElement: HTMLElement): Goods[] {
+  private findByPriceRange(uiElement: HTMLElement): Goods[] {
     const fromPriceCOntainer = uiElement.querySelector('.price-slider-from') as HTMLInputElement;
     const toPriceContainer = uiElement.querySelector('.price-slider-to') as HTMLInputElement;
     const minPrice = +fromPriceCOntainer.value;
@@ -111,7 +109,7 @@ export default class GoodsCatalogItem {
     return result;
   }
 
-  findByStockRange(uiElement: HTMLElement): Goods[] {
+  private findByStockRange(uiElement: HTMLElement): Goods[] {
     const fromStockCOntainer = uiElement.querySelector('.stock-slider-from') as HTMLInputElement;
     const toStockContainer = uiElement.querySelector('.stock-slider-to') as HTMLInputElement;
     const minStock = +fromStockCOntainer.value;
@@ -125,7 +123,7 @@ export default class GoodsCatalogItem {
     return result;
   }
 
-  hideItems(): void {
+  private hideItems(): void {
     const allItems = document.querySelectorAll('.good-item');
     allItems.forEach((item) => {
       if (item.classList.contains('hide')) item.classList.remove('hide');
@@ -214,6 +212,30 @@ export default class GoodsCatalogItem {
         item.classList.add('disabled');
       }
     });
+  }
+
+  private setAmountRemainder(uiElement: HTMLElement, foundItems: number[]) {
+    const brandRemainder = uiElement.querySelectorAll('.brand-remainder');
+    const categoryRemainder = uiElement.querySelectorAll('.category-remainder');
+    const items = foundItems.map((item) => goodsData.products[item - 1]);
+    if (foundItems.length > 0) {
+      brandRemainder.forEach(
+        (item) =>
+          (item.innerHTML = `(${
+            items.filter((v) => v.brand === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
+          }/${
+            goodsData.products.filter((v) => v.brand === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
+          })`)
+      );
+      categoryRemainder.forEach(
+        (item) =>
+          (item.innerHTML = `(${
+            items.filter((v) => v.category === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
+          }/${
+            goodsData.products.filter((v) => v.category === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
+          })`)
+      );
+    }
   }
 
   private getTotalProducts() {
