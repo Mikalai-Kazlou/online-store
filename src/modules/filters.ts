@@ -1,7 +1,7 @@
 import { getValues } from './get-values';
 import goodsData from './goods';
 import { elementNullCheck } from './helpers';
-import Filter from '../components/Filter'
+import Filter from '../components/Filter';
 import Goods from '../components/Goods';
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
@@ -18,13 +18,12 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   let stockSliderTo: HTMLInputElement = document.querySelector('.stock-slider-to') as HTMLInputElement;
 
   const filterContent = elementNullCheck(document, '.filters-content') as HTMLElement;
-  const goods = new Goods(0)
+  const goods = new Goods(0);
   const filter = new Filter(filterContent, goods, goodsNumber);
 
   function setValue(element: Element, attr: string, n: number): void {
     element.setAttribute(attr, `${n}`);
   }
-
 
   setValue(priceSliderFrom, 'min', getValues.getMinimumPrice());
   setValue(priceSliderFrom, 'max', getValues.getMaximumPrice());
@@ -50,35 +49,23 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   const searchInput = document.querySelector('.search-input') as HTMLInputElement;
 
   searchInput.oninput = function (): void {
-    // filter.getMatchedResults(filterContent);
-    // paintRange(priceSliderFrom, priceSliderTo);
     refreshSliders();
   };
 
   priceSliderFrom.oninput = function (): void {
-    // minPriceContainer.innerHTML = `$${priceSliderFrom.value}`;
-    // filter.getMatchedResults(filterContent);
-    // paintRange(priceSliderFrom, priceSliderTo);
     refreshSliders();
   };
 
   priceSliderTo.oninput = function (): void {
-    // maxPriceContainer.innerHTML = `$${priceSliderTo.value}`;
-    // filter.getMatchedResults(filterContent);
-    // paintRange(priceSliderFrom, priceSliderTo);
     refreshSliders();
   };
 
   stockSliderFrom.oninput = function (): void {
-    // minStockContainer.innerHTML = stockSliderFrom.value;
-    // filter.getMatchedResults(filterContent);
-    // paintRange(stockSliderFrom, stockSliderTo);
-    // paintRange(priceSliderFrom, priceSliderTo);
     refreshSliders();
   };
 
   stockSliderTo.oninput = function (): void {
-    refreshSliders()
+    refreshSliders();
   };
 
   function refreshSliders(): void {
@@ -105,83 +92,6 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     }
   }
 
-  // function priceFilter(event: Event): void {
-  //   let remainingGoods = 100;
-  //   const target: HTMLInputElement = event.target as HTMLInputElement;
-  //   if (target !== null) {
-  //     const currentPrice: number = +target.value;
-  //     const allItems = document.querySelectorAll('.good-item');
-  //     allItems.forEach((item) => {
-  //       if (item.classList.contains('hide')) item.classList.remove('hide');
-  //     });
-  //     allItems.forEach((item) => {
-  //       if (goodsData.products[+item.id - 1].price > currentPrice) {
-  //         item.classList.add('hide');
-  //         remainingGoods--;
-  //         goodsNumber.innerHTML = `Found: ${remainingGoods}`;
-  //       }
-  //     });
-
-  //   } paintRange(priceSliderFrom, priceSliderTo);
-  // }
-
-  // function priceFilterFrom(event: Event): void {
-  //   let remainingGoods = 100;
-  //   const target: HTMLInputElement = event.target as HTMLInputElement;
-  //   if (target !== null) {
-  //     const currentPrice: number = +target.value;
-  //     const allItems = document.querySelectorAll('.good-item');
-  //     allItems.forEach((item) => {
-  //       if (item.classList.contains('hide')) item.classList.remove('hide');
-  //     });
-  //     allItems.forEach((item) => {
-  //       if (goodsData.products[+item.id - 1].price < currentPrice) {
-  //         item.classList.add('hide');
-  //         remainingGoods--;
-  //         goodsNumber.innerHTML = `Found: ${remainingGoods}`;
-  //       }
-  //     });
-  //   } paintRange(priceSliderFrom, priceSliderTo);
-  // }
-
-  // function stockFilter(event: Event): void {
-  //   let remainingGoods = 100;
-  //   const target: HTMLInputElement = event.target as HTMLInputElement;
-  //   if (target !== null) {
-  //     const currentStock: number = +target.value;
-  //     const allItems = document.querySelectorAll('.good-item');
-  //     allItems.forEach((item) => {
-  //       if (item.classList.contains('hide')) item.classList.remove('hide');
-  //     });
-  //     allItems.forEach((item) => {
-  //       if (goodsData.products[+item.id - 1].stock > currentStock) {
-  //         item.classList.add('hide');
-  //         remainingGoods--;
-  //         goodsNumber.innerHTML = `Found: ${remainingGoods}`;
-  //       }
-  //     });
-  //   } paintRange(stockSliderFrom, stockSliderTo);
-  // }
-
-  // function stockFilterFrom(event: Event): void {
-  //   let remainingGoods = 100;
-  //   const target: HTMLInputElement = event.target as HTMLInputElement;
-  //   if (target !== null) {
-  //     const currentStock: number = +target.value;
-  //     const allItems = document.querySelectorAll('.good-item');
-  //     allItems.forEach((item) => {
-  //       if (item.classList.contains('hide')) item.classList.remove('hide');
-  //     });
-  //     allItems.forEach((item) => {
-  //       if (goodsData.products[+item.id - 1].stock < currentStock) {
-  //         item.classList.add('hide');
-  //         remainingGoods--;
-  //         goodsNumber.innerHTML = `Found: ${remainingGoods}`;
-  //       }
-  //     });
-  //   } paintRange(stockSliderFrom, stockSliderTo);
-  // }
-
   function paintRange(fromSlider: HTMLInputElement, toSlider: HTMLInputElement): void {
     const sliderColor = '#C6C6C6';
     const rangeColor = '#8708ff';
@@ -201,69 +111,52 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   paintRange(priceSliderFrom, priceSliderTo);
   paintRange(stockSliderFrom, stockSliderTo);
 
-  const categoryContainer = document.querySelector('.filter-category-buttons');
-  const brandContainer = document.querySelector('.filter-category-buttons');
+  function splitString(string: string, separator: string): number {
+    return +string.split(separator)[0];
+  }
 
-  const scrollBar = (parent: HTMLElement, slider: HTMLInputElement) => {
-        const height = getComputedStyle(parent).height;
-        parent.style.top = `${height}px`;
+  const categoryButtons = elementNullCheck(document, '.filter-category-buttons');
+  function categoryFilter(event: Event): void {
+    const target: HTMLElement = event.target as HTMLElement;
+    if (target !== null) {
+      const clickedOption = target.closest('button') as HTMLButtonElement;
+      if (clickedOption.classList.contains('selected')) {
+        clickedOption.classList.remove('selected');
+      } else {
+        clickedOption.classList.add('selected');
+      }
     }
+    filter.getMatchedResults(filterContent);
+    paintRange(priceSliderFrom, priceSliderTo);
+  }
 
-function splitString(string: string, separator: string): number {
-  return +string.split(separator)[0];
-}
-
-const categoryButtons = elementNullCheck(document, '.filter-category-buttons');
-function categoryfilter(event: Event): void {
-  const target: HTMLElement = event.target as HTMLElement;
-  if (target !== null) {
-    const clickedOption = target.closest('button') as HTMLButtonElement;
-    if (clickedOption.classList.contains('selected')) {
-      clickedOption.classList.remove('selected');
-    } else {
-      clickedOption.classList.add('selected');
+  const brandButtons = elementNullCheck(document, '.filter-brand-buttons');
+  function brandFilter(event: Event): void {
+    const target: HTMLElement = event.target as HTMLElement;
+    if (target !== null) {
+      const clickedOption = target.closest('button') as HTMLButtonElement;
+      if (clickedOption.classList.contains('selected')) {
+        clickedOption.classList.remove('selected');
+      } else {
+        clickedOption.classList.add('selected');
+      }
     }
-  } filter.getMatchedResults(filterContent);
-  paintRange(priceSliderFrom, priceSliderTo);
-}
+    filter.getMatchedResults(filterContent);
+    paintRange(priceSliderFrom, priceSliderTo);
+  }
 
-const brandButtons = elementNullCheck(document, '.filter-brand-buttons');
-function brandfilter(event: Event): void {
-  const target: HTMLElement = event.target as HTMLElement;
-  if (target !== null) {
-    const clickedOption = target.closest('button') as HTMLButtonElement;
-    if (clickedOption.classList.contains('selected')) {
-      clickedOption.classList.remove('selected');
-    } else {
-      clickedOption.classList.add('selected');
+  categoryButtons.addEventListener('click', categoryFilter);
+  brandButtons.addEventListener('click', brandFilter);
+
+  const buildQuery = function (data: string | boolean[] | number[]) {
+    if (typeof data === 'string') return data;
+    var query = [];
+    for (var key in data) {
+      if (data.hasOwnProperty(key)) {
+        query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+      }
     }
-  } filter.getMatchedResults(filterContent);
-  paintRange(priceSliderFrom, priceSliderTo);
-}
-
-categoryButtons.addEventListener('click', categoryfilter);
-brandButtons.addEventListener('click', brandfilter);
-
-type objects = {
-  key: string;
-}
-
-const buildQuery = function (data: string | boolean[] | number[]) {
-	if (typeof (data) === 'string') return data;
-	var query = [];
-	for (var key in data) {
-		if (data.hasOwnProperty(key)) {
-			query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
-		}
-	}
-	return query.join('&');
-};
-
-
-
-  // priceSliderTo.addEventListener('input', priceFilter);
-  // priceSliderFrom.addEventListener('input', priceFilterFrom);
-  // stockSliderTo.addEventListener('input', stockFilter);
-  // stockSliderFrom.addEventListener('input', stockFilterFrom);
+    return query.join('&');
+  };
 }
 
