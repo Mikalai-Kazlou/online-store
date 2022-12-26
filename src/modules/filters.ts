@@ -6,6 +6,7 @@ import Goods from '../components/Goods';
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   const goodsNumber = elementNullCheck(document, '.goods-number') as HTMLElement;
+  const resetButton = elementNullCheck(document, '.reset-filters') as HTMLButtonElement;
 
   let minPriceContainer = elementNullCheck(document, '.min-price');
   let maxPriceContainer = elementNullCheck(document, '.max-price');
@@ -78,15 +79,16 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     paintRange(stockSliderFrom, stockSliderTo);
     paintRange(priceSliderFrom, priceSliderTo);
     sliderSwitcher();
+    filter.setPriceSlider(foundItem);
   }
 
   function sliderSwitcher(): void {
-    if (+priceSliderFrom.value > +priceSliderTo.value) {
+    if (+priceSliderFrom.value > +priceSliderTo.value + 10) {
       let temp = priceSliderFrom.value;
       priceSliderFrom.value = priceSliderTo.value;
       priceSliderTo.value = temp;
     }
-    if (+stockSliderFrom.value > +stockSliderTo.value) {
+    if (+stockSliderFrom.value > +stockSliderTo.value + 1) {
       let temp = stockSliderFrom.value;
       stockSliderFrom.value = stockSliderTo.value;
       stockSliderTo.value = temp;
@@ -148,6 +150,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
 
   categoryButtons.addEventListener('click', categoryFilter);
   brandButtons.addEventListener('click', brandFilter);
+  resetButton.addEventListener('click', () => filter.reset(foundItem));
 
   const buildQuery = function (data: string | boolean[] | number[]) {
     if (typeof data === 'string') return data;

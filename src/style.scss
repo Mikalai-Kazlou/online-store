@@ -96,6 +96,11 @@ body {
     margin: 4rem auto;
     height: 100%;
     grid-template-columns: 22rem 1fr;
+
+    @media screen and (max-width: 608px) {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 .main-container-404 {
@@ -147,6 +152,12 @@ body {
     top: 2.5rem;
     gap: 1.5rem;
     min-height: 50rem;
+}
+
+.category-and-brand-container {
+    display: flex;
+    flex-direction: inherit;
+    gap: inherit;
 }
 
 .footer-container {
@@ -405,6 +416,10 @@ body {
     max-height: 25rem;
     overflow: auto;
     overflow-y: auto;
+
+    @media screen and (max-width: 608px) {
+        max-height: 10rem;
+    }
 }
 
 .category-button,
@@ -452,6 +467,18 @@ body {
     align-items: baseline;
     justify-content: space-between;
     margin-bottom: 1.5rem;
+
+    @media screen and (max-width: 828px) {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    @media screen and (max-width: 500px) {
+        position: sticky;
+        top: 0;
+        background-color: #ffffff;
+        z-index: 1;
+    }
 }
 
 .goods-items {
