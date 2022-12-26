@@ -106,4 +106,3 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   sortingContainer.addEventListener('change', sort);
   viewContainer.addEventListener('change', sort);
 }
-

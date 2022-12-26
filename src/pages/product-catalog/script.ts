@@ -74,5 +74,3 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
 
   const goodsNumber = elementNullCheck(document, '.goods-number');
 }
-
-

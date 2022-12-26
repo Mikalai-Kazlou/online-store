@@ -8,15 +8,15 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   const goodsNumber = elementNullCheck(document, '.goods-number') as HTMLElement;
   const resetButton = elementNullCheck(document, '.reset-filters') as HTMLButtonElement;
 
-  let minPriceContainer = elementNullCheck(document, '.min-price');
-  let maxPriceContainer = elementNullCheck(document, '.max-price');
-  let minStockContainer = elementNullCheck(document, '.min-stock');
-  let maxStockContainer = elementNullCheck(document, '.max-stock');
-  let priceSliderFrom: HTMLInputElement = document.querySelector('.price-slider') as HTMLInputElement;
-  let stockSliderFrom: HTMLInputElement = document.querySelector('.stock-slider') as HTMLInputElement;
+  const minPriceContainer = elementNullCheck(document, '.min-price');
+  const maxPriceContainer = elementNullCheck(document, '.max-price');
+  const minStockContainer = elementNullCheck(document, '.min-stock');
+  const maxStockContainer = elementNullCheck(document, '.max-stock');
+  const priceSliderFrom: HTMLInputElement = document.querySelector('.price-slider') as HTMLInputElement;
+  const stockSliderFrom: HTMLInputElement = document.querySelector('.stock-slider') as HTMLInputElement;
 
-  let priceSliderTo: HTMLInputElement = document.querySelector('.price-slider-to') as HTMLInputElement;
-  let stockSliderTo: HTMLInputElement = document.querySelector('.stock-slider-to') as HTMLInputElement;
+  const priceSliderTo: HTMLInputElement = document.querySelector('.price-slider-to') as HTMLInputElement;
+  const stockSliderTo: HTMLInputElement = document.querySelector('.stock-slider-to') as HTMLInputElement;
 
   const filterContent = elementNullCheck(document, '.filters-content') as HTMLElement;
   const goods = new Goods(0);
@@ -84,12 +84,12 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
 
   function sliderSwitcher(): void {
     if (+priceSliderFrom.value > +priceSliderTo.value + 10) {
-      let temp = priceSliderFrom.value;
+      const temp = priceSliderFrom.value;
       priceSliderFrom.value = priceSliderTo.value;
       priceSliderTo.value = temp;
     }
     if (+stockSliderFrom.value > +stockSliderTo.value + 1) {
-      let temp = stockSliderFrom.value;
+      const temp = stockSliderFrom.value;
       stockSliderFrom.value = stockSliderTo.value;
       stockSliderTo.value = temp;
     }
@@ -154,8 +154,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
 
   const buildQuery = function (data: string | boolean[] | number[]) {
     if (typeof data === 'string') return data;
-    var query = [];
-    for (var key in data) {
+    const query = [];
+    for (const key in data) {
       if (data.hasOwnProperty(key)) {
         query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
       }
@@ -163,4 +163,3 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     return query.join('&');
   };
 }
-

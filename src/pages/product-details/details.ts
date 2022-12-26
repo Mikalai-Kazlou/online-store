@@ -122,7 +122,7 @@ if (document.location.pathname.includes('details')) {
   }
 
   //const stockButtons = elementNullCheck(document, '.amount-buttons');
-  let currentStock = 1;
+  const currentStock = 1;
 
   // const setStock = function (event: Event): void {
   //   const maxStock = currentProduct.stock;

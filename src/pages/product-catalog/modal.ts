@@ -5,7 +5,6 @@ import Cart from '../../components/Cart';
 import GoodsCatalogItem from '../../components/GoodsCatalogItem';
 import Goods from '../../components/Goods';
 
-
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   const modal: HTMLElement = elementNullCheck(document, '.modal') as HTMLElement;
   const overlay: HTMLElement = document.querySelector('.overlay') as HTMLElement;

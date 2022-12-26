@@ -87,10 +87,9 @@ export default class Cart {
   }*/
 
   save(): void {
-    const items: SavedCartItems[] =
-      this.items.map((item) => {
-        return { id: item.goods.id, quantity: item.quantity }
-      });
+    const items: SavedCartItems[] = this.items.map((item) => {
+      return { id: item.goods.id, quantity: item.quantity };
+    });
     localStorage.setItem('rs-online-store-cart', JSON.stringify(items));
   }
 

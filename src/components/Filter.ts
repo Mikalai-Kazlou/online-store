@@ -51,7 +51,7 @@ export default class GoodsCatalogItem {
   }
 
   private setMatchedResults(uiElement: HTMLElement) {
-    let matrix: Goods[][] = [];
+    const matrix: Goods[][] = [];
     if (this.findByText(uiElement).length > 0) {
       matrix.push(this.findByText(uiElement));
     }
@@ -77,8 +77,8 @@ export default class GoodsCatalogItem {
 
   private findByText(uiElement: HTMLElement) {
     const searchQueryContainer = uiElement.querySelector('.search-input') as HTMLInputElement;
-    let searchQuery = searchQueryContainer.value;
-    let searchResults: Goods[] = [];
+    const searchQuery = searchQueryContainer.value;
+    const searchResults: Goods[] = [];
     for (let i = 0; i < goodsData.products.length; i++) {
       if (goodsData.products[i].brand.toLowerCase().includes(searchQuery.toLowerCase())) {
         searchResults.push(goodsData.products[i]);
@@ -86,7 +86,7 @@ export default class GoodsCatalogItem {
         searchResults.push(goodsData.products[i]);
       }
     }
-    let result = [...new Set(searchResults)];
+    const result = [...new Set(searchResults)];
     if (searchQuery.length > 0 && result.length === 0) {
       searchQueryContainer.setAttribute('maxlength', `${searchQuery.length - 1}`);
     } else {
@@ -157,8 +157,8 @@ export default class GoodsCatalogItem {
   }
 
   setPriceSlider(foundItems: number[]) {
-    let minPrice = document.querySelector('.price-slider-from') as HTMLInputElement;
-    let maxPrice = document.querySelector('.price-slider-to') as HTMLInputElement;
+    const minPrice = document.querySelector('.price-slider-from') as HTMLInputElement;
+    const maxPrice = document.querySelector('.price-slider-to') as HTMLInputElement;
     const prices = foundItems.map((item) => goodsData.products[item - 1].price);
     const minPriceValue = Math.min.apply(Math, prices);
     const maxPriceValue = Math.max.apply(Math, prices);
@@ -179,8 +179,8 @@ export default class GoodsCatalogItem {
   }
 
   setStockSlider(foundItems: number[]) {
-    let minStock = document.querySelector('.price-slider-from') as HTMLInputElement;
-    let maxStock = document.querySelector('.price-slider-to') as HTMLInputElement;
+    const minStock = document.querySelector('.price-slider-from') as HTMLInputElement;
+    const maxStock = document.querySelector('.price-slider-to') as HTMLInputElement;
     const stock = foundItems.map((item) => goodsData.products[item - 1].stock);
     const minStockValue = Math.min.apply(Math, stock);
     const maxStockValue = Math.max.apply(Math, stock);
