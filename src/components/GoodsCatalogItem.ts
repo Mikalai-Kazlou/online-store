@@ -33,6 +33,7 @@ export default class GoodsCatalogItem {
 
     const uiDescription = document.createElement('div');
     uiDescription.classList.add('small-text');
+    uiDescription.classList.add('product-description');
     uiDescription.innerHTML = `${this.goods.description}`;
 
     const uiGoodButtons = document.createElement('div');

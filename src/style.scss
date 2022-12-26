@@ -484,6 +484,15 @@ body {
     background: transparent;
     text-align: justify;
     justify-content: space-between;
+
+    @media screen and (max-width: 1035px) {
+        width: 48%;
+    }
+
+    @media screen and (max-width: 775px) {
+        width: 95%;
+        min-width: 20rem;
+    }
 }
 
 .picture {
@@ -505,7 +514,8 @@ body {
     opacity: 1;
 }
 
-.goods-sorting {
+.goods-sorting,
+.goods-view {
     display: flex;
     gap: 1rem;
     transition: 0.25s;
@@ -522,7 +532,8 @@ body {
     height: 45rem;
 }
 
-.sort-input {
+.sort-input,
+.view-input {
     border-color: transparent;
     text-transform: capitalize;
 }
@@ -694,33 +705,25 @@ body {
     }
 }
 
-// .scroll::-webkit-scrollbar {
-//     width: 1rem;
-//     height: 1rem;
-// }
+.view-small {
+    width: 25%;
+    max-width: 21rem;
+    min-width: 15rem;
+    max-height: 31rem;
 
-// .scroll::-webkit-scrollbar-track {
-//     border-radius: 0.5rem;
-//     background: #f3f2f2;
-//     margin: 0 0.2em;
-// }
-
-// .scroll::-webkit-scrollbar-thumb {
-//     background-color: #8884c2;
-//     border-radius: 0.5rem;
-//     border: 0.2rem solid #f3f2f2;
-// }
-
-@media screen and (max-width: 1035px) {
-    .good-item {
-        width: 48%;
+    @media screen and (max-width: 1153px) {
+        max-width: 18rem;
+        max-height: 28rem;
     }
-}
 
-@media screen and (max-width: 775px) {
-    .good-item {
-        width: 95%;
-        min-width: 20rem;
+    @media screen and (max-width: 1028px) {
+        max-width: 21rem;
+        width: 33%;
+    }
+
+    @media screen and (max-width: 931px) {
+        max-width: 35rem;
+        width: 45%;
     }
 }
 

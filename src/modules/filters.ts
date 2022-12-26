@@ -20,6 +20,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   const filterContent = elementNullCheck(document, '.filters-content') as HTMLElement;
   const goods = new Goods(0);
   const filter = new Filter(filterContent, goods, goodsNumber);
+  const foundItem = filter.foundItems;
 
   function setValue(element: Element, attr: string, n: number): void {
     element.setAttribute(attr, `${n}`);

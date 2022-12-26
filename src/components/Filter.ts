@@ -5,7 +5,7 @@ export default class GoodsCatalogItem {
   private uiElement: HTMLElement;
   private goods: Goods;
   private counter: HTMLElement;
-  private foundItems: number[] = [];
+  public foundItems: number[] = [];
 
   constructor(uiElement: HTMLElement, goods: Goods, counter: HTMLElement) {
     this.uiElement = uiElement;
@@ -23,10 +23,11 @@ export default class GoodsCatalogItem {
 
   getMatchedResults(uiElement: HTMLElement) {
     this.setMatchedResults(this.uiElement);
+    this.setPriceSlider(this.foundItems);
+    // this.setStockSlider(this.foundItems);
     this.refreshCounter(this.foundItems);
     this.hideItems();
     this.setAmountRemainder(this.uiElement, this.foundItems);
-    // this.setPriceSlider(this.foundItems);
   }
 
   private setMatchedResults(uiElement: HTMLElement) {
@@ -135,20 +136,20 @@ export default class GoodsCatalogItem {
     });
   }
 
-  recalculateSliders(uiElement: HTMLElement, foundItems: number[]) {
-    if (foundItems.length > 0) {
-      let minPrice = uiElement.querySelector('.price-slider-from') as HTMLInputElement;
-      let maxPrice = uiElement.querySelector('.price-slider-to') as HTMLInputElement;
-      const minStock = uiElement.querySelector('.stock-slider-from') as HTMLInputElement;
-      const maxStock = uiElement.querySelector('.stock-slider-to') as HTMLInputElement;
-      const prices = foundItems.map((item) => goodsData.products[item - 1].price);
-      const stock = foundItems.map((item) => goodsData.products[item - 1].stock);
-      const minPriceValue = Math.min.apply(Math, prices);
-      const maxPriceValue = Math.max.apply(Math, prices);
-      const minStockValue = Math.min.apply(Math, stock);
-      const maxStockValue = Math.max.apply(Math, stock);
-    }
-  }
+  // recalculateSliders(uiElement: HTMLElement, foundItems: number[]) {
+  //   if (foundItems.length > 0) {
+  //     let minPrice = uiElement.querySelector('.price-slider-from') as HTMLInputElement;
+  //     let maxPrice = uiElement.querySelector('.price-slider-to') as HTMLInputElement;
+  //     const minStock = uiElement.querySelector('.stock-slider-from') as HTMLInputElement;
+  //     const maxStock = uiElement.querySelector('.stock-slider-to') as HTMLInputElement;
+  //     const prices = foundItems.map((item) => goodsData.products[item - 1].price);
+  //     const stock = foundItems.map((item) => goodsData.products[item - 1].stock);
+  //     const minPriceValue = Math.min.apply(Math, prices);
+  //     const maxPriceValue = Math.max.apply(Math, prices);
+  //     const minStockValue = Math.min.apply(Math, stock);
+  //     const maxStockValue = Math.max.apply(Math, stock);
+  //   }
+  // }
 
   setPriceSlider(foundItems: number[]) {
     let minPrice = document.querySelector('.price-slider-from') as HTMLInputElement;
@@ -156,12 +157,41 @@ export default class GoodsCatalogItem {
     const prices = foundItems.map((item) => goodsData.products[item - 1].price);
     const minPriceValue = Math.min.apply(Math, prices);
     const maxPriceValue = Math.max.apply(Math, prices);
+    const range = [minPriceValue, maxPriceValue]
     if (foundItems.length > 0) {
-      minPrice.value = minPriceValue.toString();
-      maxPrice.value = maxPriceValue.toString();
+      if (minPrice.value < minPriceValue.toString()) {
+        minPrice.value = minPriceValue.toString();
+        minPrice.setAttribute('value', `${minPriceValue}`);
+      }
+      if (maxPrice.value > maxPriceValue.toString()) {
+        maxPrice.setAttribute('value', `${maxPriceValue}`);
+        maxPrice.value = maxPriceValue.toString();
+      }
     } else {
-      minPrice.value;
-      maxPrice.value;
+      minPrice.setAttribute('value', `${minPrice.value}`);
+      maxPrice.setAttribute('value', `${maxPrice.value}`);
+    }
+  }
+
+  setStockSlider(foundItems: number[]) {
+    let minStock = document.querySelector('.price-slider-from') as HTMLInputElement;
+    let maxStock = document.querySelector('.price-slider-to') as HTMLInputElement;
+    const stock = foundItems.map((item) => goodsData.products[item - 1].stock);
+    const minStockValue = Math.min.apply(Math, stock);
+    const maxStockValue = Math.max.apply(Math, stock);
+    const range = [minStockValue, maxStockValue]
+    if (foundItems.length > 0) {
+      if (minStock.value < minStockValue.toString()) {
+        minStock.value = minStockValue.toString();
+        minStock.setAttribute('value', `${minStockValue}`);
+        console.log(range)
+      } else if (maxStock.value > maxStockValue.toString()) {
+        maxStock.setAttribute('value', `${maxStockValue}`);
+        maxStock.value = maxStockValue.toString();
+      }
+    } else {
+      minStock.setAttribute('value', `${minStock.value}`);
+      maxStock.setAttribute('value', `${maxStock.value}`);
     }
   }
 
