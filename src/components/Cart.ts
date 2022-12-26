@@ -9,26 +9,92 @@ interface SavedCart {
   items: {
     id: number;
     qnt: number;
-  }[]
+  }[],
+  page: number,
+  itemsOnPage: number
 }
 
 export default class Cart {
   private readonly uiCart: HTMLElement | undefined;
   items: CartItem[] = [];
   promoCodes: Set<PromoCode> = new Set();
+  page: number = 1;
+  itemsOnPage: number = 3;
 
   constructor(uiCart?: HTMLElement) {
     this.uiCart = uiCart;
     this.restore();
+
+    if (this.uiCart) {
+      const uiItemsOnPage = this.uiCart.querySelector('.items-on-page-value') as HTMLInputElement;
+      uiItemsOnPage.value = this.itemsOnPage.toString();
+      uiItemsOnPage.addEventListener('change', () => this.setItemsOnPage());
+
+      const uiPrevPage = this.uiCart.querySelector('.prev-page') as HTMLElement;
+      uiPrevPage.addEventListener('click', () => this.setPreviousPage());
+
+      const uiCurrentPage = this.uiCart.querySelector('.current-page') as HTMLElement;
+      uiCurrentPage.textContent = `${this.page}`;
+
+      const uiNextPage = this.uiCart.querySelector('.next-page') as HTMLElement;
+      uiNextPage.addEventListener('click', () => this.setNextPage());
+    }
+  }
+
+  private getVisibleItems(): CartItem[] {
+    const min = this.page * this.itemsOnPage - this.itemsOnPage;
+    const max = this.page * this.itemsOnPage;
+    return this.items.slice(min, max);
+  }
+
+  private getMaxPage(): number {
+    return Math.ceil(this.items.length / this.itemsOnPage);
+  }
+
+  private recalculateCurrentPage(): void {
+    const maxPage = this.getMaxPage();
+    if (this.page > maxPage) {
+      this.page = maxPage;
+    }
+  }
+
+  protected setNextPage(): void {
+    if (this.page < this.getMaxPage()) {
+      this.page++;
+      this.save();
+      this.draw();
+    }
+  }
+
+  protected setPreviousPage(): void {
+    if (this.page > 1) {
+      this.page--;
+      this.save();
+      this.draw();
+    }
+  }
+
+  protected setItemsOnPage(): void {
+    if (!this.uiCart) return;
+    const uiItemsOnPage = this.uiCart.querySelector('.items-on-page-value') as HTMLInputElement;
+
+    if (+uiItemsOnPage.value !== this.itemsOnPage) {
+      this.page = 1;
+      this.itemsOnPage = +uiItemsOnPage.value;
+      this.save();
+      this.draw();
+    }
   }
 
   draw(): void {
     if (!this.uiCart) return;
+    this.recalculateCurrentPage();
 
     const uiTemplate: HTMLTemplateElement = this.uiCart.querySelector('#cart-item-template') as HTMLTemplateElement;
     const uiFragment: DocumentFragment = document.createDocumentFragment();
+    const visibleItems = this.getVisibleItems();
 
-    this.items.forEach((item) => {
+    visibleItems.forEach((item) => {
       const clone: HTMLElement = uiTemplate.content.cloneNode(true) as HTMLElement;
       item.draw(clone);
       uiFragment.append(clone);
@@ -89,6 +155,9 @@ export default class Cart {
       const uiFullAmount = this.uiCart.querySelector('full-amount') as HTMLElement;
       uiFullAmount?.remove();
     }
+
+    const uiCurrentPage = this.uiCart.querySelector('.current-page') as HTMLElement;
+    uiCurrentPage.textContent = `${this.page}/${this.getMaxPage()}`;
   }
 
   has(goods: Goods): boolean {
@@ -150,15 +219,17 @@ export default class Cart {
   }
 
   save(): void {
+    this.items = this.items.filter((item) => item.quantity > 0);
     const cart: SavedCart = {
       items:
         this.items
-          .filter((item) => item.quantity > 0)
           .map((item) => {
             return { id: item.goods.id, qnt: item.quantity }
           }),
       promo:
-        Array.from(this.promoCodes).map((code) => code.id)
+        Array.from(this.promoCodes).map((code) => code.id),
+      page: this.page,
+      itemsOnPage: this.itemsOnPage
     };
     localStorage.setItem('rs-online-store-cart', JSON.stringify(cart));
   }
@@ -172,5 +243,7 @@ export default class Cart {
         this.promoCodes.add(code);
       }
     });
+    this.page = cart.page;
+    this.itemsOnPage = cart.itemsOnPage;
   }
 }

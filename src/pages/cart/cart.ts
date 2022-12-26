@@ -8,7 +8,7 @@ import promoCodes from '../../modules/promo-codes';
 if (document.location.pathname.includes('cart')) {
   function onCartChanged() {
     cart.save();
-    cart.refresh();
+    cart.draw();
     header.refresh();
   }
 
