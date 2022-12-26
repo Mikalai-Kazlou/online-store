@@ -47,16 +47,20 @@
           <div class="cart-header-text main-text">Products in Cart</div>
           <div class="pagination">
             <label class="items-on-page-label"> Items on the page:
-              <input class="items-on-page-value" type="number" min="1">
+              <input class="items-on-page-value" type="number" min="1" max="999">
             </label>
-            <button class="prev-page">Prev</button>
-            <span class="current-page small-text"></span>
-            <button class="next-page">Next</button>
+            <span class="page-buttons">
+              <span class="page-label">Page:</span>
+              <button class="prev-page">&lt</button>
+              <span class="current-page small-text"></span>
+              <button class="next-page">&gt</button>
+            </span>
           </div>
         </div>
         <div class="cart-items"></div>
         <template id="cart-item-template">
           <div class="cart-item">
+            <div class="info-index main-text">1</div>
             <div class="info-picture">
               <img class="small-picture" src="https://i.dummyjson.com/data/products/1/1.jpg" alt="iPhone 9">
             </div>
@@ -92,7 +96,9 @@
         </template>
         <input class="promo-input" type="text" placeholder="Enter promo code">
         <button class="buy-now product-button main-text">Buy Now</button>
-        <p class="promo-test small-text">*Promo for test: WINTER, NEWYEAR, RSSCHOOL</p>
+        <p class="promo-hint small-text">*Promo for test:<span class="promo-test">WINTER</span>,<span
+            class="promo-test">NEWYEAR</span>,<span class="promo-test">RSSCHOOL</span>
+        </p>
       </div>
       <div class="error-message no-display">
         <h2 class="title">Your cart is empty</h2>

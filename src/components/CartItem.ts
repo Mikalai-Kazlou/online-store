@@ -11,8 +11,11 @@ export default class CartItem {
     this.quantity = quantity;
   }
 
-  draw(uiCartItem: HTMLElement) {
+  draw(uiCartItem: HTMLElement, index: number) {
     let uiElement: HTMLElement;
+
+    uiElement = uiCartItem.querySelector('.info-index') as HTMLElement;
+    uiElement.textContent = `${index + 1}`;
 
     const uiImage: HTMLImageElement = uiCartItem.querySelector('.small-picture') as HTMLImageElement;
     uiImage.src = this.goods.thumbnail;

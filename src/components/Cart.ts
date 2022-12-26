@@ -41,52 +41,9 @@ export default class Cart {
     }
   }
 
-  private getVisibleItems(): CartItem[] {
-    const min = this.page * this.itemsOnPage - this.itemsOnPage;
-    const max = this.page * this.itemsOnPage;
-    return this.items.slice(min, max);
-  }
-
-  private getMaxPage(): number {
-    return Math.ceil(this.items.length / this.itemsOnPage);
-  }
-
-  private recalculateCurrentPage(): void {
-    const maxPage = this.getMaxPage();
-    if (this.page > maxPage) {
-      this.page = maxPage;
-    }
-  }
-
-  protected setNextPage(): void {
-    if (this.page < this.getMaxPage()) {
-      this.page++;
-      this.save();
-      this.draw();
-    }
-  }
-
-  protected setPreviousPage(): void {
-    if (this.page > 1) {
-      this.page--;
-      this.save();
-      this.draw();
-    }
-  }
-
-  protected setItemsOnPage(): void {
-    if (!this.uiCart) return;
-    const uiItemsOnPage = this.uiCart.querySelector('.items-on-page-value') as HTMLInputElement;
-
-    if (+uiItemsOnPage.value !== this.itemsOnPage) {
-      this.page = 1;
-      this.itemsOnPage = +uiItemsOnPage.value;
-      this.save();
-      this.draw();
-    }
-  }
-
   draw(): void {
+    this.save();
+
     if (!this.uiCart) return;
     this.recalculateCurrentPage();
 
@@ -96,7 +53,7 @@ export default class Cart {
 
     visibleItems.forEach((item) => {
       const clone: HTMLElement = uiTemplate.content.cloneNode(true) as HTMLElement;
-      item.draw(clone);
+      item.draw(clone, this.items.indexOf(item));
       uiFragment.append(clone);
     });
 
@@ -130,6 +87,9 @@ export default class Cart {
     const uiTotalAmount = this.uiCart.querySelector('.total-amount') as HTMLElement;
     uiTotalAmount.textContent = `Total: ${helpers.formatAmount(this.getTotalAmount())}`;
 
+    const uiCurrentPage = this.uiCart.querySelector('.current-page') as HTMLElement;
+    uiCurrentPage.textContent = `${this.page}/${this.getMaxPage()}`;
+
     const uiPromoCodes = this.uiCart.querySelector('.promo-codes') as HTMLElement;
     uiPromoCodes.innerHTML = '';
 
@@ -144,7 +104,7 @@ export default class Cart {
         const clone: HTMLElement = uiTemplate.content.cloneNode(true) as HTMLElement;
 
         const uiPromoText = clone.querySelector('.promo-text') as HTMLElement;
-        uiPromoText.textContent = code.id;
+        uiPromoText.textContent = `${code.id} - ${code.discount}%`;
 
         const uiPromoDelete = clone.querySelector('.promo-delete') as HTMLElement;
         uiPromoDelete.addEventListener('click', () => this.deletePromoCode(code));
@@ -155,9 +115,6 @@ export default class Cart {
       const uiFullAmount = this.uiCart.querySelector('full-amount') as HTMLElement;
       uiFullAmount?.remove();
     }
-
-    const uiCurrentPage = this.uiCart.querySelector('.current-page') as HTMLElement;
-    uiCurrentPage.textContent = `${this.page}/${this.getMaxPage()}`;
   }
 
   has(goods: Goods): boolean {
@@ -177,12 +134,12 @@ export default class Cart {
     } else {
       this.items.push(new CartItem(goods, quantity));
     }
-    this.save();
+    this.draw();
   }
 
   drop(goods: Goods): void {
     this.items = this.items.filter((item) => item.goods.id !== goods.id);
-    this.save();
+    this.draw();
   }
 
   getLength(): number {
@@ -218,7 +175,52 @@ export default class Cart {
     document.body.dispatchEvent(new Event('carthasbeenchanged'));
   }
 
-  save(): void {
+  private getVisibleItems(): CartItem[] {
+    const min = this.page * this.itemsOnPage - this.itemsOnPage;
+    const max = this.page * this.itemsOnPage;
+    return this.items.slice(min, max);
+  }
+
+  private getMaxPage(): number {
+    return Math.ceil(this.items.length / this.itemsOnPage);
+  }
+
+  private recalculateCurrentPage(): void {
+    const maxPage = this.getMaxPage();
+    if (this.page > maxPage) {
+      this.page = maxPage;
+    }
+  }
+
+  protected setNextPage(): void {
+    if (this.page < this.getMaxPage()) {
+      this.page++;
+      this.draw();
+    }
+  }
+
+  protected setPreviousPage(): void {
+    if (this.page > 1) {
+      this.page--;
+      this.draw();
+    }
+  }
+
+  protected setItemsOnPage(): void {
+    if (!this.uiCart) return;
+    const uiItemsOnPage = this.uiCart.querySelector('.items-on-page-value') as HTMLInputElement;
+
+    if (+uiItemsOnPage.value === 0) {
+      uiItemsOnPage.value = `${this.itemsOnPage}`;
+    }
+
+    if (+uiItemsOnPage.value !== this.itemsOnPage) {
+      this.itemsOnPage = +uiItemsOnPage.value;
+      this.draw();
+    }
+  }
+
+  private save(): void {
     this.items = this.items.filter((item) => item.quantity > 0);
     const cart: SavedCart = {
       items:

@@ -7,7 +7,6 @@ import promoCodes from '../../modules/promo-codes';
 
 if (document.location.pathname.includes('cart')) {
   function onCartChanged() {
-    cart.save();
     cart.draw();
     header.refresh();
   }
@@ -22,6 +21,18 @@ if (document.location.pathname.includes('cart')) {
     }
   }
 
+  function onItemsOnPageKeyPress(event: KeyboardEvent) {
+    const input = event.target as HTMLInputElement;
+    const numbers = '0123456789'.split('');
+
+    if (input.value != undefined && input.value.toString().length >= 3) {
+      event.preventDefault();
+    }
+    if (!numbers.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
+
   const uiCart = elementNullCheck(document, '.main-container-cart') as HTMLElement;
   const cart = new Cart(uiCart);
   cart.draw();
@@ -32,6 +43,9 @@ if (document.location.pathname.includes('cart')) {
 
   const uiPromoInput = elementNullCheck(document, '.promo-input') as HTMLInputElement;
   uiPromoInput.addEventListener('input', onPromoCodeInput);
+
+  const uiItemsOnPage = elementNullCheck(document, '.items-on-page-value') as HTMLInputElement;
+  uiItemsOnPage.addEventListener('keypress', onItemsOnPageKeyPress);
 
   document.body.addEventListener('carthasbeenchanged', onCartChanged, false);
 }

@@ -29,6 +29,26 @@
   align-items: center;
 }
 
+.page-label,
+.items-on-page-label,
+.items-on-page-value {
+  font-size: 1.5rem;
+  color: #413f3f;
+}
+
+.items-on-page-value {
+  width: 50px;
+}
+
+.page-buttons {
+  margin-left: 2rem;
+}
+
+.prev-page,
+.next-page {
+  width: 30px;
+}
+
 .cart-item {
   display: flex;
   align-items: center;
@@ -72,7 +92,7 @@
 
 .promo-text {
   display: inline-block;
-  width: 150px;
+  width: 200px;
   text-align: center;
   text-transform: uppercase;
   font-size: 2rem;
@@ -95,9 +115,19 @@
   }
 }
 
-.promo-test {
+.promo-hint {
   padding: 1rem;
+}
+
+.promo-test {
+  display: inline-block;
+  width: 90px;
+  margin: 0 0.2rem;
+  padding: 0 0.5rem;
   user-select: text;
+  text-align: center;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #8480c2 0%, #8884c2 47%, #938fca 100%);
 }
 
 .no-display {
