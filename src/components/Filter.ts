@@ -79,6 +79,7 @@ export default class GoodsCatalogItem {
     const searchQueryContainer = uiElement.querySelector('.search-input') as HTMLInputElement;
     const searchQuery = searchQueryContainer.value;
     const searchResults: Goods[] = [];
+    searchQueryContainer.setAttribute('value', `${searchQueryContainer.value}`);
     for (let i = 0; i < goodsData.products.length; i++) {
       if (goodsData.products[i].brand.toLowerCase().includes(searchQuery.toLowerCase())) {
         searchResults.push(goodsData.products[i]);
@@ -284,7 +285,21 @@ export default class GoodsCatalogItem {
     return goodsData.products.length;
   }
 
-  private createPath(): void {
-    location.search = `../../details.html?id=${this.goods.id}`;
+  private createPath(kek: string): void {
+    let url = new URL('');
+    let params = new URLSearchParams(url.search);
+    params.append('foo', kek);
+    location.search = params.toString();
   }
+
+  buildQuery (data: string | boolean[] | number[]) {
+    if (typeof data === 'string') return data;
+    const query = [];
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+      }
+    }
+    return query.join('&');
+  };
 }

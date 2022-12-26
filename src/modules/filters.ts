@@ -23,32 +23,43 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   const filter = new Filter(filterContent, goods, goodsNumber);
   const foundItem = filter.foundItems;
 
+  const searchInput = document.querySelector('.search-input') as HTMLInputElement;
+
   function setValue(element: Element, attr: string, n: number): void {
     element.setAttribute(attr, `${n}`);
   }
 
+  function resetSliders(): void {
   setValue(priceSliderFrom, 'min', getValues.getMinimumPrice());
   setValue(priceSliderFrom, 'max', getValues.getMaximumPrice());
   setValue(priceSliderFrom, 'value', getValues.getMinimumPrice());
+  priceSliderFrom.value = getValues.getMinimumPrice().toString();
 
   setValue(priceSliderTo, 'min', getValues.getMinimumPrice());
   setValue(priceSliderTo, 'max', getValues.getMaximumPrice());
   setValue(priceSliderTo, 'value', getValues.getMaximumPrice());
+  priceSliderTo.value = getValues.getMaximumPrice().toString();
 
   setValue(stockSliderFrom, 'min', getValues.getMinimumStock());
   setValue(stockSliderFrom, 'max', getValues.getMaximumStock());
   setValue(stockSliderFrom, 'value', getValues.getMinimumStock());
+  stockSliderFrom.value = getValues.getMinimumStock().toString();
 
   setValue(stockSliderTo, 'min', getValues.getMinimumStock());
   setValue(stockSliderTo, 'max', getValues.getMaximumStock());
   setValue(stockSliderTo, 'value', getValues.getMaximumStock());
+  stockSliderTo.value = getValues.getMaximumStock().toString();
 
   minPriceContainer.innerHTML = `$${getValues.getMinimumPrice()}`;
   maxPriceContainer.innerHTML = `$${getValues.getMaximumPrice()}`;
   minStockContainer.innerHTML = `${getValues.getMinimumStock()}`;
   maxStockContainer.innerHTML = `${getValues.getMaximumStock()}`;
 
-  const searchInput = document.querySelector('.search-input') as HTMLInputElement;
+  paintRange(stockSliderFrom, stockSliderTo);
+  paintRange(priceSliderFrom, priceSliderTo);
+}
+
+  resetSliders();
 
   searchInput.oninput = function (): void {
     refreshSliders();
@@ -79,7 +90,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     paintRange(stockSliderFrom, stockSliderTo);
     paintRange(priceSliderFrom, priceSliderTo);
     sliderSwitcher();
-    filter.setPriceSlider(foundItem);
+    // filter.setPriceSlider(foundItem);
   }
 
   function sliderSwitcher(): void {
@@ -150,16 +161,9 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
 
   categoryButtons.addEventListener('click', categoryFilter);
   brandButtons.addEventListener('click', brandFilter);
-  resetButton.addEventListener('click', () => filter.reset(foundItem));
-
-  const buildQuery = function (data: string | boolean[] | number[]) {
-    if (typeof data === 'string') return data;
-    const query = [];
-    for (const key in data) {
-      if (data.hasOwnProperty(key)) {
-        query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
-      }
-    }
-    return query.join('&');
-  };
+  resetButton.addEventListener('click', () => {
+    searchInput.value = '';
+    resetSliders();
+    filter.reset(foundItem);
+  });
 }
