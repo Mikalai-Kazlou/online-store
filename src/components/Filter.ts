@@ -6,6 +6,7 @@ export default class GoodsCatalogItem {
   private goods: Goods;
   private counter: HTMLElement;
   public foundItems: number[] = [];
+  public searchQuery: URLSearchParams = new URLSearchParams(window.location.search);
 
   constructor(uiElement: HTMLElement, goods: Goods, counter: HTMLElement) {
     this.uiElement = uiElement;
@@ -22,15 +23,27 @@ export default class GoodsCatalogItem {
   }
 
   getMatchedResults(uiElement: HTMLElement) {
-    this.setMatchedResults(this.uiElement);
+    this.setMatchedResults(this.uiElement, this.searchQuery);
     this.refreshCounter(this.foundItems);
     this.hideItems();
     this.setAmountRemainder(this.uiElement, this.foundItems);
     this.save(this.foundItems);
+    this.checkSearch(this.searchQuery, this.foundItems);
   }
 
   save(result: number[]): void {
     localStorage.setItem('RS Online-Store SearchResults', JSON.stringify(result));
+  }
+
+  checkSearch(searchQuery: URLSearchParams, foundItems: number[]): void {
+    if (foundItems.length > 0 && foundItems.length !== goodsData.products.length) {
+      window.history.pushState({}, '', `/?${searchQuery}`);
+    } else {
+      for (const key of searchQuery.keys()) {
+        searchQuery.delete(key);
+      }
+      window.history.replaceState({}, '', `/${searchQuery}`);
+    }
   }
 
   reset(foundItems: number[]) {
@@ -50,13 +63,13 @@ export default class GoodsCatalogItem {
     this.getMatchedResults(this.uiElement);
   }
 
-  private setMatchedResults(uiElement: HTMLElement) {
+  private setMatchedResults(uiElement: HTMLElement, searchQuery: URLSearchParams) {
     const matrix: Goods[][] = [];
     if (this.findByText(uiElement).length > 0) {
       matrix.push(this.findByText(uiElement));
     }
-    if (this.findByCategories(this.uiElement).length > 0) {
-      matrix.push(this.findByCategories(this.uiElement));
+    if (this.findByCategories(this.uiElement, searchQuery).length > 0) {
+      matrix.push(this.findByCategories(this.uiElement, searchQuery));
     }
     if (this.findByBrands(this.uiElement).length > 0) {
       matrix.push(this.findByBrands(this.uiElement));
@@ -77,34 +90,36 @@ export default class GoodsCatalogItem {
 
   private findByText(uiElement: HTMLElement) {
     const searchQueryContainer = uiElement.querySelector('.search-input') as HTMLInputElement;
-    const searchQuery = searchQueryContainer.value;
+    const searchQueryInput = searchQueryContainer.value;
     const searchResults: Goods[] = [];
     searchQueryContainer.setAttribute('value', `${searchQueryContainer.value}`);
     for (let i = 0; i < goodsData.products.length; i++) {
-      if (goodsData.products[i].brand.toLowerCase().includes(searchQuery.toLowerCase())) {
+      if (goodsData.products[i].brand.toLowerCase().includes(searchQueryInput.toLowerCase())) {
         searchResults.push(goodsData.products[i]);
-      } else if (goodsData.products[i].title.toLowerCase().includes(searchQuery.toLowerCase())) {
+      } else if (goodsData.products[i].title.toLowerCase().includes(searchQueryInput.toLowerCase())) {
         searchResults.push(goodsData.products[i]);
       }
     }
     const result = [...new Set(searchResults)];
-    if (searchQuery.length > 0 && result.length === 0) {
-      searchQueryContainer.setAttribute('maxlength', `${searchQuery.length - 1}`);
+    if (searchQueryInput.length > 0 && result.length === 0) {
+      searchQueryContainer.setAttribute('maxlength', `${searchQueryInput.length - 1}`);
     } else {
       searchQueryContainer.removeAttribute('maxlength');
     }
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     this.buttonsDisablerText(result, brands, categories);
+    this.searchQueryAppend('searchQuery', `${searchQueryInput}`, this.searchQuery);
     return result;
   }
 
-  private findByCategories(uiElement: HTMLElement): Goods[] {
+  private findByCategories(uiElement: HTMLElement, searchQuery: URLSearchParams): Goods[] {
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     const selectedCategories = categories.filter((item) => item.classList.contains('selected')).map((item) => item.id);
     const result = goodsData.products.filter((item) => selectedCategories.includes(item.category));
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
     this.buttonsDisabler(result, brands, selectedCategories.length, 'brand');
+    this.searchQueryAppend('category', `${[...new Set(result.map((item) => item.category))]}`, this.searchQuery);
     return result;
   }
 
@@ -114,6 +129,7 @@ export default class GoodsCatalogItem {
     const result = goodsData.products.filter((item) => selectedBrands.includes(item.brand));
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     this.buttonsDisabler(result, categories, selectedBrands.length, 'category');
+    this.searchQueryAppend('brand', `${[...new Set(result.map((item) => item.brand))]}`, this.searchQuery);
     return result;
   }
 
@@ -128,6 +144,9 @@ export default class GoodsCatalogItem {
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
     this.buttonsDisablerSlider(result, brands, categories, result.length);
+    if (result.length !== goodsData.products.length) {
+      this.searchQueryAppend('price', `${minPrice}/${maxPrice}`, this.searchQuery);
+    }
     return result;
   }
 
@@ -142,7 +161,17 @@ export default class GoodsCatalogItem {
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
     this.buttonsDisablerSlider(result, brands, categories, result.length);
+    if (result.length !== goodsData.products.length) {
+      this.searchQueryAppend('stock', `${minStock}/${maxStock}`, this.searchQuery);
+    }
     return result;
+  }
+
+  searchQueryAppend(name: string, value: string, query: URLSearchParams) {
+    query.delete(name);
+    if (value.length > 0) {
+      query.append(name, value);
+    }
   }
 
   private hideItems(): void {
@@ -284,22 +313,4 @@ export default class GoodsCatalogItem {
   private getTotalProducts() {
     return goodsData.products.length;
   }
-
-  private createPath(kek: string): void {
-    let url = new URL('');
-    let params = new URLSearchParams(url.search);
-    params.append('foo', kek);
-    location.search = params.toString();
-  }
-
-  buildQuery (data: string | boolean[] | number[]) {
-    if (typeof data === 'string') return data;
-    const query = [];
-    for (const key in data) {
-      if (data.hasOwnProperty(key)) {
-        query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
-      }
-    }
-    return query.join('&');
-  };
 }
