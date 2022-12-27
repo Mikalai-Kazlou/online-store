@@ -237,7 +237,9 @@ export default class Cart {
   }
 
   private restore(): void {
-    const cart: SavedCart = JSON.parse(localStorage.getItem('rs-online-store-cart') as string) || { promo: [], items: [] };
+    const cart: SavedCart = JSON.parse(localStorage.getItem('rs-online-store-cart') as string)
+      || { promo: [], items: [], page: this.page, itemsOnPage: this.itemsOnPage };
+
     this.items = cart.items.map((item) => new CartItem(new Goods(item.id), item.qnt));
     cart.promo.forEach((promo) => {
       const code = promoCodes.find((code) => code.id === promo);
