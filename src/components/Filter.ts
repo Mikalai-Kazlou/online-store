@@ -1,7 +1,7 @@
 import Goods from './Goods';
 import goodsData from '../modules/goods';
 
-export default class GoodsCatalogItem {
+export default class Filter {
   private uiElement: HTMLElement;
   private goods: Goods;
   private counter: HTMLElement;
