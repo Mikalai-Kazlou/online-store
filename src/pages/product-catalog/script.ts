@@ -1,3 +1,4 @@
+
 import './modal.ts';
 import '../../components/Filter';
 import goodsData from '../../modules/goods';
@@ -36,9 +37,26 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
       const btn = document.createElement('button');
       btn.classList.add('button');
       btn.classList.add(`${cls}`);
+      const buttonName = document.createElement('div');
+      buttonName.classList.add('button-name');
+      const buttonAmount = document.createElement('div');
       btn.classList.add('small-text');
       const t = document.createTextNode(array[i]);
-      btn.appendChild(t);
+      let amount = 0;
+      if (cls === 'brand-button') {
+        amount = goodsData.products.filter((item) => item.brand === array[i]).length;
+        buttonAmount.classList.add('brand-remainder');
+        buttonAmount.setAttribute('id', `brand ${array[i]}`);
+      } else if (cls === 'category-button') {
+        amount = goodsData.products.filter((item) => item.category === array[i]).length;
+        buttonAmount.classList.add('category-remainder');
+        buttonAmount.setAttribute('id', `category ${array[i]}`);
+      }
+      const n = document.createTextNode(`(${amount}/${amount})`);
+      btn.appendChild(buttonName);
+      btn.appendChild(buttonAmount);
+      buttonName.appendChild(t);
+      buttonAmount.appendChild(n);
       btn.setAttribute('id', array[i]);
       parent.appendChild(btn);
     }
@@ -56,25 +74,4 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   header.refresh();
 
   const goodsNumber = elementNullCheck(document, '.goods-number');
-
-  function filter(event: Event): void {
-    let remainingGoods = 100;
-    const target: HTMLElement = event.target as HTMLElement;
-    if (target !== null) {
-      const clickedOption = target.closest('button') as HTMLButtonElement;
-      const allItems = document.querySelectorAll('.good-item');
-      allItems.forEach((item) => {
-        if (item.classList.contains('hide')) item.classList.remove('hide');
-      });
-      allItems.forEach((item) => {
-        if (goodsData.products[+item.id - 1].category !== clickedOption.id) {
-          item.classList.add('hide');
-          remainingGoods--;
-          goodsNumber.innerHTML = `Found: ${remainingGoods}`;
-        }
-      });
-    }
-  }
-
-  categoryButtons.addEventListener('click', filter);
 }

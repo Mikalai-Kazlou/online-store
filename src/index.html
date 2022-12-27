@@ -13,7 +13,7 @@
   <title>The Greatest Online Store</title>
 </head>
 
-<body class="main">
+<body class="main scroll">
   <div class="modal hide">
     <button class="close-modal">x</button>
   </div>
@@ -48,17 +48,17 @@
     <main class="main-container">
       <aside class="filters-container">
         <div class="filters-content">
-          <input type="text" name="text" placeholder="Search" class="search-input" value="">
-          <h4 class="main-text">Category</h4>
-          <div class="filter-category-buttons main-text">
-            <div class="nice-scrollbar-border">
-              <input class="scrollbar" orient="vertical" type="range" min="1" max="100" value="1">
-            </div>
+          <div class="good-buttons">
+            <button class="goods-button reset-filters">Reset Filters</button>
+            <button class="goods-button copy-link">Copy Link</button>
           </div>
-          <h4 class="main-text">Brand</h4>
-          <div class="filter-brand-buttons main-text">
-            <div class="nice-scrollbar-border">
-              <input class="scrollbar" orient="vertical" type="range" min="1" max="100" value="1">
+          <input type="text" name="text" placeholder="Search" class="search-input" value="">
+          <div class="category-and-brand-container">
+            <h4 class="main-text">Category</h4>
+            <div class="filter-category-buttons main-text scroll">
+            </div>
+            <h4 class="main-text">Brand</h4>
+            <div class="filter-brand-buttons main-text scroll">
             </div>
           </div>
           <div class="filter-price-slider">
@@ -93,12 +93,19 @@
       <section class="goods-container">
         <div class="goods-first-line">
           <div class="goods-sorting">
-            <p class="main-text">Sort by</p>
+            <p class="main-text">Sort by:</p>
             <select name="sort-by" id="sort-by" class="sort-input main-text">
               <option value="price-lowest">price (lowest)</option>
               <option value="price-highest">price (highest)</option>
               <option value="name-a">name (a - z)</option>
               <option value="name-z">name (z - a)</option>
+            </select>
+          </div>
+          <div class="goods-view">
+            <p class="main-text">View:</p>
+            <select name="view-size" id="view-size" class="view-input main-text">
+              <option value="view-standard">Standard</option>
+              <option value="view-small">Small</option>
             </select>
           </div>
           <div class="goods-number main-text">Found: 100</div>

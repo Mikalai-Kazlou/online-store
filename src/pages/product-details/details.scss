@@ -176,6 +176,13 @@
   @media screen and (max-width: 768px) {
     width: 15rem;
     height: 4rem;
+    padding: 0.2rem;
+  }
+
+  @media screen and (max-width: 400px) {
+    width: 12rem;
+    height: auto;
+    padding: 0.1rem;
   }
 }
 

@@ -1675,14 +1675,14 @@ const goodsData = {
     },
     {
       id: 91,
-      title: 'Black Motorbike',
+      title: 'Black Motorbike MR70',
       description:
         'Engine Type:Wet sump, Single Cylinder, Four Stroke, Two Valves, Air Cooled with SOHC (Single Over Head Cam) Chain Drive Bore & Stroke:47.0 x 49.5 MM',
       price: 569,
       discountPercentage: 13.63,
       rating: 4.04,
       stock: 115,
-      brand: 'METRO 70cc Motorcycle - MR70',
+      brand: 'METRO',
       category: 'motorcycle',
       thumbnail: 'https://i.dummyjson.com/data/products/91/thumbnail.jpg',
       images: [
@@ -1695,7 +1695,7 @@ const goodsData = {
     },
     {
       id: 92,
-      title: 'HOT SALE IN EUROPE electric racing motorcycle',
+      title: 'Electric racing motorcycle',
       description:
         'HOT SALE IN EUROPE electric racing motorcycle electric motorcycle for sale adult electric motorcycles',
       price: 920,

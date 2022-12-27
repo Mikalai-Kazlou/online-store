@@ -1,16 +1,17 @@
 import { getValues } from './get-values';
 import goodsData from './goods';
 import { elementNullCheck } from './helpers';
-import Filter from '../components/Filter'
+import Filter from '../components/Filter';
 import Goods from '../components/Goods';
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   const goodsNumber = elementNullCheck(document, '.goods-number') as HTMLElement;
+  const resetButton = elementNullCheck(document, '.reset-filters') as HTMLButtonElement;
 
-  let minPriceContainer = elementNullCheck(document, '.min-price');
-  let maxPriceContainer = elementNullCheck(document, '.max-price');
-  let minStockContainer = elementNullCheck(document, '.min-stock');
-  let maxStockContainer = elementNullCheck(document, '.max-stock');
+  const minPriceContainer = elementNullCheck(document, '.min-price');
+  const maxPriceContainer = elementNullCheck(document, '.max-price');
+  const minStockContainer = elementNullCheck(document, '.min-stock');
+  const maxStockContainer = elementNullCheck(document, '.max-stock');
   const priceSliderFrom: HTMLInputElement = document.querySelector('.price-slider') as HTMLInputElement;
   const stockSliderFrom: HTMLInputElement = document.querySelector('.stock-slider') as HTMLInputElement;
 
@@ -18,126 +19,91 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   const stockSliderTo: HTMLInputElement = document.querySelector('.stock-slider-to') as HTMLInputElement;
 
   const filterContent = elementNullCheck(document, '.filters-content') as HTMLElement;
-  const goods = new Goods(0)
+  const goods = new Goods(0);
   const filter = new Filter(filterContent, goods, goodsNumber);
+  const foundItem = filter.foundItems;
+
+  const searchInput = document.querySelector('.search-input') as HTMLInputElement;
 
   function setValue(element: Element, attr: string, n: number): void {
     element.setAttribute(attr, `${n}`);
   }
 
-
+  function resetSliders(): void {
   setValue(priceSliderFrom, 'min', getValues.getMinimumPrice());
   setValue(priceSliderFrom, 'max', getValues.getMaximumPrice());
   setValue(priceSliderFrom, 'value', getValues.getMinimumPrice());
+  priceSliderFrom.value = getValues.getMinimumPrice().toString();
 
   setValue(priceSliderTo, 'min', getValues.getMinimumPrice());
   setValue(priceSliderTo, 'max', getValues.getMaximumPrice());
   setValue(priceSliderTo, 'value', getValues.getMaximumPrice());
+  priceSliderTo.value = getValues.getMaximumPrice().toString();
 
   setValue(stockSliderFrom, 'min', getValues.getMinimumStock());
   setValue(stockSliderFrom, 'max', getValues.getMaximumStock());
   setValue(stockSliderFrom, 'value', getValues.getMinimumStock());
+  stockSliderFrom.value = getValues.getMinimumStock().toString();
 
   setValue(stockSliderTo, 'min', getValues.getMinimumStock());
   setValue(stockSliderTo, 'max', getValues.getMaximumStock());
   setValue(stockSliderTo, 'value', getValues.getMaximumStock());
+  stockSliderTo.value = getValues.getMaximumStock().toString();
 
   minPriceContainer.innerHTML = `$${getValues.getMinimumPrice()}`;
   maxPriceContainer.innerHTML = `$${getValues.getMaximumPrice()}`;
   minStockContainer.innerHTML = `${getValues.getMinimumStock()}`;
   maxStockContainer.innerHTML = `${getValues.getMaximumStock()}`;
 
+  paintRange(stockSliderFrom, stockSliderTo);
+  paintRange(priceSliderFrom, priceSliderTo);
+}
+
+  resetSliders();
+
+  searchInput.oninput = function (): void {
+    refreshSliders();
+  };
+
   priceSliderFrom.oninput = function (): void {
-    minPriceContainer.innerHTML = `$${priceSliderFrom.value}`;
+    refreshSliders();
   };
 
   priceSliderTo.oninput = function (): void {
-    maxPriceContainer.innerHTML = `$${priceSliderTo.value}`;
+    refreshSliders();
   };
 
   stockSliderFrom.oninput = function (): void {
-    minStockContainer.innerHTML = stockSliderFrom.value;
+    refreshSliders();
   };
 
   stockSliderTo.oninput = function (): void {
-    maxStockContainer.innerHTML = stockSliderTo.value;
+    refreshSliders();
   };
 
-  function priceFilter(event: Event): void {
-    let remainingGoods = 100;
-    const target: HTMLInputElement = event.target as HTMLInputElement;
-    if (target !== null) {
-      const currentPrice: number = +target.value;
-      const allItems = document.querySelectorAll('.good-item');
-      allItems.forEach((item) => {
-        if (item.classList.contains('hide')) item.classList.remove('hide');
-      });
-      allItems.forEach((item) => {
-        if (goodsData.products[+item.id - 1].price > currentPrice) {
-          item.classList.add('hide');
-          remainingGoods--;
-          goodsNumber.innerHTML = `Found: ${remainingGoods}`;
-        }
-      });
-
-    } paintRange(priceSliderFrom, priceSliderTo);
+  function refreshSliders(): void {
+    filter.getMatchedResults(filterContent);
+    minPriceContainer.innerHTML = `$${priceSliderFrom.value}`;
+    maxPriceContainer.innerHTML = `$${priceSliderTo.value}`;
+    maxStockContainer.innerHTML = stockSliderTo.value;
+    minStockContainer.innerHTML = stockSliderFrom.value;
+    paintRange(stockSliderFrom, stockSliderTo);
+    paintRange(priceSliderFrom, priceSliderTo);
+    sliderSwitcher();
+    // filter.setPriceSlider(foundItem);
   }
 
-  function priceFilterFrom(event: Event): void {
-    let remainingGoods = 100;
-    const target: HTMLInputElement = event.target as HTMLInputElement;
-    if (target !== null) {
-      const currentPrice: number = +target.value;
-      const allItems = document.querySelectorAll('.good-item');
-      allItems.forEach((item) => {
-        if (item.classList.contains('hide')) item.classList.remove('hide');
-      });
-      allItems.forEach((item) => {
-        if (goodsData.products[+item.id - 1].price < currentPrice) {
-          item.classList.add('hide');
-          remainingGoods--;
-          goodsNumber.innerHTML = `Found: ${remainingGoods}`;
-        }
-      });
-    } paintRange(priceSliderFrom, priceSliderTo);
-  }
-
-  function stockFilter(event: Event): void {
-    let remainingGoods = 100;
-    const target: HTMLInputElement = event.target as HTMLInputElement;
-    if (target !== null) {
-      const currentStock: number = +target.value;
-      const allItems = document.querySelectorAll('.good-item');
-      allItems.forEach((item) => {
-        if (item.classList.contains('hide')) item.classList.remove('hide');
-      });
-      allItems.forEach((item) => {
-        if (goodsData.products[+item.id - 1].stock > currentStock) {
-          item.classList.add('hide');
-          remainingGoods--;
-          goodsNumber.innerHTML = `Found: ${remainingGoods}`;
-        }
-      });
-    } paintRange(stockSliderFrom, stockSliderTo);
-  }
-
-  function stockFilterFrom(event: Event): void {
-    let remainingGoods = 100;
-    const target: HTMLInputElement = event.target as HTMLInputElement;
-    if (target !== null) {
-      const currentStock: number = +target.value;
-      const allItems = document.querySelectorAll('.good-item');
-      allItems.forEach((item) => {
-        if (item.classList.contains('hide')) item.classList.remove('hide');
-      });
-      allItems.forEach((item) => {
-        if (goodsData.products[+item.id - 1].stock < currentStock) {
-          item.classList.add('hide');
-          remainingGoods--;
-          goodsNumber.innerHTML = `Found: ${remainingGoods}`;
-        }
-      });
-    } paintRange(stockSliderFrom, stockSliderTo);
+  function sliderSwitcher(): void {
+    if (+priceSliderFrom.value > +priceSliderTo.value + 10) {
+      const temp = priceSliderFrom.value;
+      priceSliderFrom.value = priceSliderTo.value;
+      priceSliderTo.value = temp;
+    }
+    if (+stockSliderFrom.value > +stockSliderTo.value + 1) {
+      const temp = stockSliderFrom.value;
+      stockSliderFrom.value = stockSliderTo.value;
+      stockSliderTo.value = temp;
+    }
   }
 
   function paintRange(fromSlider: HTMLInputElement, toSlider: HTMLInputElement): void {
@@ -159,20 +125,56 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   paintRange(priceSliderFrom, priceSliderTo);
   paintRange(stockSliderFrom, stockSliderTo);
 
-  const categoryContainer = document.querySelector('.filter-category-buttons');
-  const brandContainer = document.querySelector('.filter-category-buttons');
-
-  const scrollBar = (parent: HTMLElement, slider: HTMLInputElement) => {
-    const height = getComputedStyle(parent).height;
-    parent.style.top = `${height}px`;
-  }
-
   function splitString(string: string, separator: string): number {
     return +string.split(separator)[0];
   }
 
-  priceSliderTo.addEventListener('input', priceFilter);
-  priceSliderFrom.addEventListener('input', priceFilterFrom);
-  stockSliderTo.addEventListener('input', stockFilter);
-  stockSliderFrom.addEventListener('input', stockFilterFrom);
+  const categoryButtons = elementNullCheck(document, '.filter-category-buttons');
+  function categoryFilter(event: Event): void {
+    const target: HTMLElement = event.target as HTMLElement;
+    if (target !== null) {
+      const clickedOption = target.closest('button') as HTMLButtonElement;
+      if (clickedOption.classList.contains('selected')) {
+        clickedOption.classList.remove('selected');
+      } else {
+        clickedOption.classList.add('selected');
+      }
+    }
+    filter.getMatchedResults(filterContent);
+    paintRange(priceSliderFrom, priceSliderTo);
+  }
+
+  const brandButtons = elementNullCheck(document, '.filter-brand-buttons');
+  function brandFilter(event: Event): void {
+    const target: HTMLElement = event.target as HTMLElement;
+    if (target !== null) {
+      const clickedOption = target.closest('button') as HTMLButtonElement;
+      if (clickedOption.classList.contains('selected')) {
+        clickedOption.classList.remove('selected');
+      } else {
+        clickedOption.classList.add('selected');
+      }
+    }
+    filter.getMatchedResults(filterContent);
+    paintRange(priceSliderFrom, priceSliderTo);
+  }
+
+  const copyButton = elementNullCheck(document, '.copy-link') as HTMLButtonElement;
+  function copyLink() {
+    const copyText = document.location.href;
+    navigator.clipboard.writeText(copyText);
+    copyButton.innerHTML = 'Copied!';
+    setTimeout(() => {
+      copyButton.innerHTML = 'Copy Link';
+    }, 1200)
+  }
+
+  categoryButtons.addEventListener('click', categoryFilter);
+  brandButtons.addEventListener('click', brandFilter);
+  resetButton.addEventListener('click', () => {
+    searchInput.value = '';
+    resetSliders();
+    filter.reset(foundItem);
+  });
+  copyButton.addEventListener('click', copyLink);
 }
