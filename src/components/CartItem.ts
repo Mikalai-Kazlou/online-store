@@ -1,17 +1,21 @@
 import Goods from './Goods';
+import * as helpers from '../modules/helpers';
 
 export default class CartItem {
   private uiQuantity: HTMLElement | undefined;
   goods: Goods;
-  quantity = 1;
+  quantity: number = 1;
 
   constructor(goods: Goods, quantity: number) {
     this.goods = goods;
     this.quantity = quantity;
   }
 
-  draw(uiCartItem: HTMLElement) {
+  draw(uiCartItem: HTMLElement, index: number) {
     let uiElement: HTMLElement;
+
+    uiElement = uiCartItem.querySelector('.info-index') as HTMLElement;
+    uiElement.textContent = `${index + 1}`;
 
     const uiImage: HTMLImageElement = uiCartItem.querySelector('.small-picture') as HTMLImageElement;
     uiImage.src = this.goods.thumbnail;
@@ -36,7 +40,7 @@ export default class CartItem {
     uiElement.textContent = `Stock: ${this.goods.stock}`;
 
     uiElement = uiCartItem.querySelector('.info-price') as HTMLElement;
-    uiElement.textContent = `Price: $${this.goods.price}`;
+    uiElement.textContent = `Price: ${helpers.formatAmount(this.goods.price)}`;
 
     this.uiQuantity = uiCartItem.querySelector('.selected-stock') as HTMLElement;
     this.uiQuantity.textContent = String(this.quantity);
@@ -46,6 +50,15 @@ export default class CartItem {
 
     uiElement = uiCartItem.querySelector('.button-increment') as HTMLElement;
     uiElement.addEventListener('click', () => this.increaseQuantity());
+  }
+
+  drop() {
+    if (this.uiQuantity) {
+      const uiItem = this.uiQuantity.closest('.cart-item');
+      if (uiItem) {
+        uiItem.remove();
+      }
+    }
   }
 
   refresh() {
@@ -65,9 +78,14 @@ export default class CartItem {
   }
 
   decreaseQuantity() {
-    if (this.quantity > 1) {
+    if (this.quantity > 0) {
       this.quantity--;
-      this.refresh();
+
+      if (this.quantity === 0) {
+        this.drop();
+      } else {
+        this.refresh();
+      }
 
       const event = new Event('carthasbeenchanged');
       document.body.dispatchEvent(event);

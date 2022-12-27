@@ -1,3 +1,4 @@
+
 import './modal.ts';
 import '../../components/Filter';
 import goodsData from '../../modules/goods';
