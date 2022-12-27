@@ -159,6 +159,16 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     paintRange(priceSliderFrom, priceSliderTo);
   }
 
+  const copyButton = elementNullCheck(document, '.copy-link') as HTMLButtonElement;
+  function copyLink() {
+    const copyText = document.location.href;
+    navigator.clipboard.writeText(copyText);
+    copyButton.innerHTML = 'Copied!';
+    setTimeout(() => {
+      copyButton.innerHTML = 'Copy Link';
+    }, 1200)
+  }
+
   categoryButtons.addEventListener('click', categoryFilter);
   brandButtons.addEventListener('click', brandFilter);
   resetButton.addEventListener('click', () => {
@@ -166,4 +176,5 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     resetSliders();
     filter.reset(foundItem);
   });
+  copyButton.addEventListener('click', copyLink);
 }
