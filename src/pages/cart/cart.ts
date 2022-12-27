@@ -4,6 +4,7 @@ import { elementNullCheck } from '../../modules/helpers';
 import Header from '../../components/Header';
 import Cart from '../../components/Cart';
 import promoCodes from '../../modules/promo-codes';
+import '../../modules/purchase';
 
 if (document.location.pathname.includes('cart')) {
   function onCartChanged() {
