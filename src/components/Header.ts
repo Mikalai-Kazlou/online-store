@@ -1,4 +1,4 @@
-import Goods from './Goods';
+import * as helpers from '../modules/helpers';
 import Cart from './Cart';
 
 export default class Header {
@@ -12,7 +12,7 @@ export default class Header {
     const cart = new Cart();
 
     const uiTotal = this.uiHeader.querySelector('.total') as HTMLElement;
-    uiTotal.innerHTML = `Total: $${cart.getTotalAmount()}`;
+    uiTotal.innerHTML = `Total: ${helpers.formatAmount(cart.getTotalAmount())}`;
 
     const uiBasket = this.uiHeader.querySelector('.basket-amount') as HTMLElement;
     uiBasket.innerHTML = `${cart.getTotalQuantity()}`;

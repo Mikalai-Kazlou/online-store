@@ -1,5 +1,5 @@
 import goodsData from '../../modules/goods';
-import { elementNullCheck } from '../../modules/type-checks';
+import { elementNullCheck } from '../../modules/helpers';
 import Header from '../../components/Header';
 import Cart from '../../components/Cart';
 import GoodsCatalogItem from '../../components/GoodsCatalogItem';
