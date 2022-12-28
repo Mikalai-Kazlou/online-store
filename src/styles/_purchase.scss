@@ -33,6 +33,11 @@
   border-radius: 10px;
 
   cursor: auto;
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
 }
 
 .purchase-form-group {

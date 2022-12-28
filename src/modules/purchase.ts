@@ -146,3 +146,60 @@ uiForm.addEventListener('submit', function (event) {
   validateField(event, ValidatedFields.valid, uiValidValue, uiValidError, isValidValid);
   validateField(event, ValidatedFields.cvv, uiCvvValue, uiCvvError, isCvvValid);
 });
+
+// -------------------------------------------------------------
+// Input control
+// -------------------------------------------------------------
+
+function onPhoneKeyPress(event: KeyboardEvent) {
+  const allowedCharacters = '0123456789+'.split('');
+  if (!allowedCharacters.includes(event.key)) {
+    event.preventDefault();
+  }
+}
+
+function onCardKeyPress(event: KeyboardEvent) {
+  const allowedCharacters = '0123456789'.split('');
+  const input = event.target as HTMLInputElement;
+
+  if (input.value != undefined && input.value.toString().length >= 16) {
+    event.preventDefault();
+  }
+  if (!allowedCharacters.includes(event.key)) {
+    event.preventDefault();
+  }
+}
+
+function onValidKeyPress(event: KeyboardEvent) {
+  const allowedCharacters = '0123456789/'.split('');
+  const input = event.target as HTMLInputElement;
+
+  if (input.value != undefined) {
+    if (input.value.toString().length >= 5) {
+      event.preventDefault();
+    }
+    if (input.value.toString().length === 2 && event.key !== '/') {
+      input.value += '/';
+    }
+  }
+  if (!allowedCharacters.includes(event.key)) {
+    event.preventDefault();
+  }
+}
+
+function onCvvKeyPress(event: KeyboardEvent) {
+  const allowedCharacters = '0123456789'.split('');
+  const input = event.target as HTMLInputElement;
+
+  if (input.value != undefined && input.value.toString().length >= 3) {
+    event.preventDefault();
+  }
+  if (!allowedCharacters.includes(event.key)) {
+    event.preventDefault();
+  }
+}
+
+uiPhoneValue.addEventListener('keypress', onPhoneKeyPress);
+uiCardValue.addEventListener('keypress', onCardKeyPress);
+uiValidValue.addEventListener('keypress', onValidKeyPress);
+uiCvvValue.addEventListener('keypress', onCvvKeyPress);
