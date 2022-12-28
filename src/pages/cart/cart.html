@@ -121,32 +121,40 @@
     </div>
   </footer>
   <div class="purchase-background no-display">
-    <form class="purchase-form" action="../../">
+    <form class="purchase-form" action="../../" novalidate>
       <div class="purchase-form-group">
         <div class="group-header main-text">Personal details</div>
         <label class="purchase-label purchase-name-label">Name
-          <input class="purchase-field purchase-name-value" type="text" required>
+          <input class="purchase-field purchase-name-value" type="text" required placeholder="John Doe">
+          <div class="error purchase-name-error"></div>
         </label>
         <label class="purchase-label purchase-phone-label">Phone number
-          <input class="purchase-field purchase-phone-value" type="tel" required>
+          <input class="purchase-field purchase-phone-value" type="tel" required placeholder="+123456789">
+          <div class="error purchase-phone-error"></div>
         </label>
         <label class="purchase-label purchase-address-label">Delivery address
-          <input class="purchase-field purchase-address-value" type="text" required>
+          <input class="purchase-field purchase-address-value" type="text" required
+            placeholder="65 5th Avenue, New York, NY 10003">
+          <div class="error purchase-address-error"></div>
         </label>
-        <label class="purchase-label purchase-address-label">E-mail
-          <input class="purchase-field purchase-address-value" type="email" required>
+        <label class="purchase-label purchase-email-label">E-mail
+          <input class="purchase-field purchase-email-value" type="email" required placeholder="john.doe@gmail.com">
+          <div class="error purchase-email-error"></div>
         </label>
       </div>
       <div class="purchase-form-group">
         <div class="group-header main-text">Card details</div>
-        <label class="purchase-label purchase-address-label">Card number
-          <input class="purchase-field purchase-card-value" type="number" required>
+        <label class="purchase-label purchase-card-label">Card number
+          <input class="purchase-field purchase-card-value" type="number" required placeholder="1234567890123456">
+          <div class="error purchase-card-error"></div>
         </label>
-        <label class="purchase-label purchase-address-label">Valid
-          <input class="purchase-field purchase-valid-value" type="text" required>
+        <label class="purchase-label purchase-valid-label">Valid
+          <input class="purchase-field purchase-valid-value" type="text" required placeholder="12/25">
+          <div class="error purchase-valid-error"></div>
         </label>
-        <label class="purchase-label purchase-address-label">CVV
-          <input class="purchase-field purchase-cvv-value" type="number" required>
+        <label class="purchase-label purchase-cvv-label">CVV
+          <input class="purchase-field purchase-cvv-value" type="number" required placeholder="123">
+          <div class="error purchase-cvv-error"></div>
         </label>
       </div>
       <input class="purchase-submit" type="submit" value="Submit">
