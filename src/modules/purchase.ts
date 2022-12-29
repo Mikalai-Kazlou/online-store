@@ -29,38 +29,17 @@ function hidePurchaseWindow(event: Event) {
   document.body.classList.remove('no-scroll');
 }
 
-const uiBuyNow = document.querySelector('.buy-now');
-uiBuyNow?.addEventListener('click', () => showPurchaseWindow());
+if (document.location.pathname.includes('cart')) {
+  const uiBuyNow = document.querySelector('.buy-now');
+  uiBuyNow?.addEventListener('click', () => showPurchaseWindow());
 
-const uiPurchaseBackground = document.querySelector('.purchase-background');
-uiPurchaseBackground?.addEventListener('click', (event: Event) => hidePurchaseWindow(event));
+  const uiPurchaseBackground = document.querySelector('.purchase-background');
+  uiPurchaseBackground?.addEventListener('click', (event: Event) => hidePurchaseWindow(event));
+}
 
 // -------------------------------------------------------------
 // Validation
 // -------------------------------------------------------------
-
-const uiForm = document.querySelector('.purchase-form') as HTMLFormElement;
-
-const uiNameValue = document.querySelector('.purchase-name-value') as HTMLInputElement;
-const uiNameError = document.querySelector('.purchase-name-error') as HTMLInputElement;
-
-const uiPhoneValue = document.querySelector('.purchase-phone-value') as HTMLInputElement;
-const uiPhoneError = document.querySelector('.purchase-phone-error') as HTMLInputElement;
-
-const uiAddressValue = document.querySelector('.purchase-address-value') as HTMLInputElement;
-const uiAddressError = document.querySelector('.purchase-address-error') as HTMLInputElement;
-
-const uiEmailValue = document.querySelector('.purchase-email-value') as HTMLInputElement;
-const uiEmailError = document.querySelector('.purchase-email-error') as HTMLInputElement;
-
-const uiCardValue = document.querySelector('.purchase-card-value') as HTMLInputElement;
-const uiCardError = document.querySelector('.purchase-card-error') as HTMLInputElement;
-
-const uiValidValue = document.querySelector('.purchase-valid-value') as HTMLInputElement;
-const uiValidError = document.querySelector('.purchase-valid-error') as HTMLInputElement;
-
-const uiCvvValue = document.querySelector('.purchase-cvv-value') as HTMLInputElement;
-const uiCvvError = document.querySelector('.purchase-cvv-error') as HTMLInputElement;
 
 function isNameValid(value: string): boolean {
   const words = value.split(' ');
@@ -136,17 +115,6 @@ function validateField(event: Event, field: ValidatedFields, uiValue: HTMLInputE
   }
 }
 
-uiForm.addEventListener('submit', function (event) {
-  validateField(event, ValidatedFields.name, uiNameValue, uiNameError, isNameValid);
-  validateField(event, ValidatedFields.phone, uiPhoneValue, uiPhoneError, isPhoneValid);
-  validateField(event, ValidatedFields.address, uiAddressValue, uiAddressError, isAddressValid);
-  validateField(event, ValidatedFields.email, uiEmailValue, uiEmailError, isEmailValid);
-
-  validateField(event, ValidatedFields.card, uiCardValue, uiCardError, isCardValid);
-  validateField(event, ValidatedFields.valid, uiValidValue, uiValidError, isValidValid);
-  validateField(event, ValidatedFields.cvv, uiCvvValue, uiCvvError, isCvvValid);
-});
-
 // -------------------------------------------------------------
 // Input control
 // -------------------------------------------------------------
@@ -199,7 +167,45 @@ function onCvvKeyPress(event: KeyboardEvent) {
   }
 }
 
-uiPhoneValue.addEventListener('keypress', onPhoneKeyPress);
-uiCardValue.addEventListener('keypress', onCardKeyPress);
-uiValidValue.addEventListener('keypress', onValidKeyPress);
-uiCvvValue.addEventListener('keypress', onCvvKeyPress);
+if (document.location.pathname.includes('cart')) {
+  const uiForm = document.querySelector('.purchase-form') as HTMLFormElement;
+
+  const uiNameValue = document.querySelector('.purchase-name-value') as HTMLInputElement;
+  const uiNameError = document.querySelector('.purchase-name-error') as HTMLInputElement;
+
+  const uiPhoneValue = document.querySelector('.purchase-phone-value') as HTMLInputElement;
+  const uiPhoneError = document.querySelector('.purchase-phone-error') as HTMLInputElement;
+
+  const uiAddressValue = document.querySelector('.purchase-address-value') as HTMLInputElement;
+  const uiAddressError = document.querySelector('.purchase-address-error') as HTMLInputElement;
+
+  const uiEmailValue = document.querySelector('.purchase-email-value') as HTMLInputElement;
+  const uiEmailError = document.querySelector('.purchase-email-error') as HTMLInputElement;
+
+  const uiCardValue = document.querySelector('.purchase-card-value') as HTMLInputElement;
+  const uiCardError = document.querySelector('.purchase-card-error') as HTMLInputElement;
+
+  const uiValidValue = document.querySelector('.purchase-valid-value') as HTMLInputElement;
+  const uiValidError = document.querySelector('.purchase-valid-error') as HTMLInputElement;
+
+  const uiCvvValue = document.querySelector('.purchase-cvv-value') as HTMLInputElement;
+  const uiCvvError = document.querySelector('.purchase-cvv-error') as HTMLInputElement;
+
+  function validateFields(event: Event): void {
+    validateField(event, ValidatedFields.name, uiNameValue, uiNameError, isNameValid);
+    validateField(event, ValidatedFields.phone, uiPhoneValue, uiPhoneError, isPhoneValid);
+    validateField(event, ValidatedFields.address, uiAddressValue, uiAddressError, isAddressValid);
+    validateField(event, ValidatedFields.email, uiEmailValue, uiEmailError, isEmailValid);
+
+    validateField(event, ValidatedFields.card, uiCardValue, uiCardError, isCardValid);
+    validateField(event, ValidatedFields.valid, uiValidValue, uiValidError, isValidValid);
+    validateField(event, ValidatedFields.cvv, uiCvvValue, uiCvvError, isCvvValid);
+  }
+
+  uiForm.addEventListener('submit', validateFields);
+
+  uiPhoneValue.addEventListener('keypress', onPhoneKeyPress);
+  uiCardValue.addEventListener('keypress', onCardKeyPress);
+  uiValidValue.addEventListener('keypress', onValidKeyPress);
+  uiCvvValue.addEventListener('keypress', onCvvKeyPress);
+}

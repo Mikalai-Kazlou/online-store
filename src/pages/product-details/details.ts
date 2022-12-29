@@ -86,7 +86,6 @@ if (document.location.pathname.includes('details')) {
 
     addPictures(sidePicturesContainer, product.images);
     displaySelectedPicture(selectedPicture, product.images, product.title, 0);
-    //stock.setPrice(infoPrice, product.price, 1);
   }
 
   function addPictures(parent: Element, images: string[]): void {
