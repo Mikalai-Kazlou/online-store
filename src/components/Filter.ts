@@ -49,24 +49,54 @@ export default class Filter {
   }
 
   parseQueryString(searchQuery: URLSearchParams): void {
-    const matrix: String[][] = [];
+    const matrix: Goods[][] = [];
     if (searchQuery) {
       if (searchQuery.has('brand')) {
-        matrix.push(searchQuery.getAll('brand'));
+        const queryBrands = searchQuery.getAll('brand');
+        const result = goodsData.products.filter((item) => queryBrands.includes(item.brand));
+        matrix.push(result);
       }
       if (searchQuery.has('category')) {
-        matrix.push(searchQuery.getAll('category'));
+        const queryCategories = searchQuery.getAll('category');
+        const result = goodsData.products.filter((item) => queryCategories.includes(item.category));
+        matrix.push(result);
       }
       if (searchQuery.has('price')) {
-        matrix.push(searchQuery.getAll('price'));
+        const range = searchQuery.get('price') as String;
+        const minPrice = +range.slice(0, range.indexOf('/'));
+        const maxPrice = +range.slice(range.indexOf('/') + 1);
+        const result = goodsData.products.filter((item) => item.price >= minPrice && item.price <= maxPrice);
+        if (result.length !== goodsData.products.length && result.length > 0) {
+          matrix.push(result);
+        }
       }
       if (searchQuery.has('stock')) {
-        matrix.push(searchQuery.getAll('stock'));
+        const range = searchQuery.get('stock') || '';
+        const minStock = +range.slice(0, range.indexOf('/'));
+        const maxStock = +range.slice(range.indexOf('/') + 1);
+        const result = goodsData.products.filter((item) => item.stock >= minStock && item.stock <= maxStock);
+        if (result.length !== goodsData.products.length && result.length > 0) {
+          matrix.push(result);
+        }
       }
-      if (searchQuery.has('search')) {
-        matrix.push(searchQuery.getAll('search'));
+      if (searchQuery.has('searchQuery')) {
+        const searchText = searchQuery.get('searchQuery') || '';
+        const searchResults: Goods[] = [];
+        for (let i = 0; i < goodsData.products.length; i++) {
+          if (goodsData.products[i].brand.toLowerCase().includes(searchText.toLowerCase())) {
+            searchResults.push(goodsData.products[i]);
+          } else if (goodsData.products[i].title.toLowerCase().includes(searchText.toLowerCase())) {
+            searchResults.push(goodsData.products[i]);
+          }
+        }
+        const result = [...new Set(searchResults)];
+        matrix.push(result);
       }
-    } console.log(matrix);
+    }
+    const result = [...new Set(matrix.flat().map((item) => item.id))];
+    if (result.length > 0) {
+      this.foundItems = result;
+    }
   }
 
   reset(foundItems: number[]) {
