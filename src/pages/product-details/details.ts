@@ -106,4 +106,14 @@ if (document.location.pathname.includes('details')) {
   const pageBreadcrumb = new Breadcrumb(currentProduct.category, currentProduct.brand, currentProduct.title);
   pageBreadcrumb.fillBreadcrumb(categoryContainer, brandContainer, nameContainer);
   fillProductPage(currentProduct);
+
+  function buyNow() {
+    if (!cart.has(currentProduct)) {
+      currentItem.addToCart();
+    }
+    location.href = '../cart.html?action=buy'
+  }
+
+  const uiBuyNow = document.querySelector('.buy-now');
+  uiBuyNow?.addEventListener('click', buyNow);
 }

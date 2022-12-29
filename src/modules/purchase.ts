@@ -13,6 +13,13 @@ if (document.location.pathname.includes('cart')) {
   // Show/Hide purchase form
   // -------------------------------------------------------------
 
+  const search = document.location.search;
+  const searchParams = new URLSearchParams(search);
+
+  if (searchParams.get("action") === 'buy') {
+    showPurchaseWindow();
+  }
+
   function showPurchaseWindow() {
     const uiPurchaseBackground = document.querySelector('.purchase-background');
     uiPurchaseBackground?.classList.remove('no-display');
@@ -28,6 +35,11 @@ if (document.location.pathname.includes('cart')) {
 
     target?.classList.add('no-display');
     document.body.classList.remove('no-scroll');
+
+    if (searchParams.has("action")) {
+      searchParams.delete("action");
+      document.location.search = searchParams.toString();
+    }
   }
 
   const uiBuyNow = document.querySelector('.buy-now');

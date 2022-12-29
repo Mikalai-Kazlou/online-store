@@ -42,14 +42,14 @@ export default class GoodsCatalogItem {
     const uiAddToCart = document.createElement('button');
     uiAddToCart.classList.add('add-to-cart');
     uiAddToCart.classList.add('goods-button');
-    uiAddToCart.addEventListener('click', () => this.addToCart(this.goods));
+    uiAddToCart.addEventListener('click', () => this.addToCart());
     uiAddToCart.addEventListener('click', () => header.refresh());
 
     const uiDetails = document.createElement('button');
     uiDetails.classList.add('details');
     uiDetails.classList.add('goods-button');
     uiDetails.textContent = 'Details';
-    uiDetails.addEventListener('click', () => this.showDetails(this.goods));
+    uiDetails.addEventListener('click', () => this.showDetails());
 
     this.uiElement.setAttribute('id', this.goods.id.toString());
     this.uiElement.append(uiPicture);
@@ -66,7 +66,7 @@ export default class GoodsCatalogItem {
 
   fillProductInfo() {
     const uiAddToCart = this.uiElement.querySelector('.add-to-cart') as HTMLButtonElement;
-    uiAddToCart.addEventListener('click', () => this.addToCart(this.goods));
+    uiAddToCart.addEventListener('click', () => this.addToCart());
     this.refresh();
   }
 
@@ -83,21 +83,21 @@ export default class GoodsCatalogItem {
     header.refresh();
   }
 
-  private addToCart(goods: Goods) {
-    if (this.cart.has(goods)) {
-      this.cart.drop(goods);
+  addToCart() {
+    if (this.cart.has(this.goods)) {
+      this.cart.drop(this.goods);
     } else {
       let quantity = 1;
       const uiStockNumber = this.uiElement.querySelector('.selected-stock') as HTMLParagraphElement;
       if (uiStockNumber) {
         quantity = (uiStockNumber.textContent) ? +uiStockNumber.textContent : 1;
       }
-      this.cart.add(goods, quantity);
+      this.cart.add(this.goods, quantity);
     }
     this.refresh();
   }
 
-  private showDetails(goods: Goods) {
-    location.href = `../../details.html?id=${goods.id}`;
+  private showDetails() {
+    location.href = `../../details.html?id=${this.goods.id}`;
   }
 }
