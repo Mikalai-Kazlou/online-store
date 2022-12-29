@@ -68,11 +68,11 @@
   display: block;
   width: 350px;
 
-  &:valid {
+  &.valid {
     border: 1px solid green;
   }
 
-  &:invalid {
+  &.invalid {
     border: 1px solid red;
   }
 }
