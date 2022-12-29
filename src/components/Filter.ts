@@ -30,6 +30,7 @@ export default class Filter {
     this.setAmountRemainder(this.uiElement, this.foundItems);
     this.save(this.foundItems);
     this.checkSearch(this.searchQuery, this.foundItems);
+    this.parseQueryString(this.searchQuery);
   }
 
   save(result: number[]): void {
@@ -45,6 +46,27 @@ export default class Filter {
       }
       window.history.replaceState({}, '', `/${searchQuery}`);
     }
+  }
+
+  parseQueryString(searchQuery: URLSearchParams): void {
+    const matrix: String[][] = [];
+    if (searchQuery) {
+      if (searchQuery.has('brand')) {
+        matrix.push(searchQuery.getAll('brand'));
+      }
+      if (searchQuery.has('category')) {
+        matrix.push(searchQuery.getAll('category'));
+      }
+      if (searchQuery.has('price')) {
+        matrix.push(searchQuery.getAll('price'));
+      }
+      if (searchQuery.has('stock')) {
+        matrix.push(searchQuery.getAll('stock'));
+      }
+      if (searchQuery.has('search')) {
+        matrix.push(searchQuery.getAll('search'));
+      }
+    } console.log(matrix);
   }
 
   reset(foundItems: number[]) {
