@@ -30,6 +30,7 @@ export default class Filter {
     this.setAmountRemainder(this.uiElement, this.foundItems);
     this.save(this.foundItems);
     this.checkSearch(this.searchQuery, this.foundItems);
+    // this.setPriceSlider(this.foundItems);
   }
 
   private save(result: number[]): void {
@@ -79,28 +80,42 @@ export default class Filter {
       }
       if (searchQuery.has('price')) {
         const range = searchQuery.get('price') as String;
-        const minPrice = range.slice(0, range.indexOf('/'));
-        const maxPrice = range.slice(range.indexOf('/') + 1);
-        const result = goodsData.products.filter((item) => item.price >= +minPrice && item.price <= +maxPrice);
-        const fromPriceCOntainer = document.querySelector('.price-slider-from') as HTMLInputElement;
-        const toPriceContainer = document.querySelector('.price-slider-to') as HTMLInputElement;
-        this.setSliderValue(fromPriceCOntainer, minPrice);
-        this.setSliderValue(toPriceContainer, maxPrice);
-        if (result.length !== goodsData.products.length && result.length > 0) {
-          matrix.push(result);
+        if (range.includes('/') && range.length > 2) {
+          let minPrice = range.slice(0, range.indexOf('/'));
+          let maxPrice = range.slice(range.indexOf('/') + 1);
+          if (+minPrice > +maxPrice) {
+            const temp = minPrice;
+            minPrice = maxPrice;
+            maxPrice = temp;
+          }
+          const result = goodsData.products.filter((item) => item.price >= +minPrice && item.price <= +maxPrice);
+          const fromPriceCOntainer = document.querySelector('.price-slider-from') as HTMLInputElement;
+          const toPriceContainer = document.querySelector('.price-slider-to') as HTMLInputElement;
+          this.setSliderValue(fromPriceCOntainer, minPrice);
+          this.setSliderValue(toPriceContainer, maxPrice);
+          if (result.length !== goodsData.products.length && result.length > 0) {
+            matrix.push(result);
+          }
         }
       }
       if (searchQuery.has('stock')) {
         const range = searchQuery.get('stock') || '';
-        const minStock = range.slice(0, range.indexOf('/'));
-        const maxStock = range.slice(range.indexOf('/') + 1);
-        const result = goodsData.products.filter((item) => item.stock >= +minStock && item.stock <= +maxStock);
-        const fromStockCOntainer = document.querySelector('.stock-slider-from') as HTMLInputElement;
-        const toStockContainer = document.querySelector('.stock-slider-to') as HTMLInputElement;
-        this.setSliderValue(fromStockCOntainer, minStock);
-        this.setSliderValue(toStockContainer, maxStock);
-        if (result.length !== goodsData.products.length && result.length > 0) {
-          matrix.push(result);
+        if (range.includes('/') && range.length > 2) {
+          let minStock = range.slice(0, range.indexOf('/'));
+          let maxStock = range.slice(range.indexOf('/') + 1);
+          if (+minStock > +maxStock) {
+            const temp = minStock;
+            minStock = maxStock;
+            maxStock = temp;
+          }
+          const result = goodsData.products.filter((item) => item.stock >= +minStock && item.stock <= +maxStock);
+          const fromStockCOntainer = document.querySelector('.stock-slider-from') as HTMLInputElement;
+          const toStockContainer = document.querySelector('.stock-slider-to') as HTMLInputElement;
+          this.setSliderValue(fromStockCOntainer, minStock);
+          this.setSliderValue(toStockContainer, maxStock);
+          if (result.length !== goodsData.products.length && result.length > 0) {
+            matrix.push(result);
+          }
         }
       }
       if (searchQuery.has('searchQuery')) {
@@ -126,13 +141,12 @@ export default class Filter {
     });
     const result = resultGoods?.map((item) => item.id) || [0];
     if (result[0] !== 0) {
-      console.log(result);
       this.foundItems = result;
       this.getMatchedResults(this.uiElement);
     }
   }
 
-  private setSliderValue(container: HTMLInputElement, value: string): void {
+  setSliderValue(container: HTMLInputElement, value: string): void {
     container.setAttribute('value', value);
     container.value = value;
   }
@@ -277,28 +291,31 @@ export default class Filter {
     });
   }
 
-  setPriceSlider(foundItems: number[]) { // does not work properly
+  setPriceSlider(foundItems: number[]) {
+    // does not work properly
     const minPrice = document.querySelector('.price-slider-from') as HTMLInputElement;
     const maxPrice = document.querySelector('.price-slider-to') as HTMLInputElement;
     const prices = foundItems.map((item) => goodsData.products[item - 1].price);
     const minPriceValue = Math.min.apply(Math, prices);
     const maxPriceValue = Math.max.apply(Math, prices);
     if (foundItems.length > 0) {
-      if (minPrice.value < minPriceValue.toString()) {
-        minPrice.value = minPriceValue.toString();
-        minPrice.setAttribute('value', `${minPriceValue}`);
+      if (+minPrice.value < minPriceValue) {
+        this.setSliderValue(minPrice, minPriceValue.toString());
+        this.setSliderValue(maxPrice, maxPriceValue.toString());
       }
-      if (maxPrice.value > maxPriceValue.toString()) {
-        maxPrice.setAttribute('value', `${maxPriceValue}`);
-        maxPrice.value = maxPriceValue.toString();
+      if (+maxPrice.value > maxPriceValue) {
+        this.setSliderValue(minPrice, minPriceValue.toString());
+        this.setSliderValue(maxPrice, maxPriceValue.toString());
       }
-    } else {
-      minPrice.setAttribute('value', `${minPrice.value}`);
-      maxPrice.setAttribute('value', `${maxPrice.value}`);
     }
+    // else {
+    //   minPrice.setAttribute('value', `${minPrice.value}`);
+    //   maxPrice.setAttribute('value', `${maxPrice.value}`);
+    // }
   }
 
-  setStockSlider(foundItems: number[]) { // does not work properly
+  setStockSlider(foundItems: number[]) {
+    // does not work properly
     const minStock = document.querySelector('.price-slider-from') as HTMLInputElement;
     const maxStock = document.querySelector('.price-slider-to') as HTMLInputElement;
     const stock = foundItems.map((item) => goodsData.products[item - 1].stock);
@@ -309,7 +326,6 @@ export default class Filter {
       if (minStock.value < minStockValue.toString()) {
         minStock.value = minStockValue.toString();
         minStock.setAttribute('value', `${minStockValue}`);
-        console.log(range);
       } else if (maxStock.value > maxStockValue.toString()) {
         maxStock.setAttribute('value', `${maxStockValue}`);
         maxStock.value = maxStockValue.toString();
