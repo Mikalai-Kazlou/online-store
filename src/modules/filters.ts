@@ -177,4 +177,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     filter.reset(foundItem);
   });
   copyButton.addEventListener('click', copyLink);
+  window.addEventListener('load', () => {
+    filter.parseQueryString(filter.searchQuery);
+    refreshSliders();
+  });
 }
