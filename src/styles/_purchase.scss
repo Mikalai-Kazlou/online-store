@@ -33,6 +33,11 @@
   border-radius: 10px;
 
   cursor: auto;
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
 }
 
 .purchase-form-group {
@@ -51,9 +56,32 @@
 
 .purchase-submit {
   padding: 0.2rem 1rem;
+  text-transform: capitalize;
+}
+
+.purchase-label {
+  display: block;
+  margin-top: 1rem;
 }
 
 .purchase-field {
   display: block;
-  margin-bottom: 1rem;
+  width: 350px;
+
+  &.valid {
+    border: 1px solid green;
+  }
+
+  &.invalid {
+    border: 1px solid red;
+  }
+}
+
+.payment-system {
+  color: violet;
+}
+
+.error {
+  font-size: 10px;
+  color: red;
 }

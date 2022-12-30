@@ -125,6 +125,12 @@ export default class Cart {
     return this.items.find((item) => item.goods === goods);
   }
 
+  clear(): void {
+    this.items = [];
+    this.promoCodes = new Set();
+    this.draw();
+  }
+
   add(goods: Goods, quantity = 1): void {
     if (this.has(goods)) {
       const item = this.items.find((item) => item.goods === goods);
@@ -182,14 +188,13 @@ export default class Cart {
   }
 
   private getMaxPage(): number {
-    return Math.ceil(this.items.length / this.itemsOnPage);
+    const maxPage = Math.ceil(this.items.length / this.itemsOnPage);
+    return maxPage > 0 ? maxPage : 1;
   }
 
   private recalculateCurrentPage(): void {
     const maxPage = this.getMaxPage();
-    if (this.page > maxPage) {
-      this.page = maxPage;
-    }
+    this.page = (this.page > maxPage) ? maxPage : this.page;
   }
 
   protected setNextPage(): void {
@@ -237,7 +242,9 @@ export default class Cart {
   }
 
   private restore(): void {
-    const cart: SavedCart = JSON.parse(localStorage.getItem('rs-online-store-cart') as string) || { promo: [], items: [] };
+    const cart: SavedCart = JSON.parse(localStorage.getItem('rs-online-store-cart') as string)
+      || { promo: [], items: [], page: this.page, itemsOnPage: this.itemsOnPage };
+
     this.items = cart.items.map((item) => new CartItem(new Goods(item.id), item.qnt));
     cart.promo.forEach((promo) => {
       const code = promoCodes.find((code) => code.id === promo);

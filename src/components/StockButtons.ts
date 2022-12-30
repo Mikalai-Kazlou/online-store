@@ -59,7 +59,6 @@ export default class StockButtons {
   }
 
   incrementStock(goods: Goods, stock: HTMLParagraphElement, cart: Cart) {
-    //const priceContainer = document.querySelector('.info-price') as HTMLParagraphElement;
     const amount = this.getCurrentAmount(goods);
     const maxStock = goods.stock;
     const currentStock = +stock.innerHTML;
@@ -71,11 +70,9 @@ export default class StockButtons {
       stock.innerHTML = `${currentStock + 1}`;
       this.header.refresh();
     }
-    //this.setPrice(priceContainer, goods.price, +stock.innerHTML);
   }
 
   decrementStock(goods: Goods, stock: HTMLParagraphElement, cart: Cart): void {
-    //const priceContainer = document.querySelector('.info-price') as HTMLParagraphElement;
     const amount = this.getCurrentAmount(goods);
     const currentStock = +stock.innerHTML;
     if (amount > 1 && cart.has(goods) && currentStock > 1) {
@@ -86,17 +83,10 @@ export default class StockButtons {
       stock.innerHTML = `${currentStock - 1}`;
       this.header.refresh();
     }
-    //this.setPrice(priceContainer, goods.price, +stock.innerHTML);
   }
 
   getCurrentAmount(goods: Goods): number {
     const cartItem = this.cart.find(goods);
     return (cartItem) ? cartItem.quantity : 1;
-
   }
-
-  /*setPrice(parent: Element, price: number, selectedStock: number): void {
-    const finalPrice = price * selectedStock;
-    parent.innerHTML = `Price: $${finalPrice}`;
-  }*/
 }

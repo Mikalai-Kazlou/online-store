@@ -34,6 +34,8 @@ if (document.location.pathname.includes('cart')) {
     }
   }
 
+  document.body.addEventListener('carthasbeenchanged', onCartChanged, false);
+
   const uiCart = elementNullCheck(document, '.main-container-cart') as HTMLElement;
   const cart = new Cart(uiCart);
   cart.draw();
@@ -48,5 +50,27 @@ if (document.location.pathname.includes('cart')) {
   const uiItemsOnPage = elementNullCheck(document, '.items-on-page-value') as HTMLInputElement;
   uiItemsOnPage.addEventListener('keypress', onItemsOnPageKeyPress);
 
-  document.body.addEventListener('carthasbeenchanged', onCartChanged, false);
+  // -------------------------------------------------------------
+  // Redirection
+  // -------------------------------------------------------------
+
+  const search = document.location.search;
+  const searchParams = new URLSearchParams(search);
+
+  const uiTitle = document.querySelector('.error-message>.title') as HTMLElement;
+  let sec = 3;
+
+  function displayMessage() {
+    if (sec === 0) {
+      location.href = '../../';
+    } else {
+      uiTitle.innerHTML = `Operation has been completed.<br>You will be redirected to main page in ${sec--}s`;
+      setTimeout(displayMessage, 1000);
+    }
+  }
+
+  if (searchParams.get("action") === 'submit') {
+    cart.clear();
+    displayMessage();
+  }
 }

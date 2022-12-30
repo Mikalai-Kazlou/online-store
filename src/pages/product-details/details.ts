@@ -86,7 +86,6 @@ if (document.location.pathname.includes('details')) {
 
     addPictures(sidePicturesContainer, product.images);
     displaySelectedPicture(selectedPicture, product.images, product.title, 0);
-    //stock.setPrice(infoPrice, product.price, 1);
   }
 
   function addPictures(parent: Element, images: string[]): void {
@@ -107,4 +106,14 @@ if (document.location.pathname.includes('details')) {
   const pageBreadcrumb = new Breadcrumb(currentProduct.category, currentProduct.brand, currentProduct.title);
   pageBreadcrumb.fillBreadcrumb(categoryContainer, brandContainer, nameContainer);
   fillProductPage(currentProduct);
+
+  function buyNow() {
+    if (!cart.has(currentProduct)) {
+      currentItem.addToCart();
+    }
+    location.href = '../cart.html?action=buy'
+  }
+
+  const uiBuyNow = document.querySelector('.buy-now');
+  uiBuyNow?.addEventListener('click', buyNow);
 }
