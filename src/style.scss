@@ -27,7 +27,6 @@ body {
     padding-left: 1.5rem;
     margin-right: auto;
     margin-left: auto;
-    /* overflow: auto; */
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
@@ -133,15 +132,6 @@ body {
     @media screen and (max-width: 500px) {
         min-height: 15vh;
     }
-}
-
-.filters-container {
-    /* position: sticky; */
-    /* display: flex;
-    flex-direction: column; */
-    /* top: 1rem;
-    gap: 1.5rem;
-    min-height: 50rem; */
 }
 
 .filters-content {
@@ -278,6 +268,7 @@ body {
     border-color: transparent;
     letter-spacing: 0.1rem;
     margin-bottom: 1.2rem;
+    width: 95%;
 
     &:focus {
         color: #3d621f;
@@ -358,8 +349,6 @@ body {
     z-index: 1;
 }
 
-// Filter sliders
-
 .nice-scrollbar-border {
     display: flex;
     padding: 0;
@@ -403,8 +392,6 @@ body {
     height: 0.7rem;
     appearance: none;
 }
-
-// end
 
 .filter-category-buttons,
 .filter-brand-buttons {

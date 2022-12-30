@@ -9,7 +9,6 @@ import Goods from '../../components/Goods';
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   const modal: HTMLElement = elementNullCheck(document, '.modal') as HTMLElement;
   const overlay: HTMLElement = document.querySelector('.overlay') as HTMLElement;
-  // const btnCloseModal: HTMLElement = document.querySelector('.close-modal') as HTMLElement;
   const btnOpenModal: HTMLElement = document.querySelector('.goods-items') as HTMLElement;
 
   function addModalProduct(id: number, parent: HTMLElement): void {
@@ -99,6 +98,5 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   }
 
   btnOpenModal.addEventListener('click', openModal);
-  // btnCloseModal.addEventListener('click', closeModal);
   overlay.addEventListener('click', closeModal);
 }
