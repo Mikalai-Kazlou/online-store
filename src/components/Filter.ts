@@ -1,6 +1,6 @@
 import Goods from './Goods';
 import goodsData from '../modules/goods';
-
+import {sortingType, viewType} from '../modules/enums';
 
 export default class Filter {
   private uiElement: HTMLElement;
@@ -15,7 +15,7 @@ export default class Filter {
     this.counter = counter;
   }
 
-  refreshCounter(foundItems: number[]): void {
+  private refreshCounter(foundItems: number[]): void {
     if (foundItems.length > 0) {
       this.counter.innerHTML = `Found: ${foundItems.length}`;
     } else {
@@ -24,20 +24,22 @@ export default class Filter {
   }
 
   getMatchedResults(uiElement: HTMLElement) {
+    // this method is for use on clicks
     this.setMatchedResults(this.uiElement, this.searchQuery);
     this.refreshCounter(this.foundItems);
     this.hideItems();
     this.setAmountRemainder(this.uiElement, this.foundItems);
     this.save(this.foundItems);
     this.checkSearch(this.searchQuery, this.foundItems);
+    // this.setPriceSlider(this.foundItems);
   }
 
-  save(result: number[]): void {
+  private save(result: number[]): void {
     localStorage.setItem('RS Online-Store SearchResults', JSON.stringify(result));
   }
 
   checkSearch(searchQuery: URLSearchParams, foundItems: number[]): void {
-    if (foundItems.length > 0 && foundItems.length !== goodsData.products.length) {
+    if (foundItems.length !== goodsData.products.length) {
       window.history.pushState({}, '', `/?${searchQuery}`);
     } else {
       for (const key of searchQuery.keys()) {
@@ -45,6 +47,147 @@ export default class Filter {
       }
       window.history.replaceState({}, '', `/${searchQuery}`);
     }
+  }
+
+  parseQueryString(searchQuery: URLSearchParams): void {
+    // this method is for use on load
+    const matrix: Goods[][] = [];
+    if (searchQuery) {
+      if (searchQuery.has('brand')) {
+        const queryBrands = searchQuery.getAll('brand')[0].split(',');
+        const result = goodsData.products.filter((item) => queryBrands.includes(item.brand));
+        const brandButtons = document.querySelectorAll('.brand-button');
+        brandButtons.forEach((item) => {
+          if (result.map((v) => v.brand).includes(item.id)) {
+            if (!item.classList.contains('selected')) {
+              item.classList.add('selected');
+            }
+          }
+        });
+        matrix.push(result);
+      }
+      if (searchQuery.has('category')) {
+        const queryCategories = searchQuery.getAll('category')[0].split(',');
+        const result = goodsData.products.filter((item) => queryCategories.includes(item.category));
+        const brandCategory = document.querySelectorAll('.category-button');
+        brandCategory.forEach((item) => {
+          if (result.map((v) => v.category).includes(item.id)) {
+            if (!item.classList.contains('selected')) {
+              item.classList.add('selected');
+            }
+          }
+        });
+        matrix.push(result);
+      }
+      if (searchQuery.has('price')) {
+        const range = searchQuery.get('price') as String;
+        if (range.includes('/') && range.length > 2) {
+          let minPrice = range.slice(0, range.indexOf('/'));
+          let maxPrice = range.slice(range.indexOf('/') + 1);
+          if (+minPrice > +maxPrice) {
+            const temp = minPrice;
+            minPrice = maxPrice;
+            maxPrice = temp;
+          }
+          const result = goodsData.products.filter((item) => item.price >= +minPrice && item.price <= +maxPrice);
+          const fromPriceCOntainer = document.querySelector('.price-slider-from') as HTMLInputElement;
+          const toPriceContainer = document.querySelector('.price-slider-to') as HTMLInputElement;
+          this.setSliderValue(fromPriceCOntainer, minPrice);
+          this.setSliderValue(toPriceContainer, maxPrice);
+          if (result.length !== goodsData.products.length && result.length > 0) {
+            matrix.push(result);
+          }
+        }
+      }
+      if (searchQuery.has('stock')) {
+        const range = searchQuery.get('stock') || '';
+        if (range.includes('/') && range.length > 2) {
+          let minStock = range.slice(0, range.indexOf('/'));
+          let maxStock = range.slice(range.indexOf('/') + 1);
+          if (+minStock > +maxStock) {
+            const temp = minStock;
+            minStock = maxStock;
+            maxStock = temp;
+          }
+          const result = goodsData.products.filter((item) => item.stock >= +minStock && item.stock <= +maxStock);
+          const fromStockCOntainer = document.querySelector('.stock-slider-from') as HTMLInputElement;
+          const toStockContainer = document.querySelector('.stock-slider-to') as HTMLInputElement;
+          this.setSliderValue(fromStockCOntainer, minStock);
+          this.setSliderValue(toStockContainer, maxStock);
+          if (result.length !== goodsData.products.length && result.length > 0) {
+            matrix.push(result);
+          }
+        }
+      }
+      if (searchQuery.has('searchQuery')) {
+        const searchText = searchQuery.get('searchQuery') || '';
+        const searchResults: Goods[] = [];
+        for (let i = 0; i < goodsData.products.length; i++) {
+          if (goodsData.products[i].brand.toLowerCase().includes(searchText.toLowerCase())) {
+            searchResults.push(goodsData.products[i]);
+          }
+          if (goodsData.products[i].title.toLowerCase().includes(searchText.toLowerCase())) {
+            searchResults.push(goodsData.products[i]);
+          }
+          if (goodsData.products[i].price.toString().includes(searchText.toLowerCase())) {
+            searchResults.push(goodsData.products[i]);
+          }
+          if (goodsData.products[i].stock.toString().includes(searchText.toLowerCase())) {
+            searchResults.push(goodsData.products[i]);
+          }
+          if (goodsData.products[i].description.toLowerCase().includes(searchText.toLowerCase())) {
+            searchResults.push(goodsData.products[i]);
+          }
+          if (goodsData.products[i].rating.toString().includes(searchText.toLowerCase())) {
+            searchResults.push(goodsData.products[i]);
+          }
+        }
+        const searchQueryContainer = document.querySelector('.search-input') as HTMLInputElement;
+        searchQueryContainer.value = searchText;
+        const result = [...new Set(searchResults)];
+        matrix.push(result);
+      } if (searchQuery.has('sorting')) {
+        const sorting = searchQuery.get('sorting');
+        const sortInput = document.querySelector('.sort-input') as HTMLSelectElement;
+        if (sorting === sortingType.NameAscending) {
+          sortInput.value = sortingType.NameAscending;
+        }
+        if (sorting === sortingType.NameDescending) {
+          sortInput.value = sortingType.NameDescending;
+        }
+        if (sorting === sortingType.PriceAscending) {
+          sortInput.value = sortingType.PriceAscending;
+        }
+        if (sorting === sortingType.PriceDescending) {
+          sortInput.value = sortingType.PriceDescending;
+        }
+      }
+      if (searchQuery.has('view')) {
+        const view = searchQuery.get('view');
+        const viewInput = document.querySelector('.view-input') as HTMLSelectElement;
+        if (view === viewType.Standard) {
+          viewInput.value = viewType.Standard;
+        }
+        if (view === viewType.Small) {
+          viewInput.value = viewType.Small;
+        }
+      }
+    }
+    const resultGoods: Goods[] | undefined = matrix.shift()?.filter(function (v) {
+      return matrix.every(function (a) {
+        return a.indexOf(v) !== -1;
+      });
+    });
+    const result = resultGoods?.map((item) => item.id) || [0];
+    if (result[0] !== 0) {
+      this.foundItems = result;
+      this.getMatchedResults(this.uiElement);
+    }
+  }
+
+  setSliderValue(container: HTMLInputElement, value: string): void {
+    container.setAttribute('value', value);
+    container.value = value;
   }
 
   reset(foundItems: number[]) {
@@ -97,7 +240,23 @@ export default class Filter {
     for (let i = 0; i < goodsData.products.length; i++) {
       if (goodsData.products[i].brand.toLowerCase().includes(searchQueryInput.toLowerCase())) {
         searchResults.push(goodsData.products[i]);
-      } else if (goodsData.products[i].title.toLowerCase().includes(searchQueryInput.toLowerCase())) {
+      }
+      if (goodsData.products[i].title.toLowerCase().includes(searchQueryInput.toLowerCase())) {
+        searchResults.push(goodsData.products[i]);
+      }
+      if (goodsData.products[i].description.toLowerCase().includes(searchQueryInput.toLowerCase())) {
+        searchResults.push(goodsData.products[i]);
+      }
+      if (goodsData.products[i].category.toLowerCase().includes(searchQueryInput.toLowerCase())) {
+        searchResults.push(goodsData.products[i]);
+      }
+      if (goodsData.products[i].rating.toString().includes(searchQueryInput.toLowerCase())) {
+        searchResults.push(goodsData.products[i]);
+      }
+      if (goodsData.products[i].price.toString().includes(searchQueryInput.toLowerCase())) {
+        searchResults.push(goodsData.products[i]);
+      }
+      if (goodsData.products[i].stock.toString().includes(searchQueryInput.toLowerCase())) {
         searchResults.push(goodsData.products[i]);
       }
     }
@@ -188,28 +347,30 @@ export default class Filter {
   }
 
   setPriceSlider(foundItems: number[]) {
+    // does not work properly
     const minPrice = document.querySelector('.price-slider-from') as HTMLInputElement;
     const maxPrice = document.querySelector('.price-slider-to') as HTMLInputElement;
     const prices = foundItems.map((item) => goodsData.products[item - 1].price);
     const minPriceValue = Math.min.apply(Math, prices);
     const maxPriceValue = Math.max.apply(Math, prices);
-    const range = [minPriceValue, maxPriceValue];
     if (foundItems.length > 0) {
-      if (minPrice.value < minPriceValue.toString()) {
-        minPrice.value = minPriceValue.toString();
-        minPrice.setAttribute('value', `${minPriceValue}`);
+      if (+minPrice.value < minPriceValue) {
+        this.setSliderValue(minPrice, minPriceValue.toString());
+        this.setSliderValue(maxPrice, maxPriceValue.toString());
       }
-      if (maxPrice.value > maxPriceValue.toString()) {
-        maxPrice.setAttribute('value', `${maxPriceValue}`);
-        maxPrice.value = maxPriceValue.toString();
+      if (+maxPrice.value > maxPriceValue) {
+        this.setSliderValue(minPrice, minPriceValue.toString());
+        this.setSliderValue(maxPrice, maxPriceValue.toString());
       }
-    } else {
-      minPrice.setAttribute('value', `${minPrice.value}`);
-      maxPrice.setAttribute('value', `${maxPrice.value}`);
     }
+    // else {
+    //   minPrice.setAttribute('value', `${minPrice.value}`);
+    //   maxPrice.setAttribute('value', `${maxPrice.value}`);
+    // }
   }
 
   setStockSlider(foundItems: number[]) {
+    // does not work properly
     const minStock = document.querySelector('.price-slider-from') as HTMLInputElement;
     const maxStock = document.querySelector('.price-slider-to') as HTMLInputElement;
     const stock = foundItems.map((item) => goodsData.products[item - 1].stock);
@@ -220,7 +381,6 @@ export default class Filter {
       if (minStock.value < minStockValue.toString()) {
         minStock.value = minStockValue.toString();
         minStock.setAttribute('value', `${minStockValue}`);
-        console.log(range);
       } else if (maxStock.value > maxStockValue.toString()) {
         maxStock.setAttribute('value', `${maxStockValue}`);
         maxStock.value = maxStockValue.toString();
@@ -309,9 +469,5 @@ export default class Filter {
           })`)
       );
     }
-  }
-
-  private getTotalProducts() {
-    return goodsData.products.length;
   }
 }

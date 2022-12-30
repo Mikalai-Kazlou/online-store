@@ -1,16 +1,26 @@
 import goodsData from './goods';
 import { elementNullCheck } from './helpers';
+import Filter from '../components/Filter';
+import Goods from '../components/Goods';
+import {sortingType, viewType} from '../modules/enums';
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   const sortingContainer = elementNullCheck(document, '.sort-input') as HTMLSelectElement;
   const viewContainer = elementNullCheck(document, '.view-input') as HTMLSelectElement;
   const goodsItems = elementNullCheck(document, '.goods-items');
 
+  const goodsNumber = elementNullCheck(document, '.goods-number') as HTMLElement;
+  const filterContent = elementNullCheck(document, '.filters-content') as HTMLElement;
+  const goods = new Goods(0);
+  const filter = new Filter(filterContent, goods, goodsNumber);
+  const foundItem = filter.foundItems;
+
   function sort(event: Event): void {
     const target: HTMLSelectElement = event.target as HTMLSelectElement;
     const allItems = document.querySelectorAll('.good-item');
     const allDescriptions = document.querySelectorAll('.product-description');
-    if (target.value === `price-lowest`) {
+    if (target.value === sortingType.PriceAscending) {
+      filter.searchQueryAppend('sorting', sortingType.PriceAscending, filter.searchQuery);
       const itemsArr = [];
       for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
@@ -29,8 +39,9 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
       for (let i = 0; i < itemsArr.length; ++i) {
         goodsItems.appendChild(itemsArr[i]);
       }
-    } else if (target.value === `price-highest`) {
+    } else if (target.value === sortingType.PriceDescending) {
       const itemsArr = [];
+      filter.searchQueryAppend('sorting', sortingType.PriceDescending, filter.searchQuery);
       for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
           itemsArr.push(allItems[i]);
@@ -48,7 +59,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
       for (let i = 0; i < itemsArr.length; ++i) {
         goodsItems.appendChild(itemsArr[i]);
       }
-    } else if (target.value === `name-a`) {
+    } else if (target.value === sortingType.NameAscending) {
+      filter.searchQueryAppend('sorting', sortingType.NameAscending, filter.searchQuery);
       const itemsArr = [];
       for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
@@ -67,7 +79,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
       for (let i = 0; i < itemsArr.length; ++i) {
         goodsItems.appendChild(itemsArr[i]);
       }
-    } else if (target.value === `name-z`) {
+    } else if (target.value === sortingType.NameDescending) {
+      filter.searchQueryAppend('sorting', sortingType.NameDescending, filter.searchQuery);
       const itemsArr = [];
       for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
@@ -86,16 +99,40 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
       for (let i = 0; i < itemsArr.length; ++i) {
         goodsItems.appendChild(itemsArr[i]);
       }
-    } else if (target.value === `view-standard`) {
+    } filter.getMatchedResults(filterContent);
+  }
+
+  function setView(event: Event): void {
+    const target: HTMLSelectElement = event.target as HTMLSelectElement;
+    const allItems = document.querySelectorAll('.good-item');
+    const allDescriptions = document.querySelectorAll('.product-description');
+    if (target.value === viewType.Standard) {
+      filter.searchQueryAppend('view', viewType.Standard, filter.searchQuery);
       allItems.forEach((item) => {
-        if (item.classList.contains('view-small')) item.classList.remove('view-small');
+        if (item.classList.contains(viewType.Small)) item.classList.remove(viewType.Small);
       });
       allDescriptions.forEach((item) => {
         if (item.classList.contains('hide')) item.classList.remove('hide');
       });
-    } else if (target.value === `view-small`) {
+    } else if (target.value === viewType.Small) {
+      filter.searchQueryAppend('view', viewType.Small, filter.searchQuery);
       allItems.forEach((item) => {
-        if (!item.classList.contains('view-small')) item.classList.add('view-small');
+        if (!item.classList.contains(viewType.Small)) item.classList.add(viewType.Small);
+      });
+      allDescriptions.forEach((item) => {
+        if (!item.classList.contains('hide')) item.classList.add('hide');
+      });
+    } filter.getMatchedResults(filterContent);
+  }
+
+  function setViewOnLoad(): void {
+    const viewInput = document.querySelector('.view-input') as HTMLSelectElement;
+    const allItems = document.querySelectorAll('.good-item');
+    const allDescriptions = document.querySelectorAll('.product-description');
+    if (viewInput.value === viewType.Small) {
+      viewInput.value = viewType.Small;
+      allItems.forEach((item) => {
+        if (!item.classList.contains(viewType.Small)) item.classList.add(viewType.Small);
       });
       allDescriptions.forEach((item) => {
         if (!item.classList.contains('hide')) item.classList.add('hide');
@@ -104,5 +141,6 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   }
 
   sortingContainer.addEventListener('change', sort);
-  viewContainer.addEventListener('change', sort);
+  viewContainer.addEventListener('change', setView);
+  window.addEventListener('load', setViewOnLoad);
 }
