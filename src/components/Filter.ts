@@ -1,5 +1,6 @@
 import Goods from './Goods';
 import goodsData from '../modules/goods';
+import {sortingType, viewType} from '../modules/enums';
 
 export default class Filter {
   private uiElement: HTMLElement;
@@ -146,7 +147,23 @@ export default class Filter {
         const result = [...new Set(searchResults)];
         matrix.push(result);
       } if (searchQuery.has('sorting')) {
-        console.log('yes');
+        const sorting = searchQuery.get('sorting');
+        if (sorting === sortingType.NameAscending) {
+        }
+        if (sorting === sortingType.NameDescending) {
+        }
+        if (sorting === sortingType.PriceAscending) {
+        }
+        if (sorting === sortingType.PriceDescending) {
+        }
+        console.log('sorting');
+      }
+      if (searchQuery.has('view')) {
+        const view = searchQuery.get('view');
+        if (view === viewType.Standard) {
+        }
+        if (view === viewType.Small) {
+        }
       }
     }
     const resultGoods: Goods[] | undefined = matrix.shift()?.filter(function (v) {
