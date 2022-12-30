@@ -148,21 +148,28 @@ export default class Filter {
         matrix.push(result);
       } if (searchQuery.has('sorting')) {
         const sorting = searchQuery.get('sorting');
+        const sortInput = document.querySelector('.sort-input') as HTMLSelectElement;
         if (sorting === sortingType.NameAscending) {
+          sortInput.value = sortingType.NameAscending;
         }
         if (sorting === sortingType.NameDescending) {
+          sortInput.value = sortingType.NameDescending;
         }
         if (sorting === sortingType.PriceAscending) {
+          sortInput.value = sortingType.PriceAscending;
         }
         if (sorting === sortingType.PriceDescending) {
+          sortInput.value = sortingType.PriceDescending;
         }
-        console.log('sorting');
       }
       if (searchQuery.has('view')) {
         const view = searchQuery.get('view');
+        const viewInput = document.querySelector('.view-input') as HTMLSelectElement;
         if (view === viewType.Standard) {
+          viewInput.value = viewType.Standard;
         }
         if (view === viewType.Small) {
+          viewInput.value = viewType.Small;
         }
       }
     }

@@ -115,7 +115,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
       allDescriptions.forEach((item) => {
         if (!item.classList.contains('hide')) item.classList.add('hide');
       });
-    }
+    } filter.getMatchedResults(filterContent);
   }
 
   sortingContainer.addEventListener('change', sort);
