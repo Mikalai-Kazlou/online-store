@@ -99,7 +99,14 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
       for (let i = 0; i < itemsArr.length; ++i) {
         goodsItems.appendChild(itemsArr[i]);
       }
-    } else if (target.value === viewType.Standard) {
+    } filter.getMatchedResults(filterContent);
+  }
+
+  function setView(event: Event): void {
+    const target: HTMLSelectElement = event.target as HTMLSelectElement;
+    const allItems = document.querySelectorAll('.good-item');
+    const allDescriptions = document.querySelectorAll('.product-description');
+    if (target.value === viewType.Standard) {
       filter.searchQueryAppend('view', viewType.Standard, filter.searchQuery);
       allItems.forEach((item) => {
         if (item.classList.contains(viewType.Small)) item.classList.remove(viewType.Small);
@@ -118,6 +125,22 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     } filter.getMatchedResults(filterContent);
   }
 
+  function setViewOnLoad(): void {
+    const viewInput = document.querySelector('.view-input') as HTMLSelectElement;
+    const allItems = document.querySelectorAll('.good-item');
+    const allDescriptions = document.querySelectorAll('.product-description');
+    if (viewInput.value === viewType.Small) {
+      viewInput.value = viewType.Small;
+      allItems.forEach((item) => {
+        if (!item.classList.contains(viewType.Small)) item.classList.add(viewType.Small);
+      });
+      allDescriptions.forEach((item) => {
+        if (!item.classList.contains('hide')) item.classList.add('hide');
+      });
+    }
+  }
+
   sortingContainer.addEventListener('change', sort);
-  viewContainer.addEventListener('change', sort);
+  viewContainer.addEventListener('change', setView);
+  window.addEventListener('load', setViewOnLoad);
 }

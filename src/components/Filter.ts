@@ -39,7 +39,7 @@ export default class Filter {
   }
 
   checkSearch(searchQuery: URLSearchParams, foundItems: number[]): void {
-    if (foundItems.length > 0 && foundItems.length !== goodsData.products.length) {
+    if (foundItems.length !== goodsData.products.length) {
       window.history.pushState({}, '', `/?${searchQuery}`);
     } else {
       for (const key of searchQuery.keys()) {
