@@ -9,6 +9,11 @@ enum ValidatedFields {
 }
 
 if (document.location.pathname.includes('cart')) {
+  const paymentSystems: Map<string, string> = new Map();
+  paymentSystems.set('4', 'Visa');
+  paymentSystems.set('5', 'MasterCard');
+  paymentSystems.set('6', 'UnionPay');
+
   // -------------------------------------------------------------
   // Show/Hide purchase form
   // -------------------------------------------------------------
@@ -51,6 +56,37 @@ if (document.location.pathname.includes('cart')) {
   // -------------------------------------------------------------
   // Validation
   // -------------------------------------------------------------
+
+  const uiForm = document.querySelector('.purchase-form') as HTMLFormElement;
+  uiForm.addEventListener('submit', validateFields);
+
+  const uiNameValue = document.querySelector('.purchase-name-value') as HTMLInputElement;
+  const uiNameError = document.querySelector('.purchase-name-error') as HTMLElement;
+
+  const uiAddressValue = document.querySelector('.purchase-address-value') as HTMLInputElement;
+  const uiAddressError = document.querySelector('.purchase-address-error') as HTMLElement;
+
+  const uiEmailValue = document.querySelector('.purchase-email-value') as HTMLInputElement;
+  const uiEmailError = document.querySelector('.purchase-email-error') as HTMLElement;
+
+  const uiPhoneValue = document.querySelector('.purchase-phone-value') as HTMLInputElement;
+  const uiPhoneError = document.querySelector('.purchase-phone-error') as HTMLElement;
+  uiPhoneValue.addEventListener('keypress', onPhoneKeyPress);
+
+  const uiPaymentSystem = document.querySelector('.payment-system') as HTMLElement;
+  const uiCardValue = document.querySelector('.purchase-card-value') as HTMLInputElement;
+  const uiCardError = document.querySelector('.purchase-card-error') as HTMLElement;
+  uiCardValue.addEventListener('keypress', onCardKeyPress);
+  uiCardValue.addEventListener('input', onCardInput);
+
+  const uiValidValue = document.querySelector('.purchase-valid-value') as HTMLInputElement;
+  const uiValidError = document.querySelector('.purchase-valid-error') as HTMLElement;
+  uiValidValue.addEventListener('keypress', onValidKeyPress);
+
+  const uiCvvValue = document.querySelector('.purchase-cvv-value') as HTMLInputElement;
+  const uiCvvError = document.querySelector('.purchase-cvv-error') as HTMLElement;
+  uiCvvValue.addEventListener('keypress', onCvvKeyPress);
+
 
   function isNameValid(value: string): boolean {
     const words = value.split(' ');
@@ -110,6 +146,7 @@ if (document.location.pathname.includes('cart')) {
         uiError.textContent = 'Validation: contains exactly 3 digits.';
         break;
       default:
+        uiError.textContent = '';
         break;
     }
   }
@@ -153,6 +190,16 @@ if (document.location.pathname.includes('cart')) {
   // Input control
   // -------------------------------------------------------------
 
+  function definePaymentSystem(digit: string) {
+    const system = paymentSystems.get(digit);
+    return (system) ? system : '';
+  }
+
+  function onCardInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    uiPaymentSystem.textContent = definePaymentSystem(input.value.toString()[0]);
+  }
+
   function onPhoneKeyPress(event: KeyboardEvent) {
     const allowedCharacters = '0123456789+'.split('');
     if (!allowedCharacters.includes(event.key)) {
@@ -177,10 +224,10 @@ if (document.location.pathname.includes('cart')) {
     const input = event.target as HTMLInputElement;
 
     if (input.value != undefined) {
-      if (input.value.toString().length >= 5) {
+      if (input.value.length >= 5) {
         event.preventDefault();
       }
-      if (input.value.toString().length === 1) {
+      if (input.value.length === 1) {
         input.value += `${event.key}/`;
         event.preventDefault();
       }
@@ -202,66 +249,15 @@ if (document.location.pathname.includes('cart')) {
     }
   }
 
-  const uiForm = document.querySelector('.purchase-form') as HTMLFormElement;
-  uiForm.addEventListener('submit', validateFields);
+  function clearValidationStyles(event: Event): void {
+    const uiField = event.target as HTMLElement;
+    uiField.classList.remove('valid', 'invalid');
 
-  const uiNameValue = document.querySelector('.purchase-name-value') as HTMLInputElement;
-  const uiNameError = document.querySelector('.purchase-name-error') as HTMLInputElement;
+    const uiLabel = uiField.closest('.purchase-label') as HTMLElement;
+    const uiError = uiLabel.querySelector('.error') as HTMLElement;
+    uiError.textContent = '';
+  }
 
-  const uiAddressValue = document.querySelector('.purchase-address-value') as HTMLInputElement;
-  const uiAddressError = document.querySelector('.purchase-address-error') as HTMLInputElement;
-
-  const uiEmailValue = document.querySelector('.purchase-email-value') as HTMLInputElement;
-  const uiEmailError = document.querySelector('.purchase-email-error') as HTMLInputElement;
-
-  const uiPhoneValue = document.querySelector('.purchase-phone-value') as HTMLInputElement;
-  const uiPhoneError = document.querySelector('.purchase-phone-error') as HTMLInputElement;
-  uiPhoneValue.addEventListener('keypress', onPhoneKeyPress);
-
-  const uiCardValue = document.querySelector('.purchase-card-value') as HTMLInputElement;
-  const uiCardError = document.querySelector('.purchase-card-error') as HTMLInputElement;
-  uiCardValue.addEventListener('keypress', onCardKeyPress);
-
-  const uiValidValue = document.querySelector('.purchase-valid-value') as HTMLInputElement;
-  const uiValidError = document.querySelector('.purchase-valid-error') as HTMLInputElement;
-  uiValidValue.addEventListener('keypress', onValidKeyPress);
-
-  const uiCvvValue = document.querySelector('.purchase-cvv-value') as HTMLInputElement;
-  const uiCvvError = document.querySelector('.purchase-cvv-error') as HTMLInputElement;
-  uiCvvValue.addEventListener('keypress', onCvvKeyPress);
-
-  uiNameValue.addEventListener('focus', () => {
-    uiNameError.textContent = '';
-    uiNameValue.classList.remove('valid', 'invalid');
-  });
-
-  uiPhoneValue.addEventListener('focus', () => {
-    uiPhoneError.textContent = '';
-    uiPhoneValue.classList.remove('valid', 'invalid');
-  });
-
-  uiAddressValue.addEventListener('focus', () => {
-    uiAddressValue.textContent = '';
-    uiAddressValue.classList.remove('valid', 'invalid');
-  });
-
-  uiEmailValue.addEventListener('focus', () => {
-    uiEmailError.textContent = '';
-    uiEmailValue.classList.remove('valid', 'invalid');
-  });
-
-  uiCardValue.addEventListener('focus', () => {
-    uiCardError.textContent = '';
-    uiCardValue.classList.remove('valid', 'invalid');
-  });
-
-  uiValidValue.addEventListener('focus', () => {
-    uiValidError.textContent = '';
-    uiValidValue.classList.remove('valid', 'invalid');
-  });
-
-  uiCvvValue.addEventListener('focus', () => {
-    uiCvvError.textContent = '';
-    uiCvvValue.classList.remove('valid', 'invalid');
-  });
+  const uiPurchaseFields = document.querySelectorAll('.purchase-field');
+  uiPurchaseFields.forEach((field) => field.addEventListener('focus', clearValidationStyles));
 }
