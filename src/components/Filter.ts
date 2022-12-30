@@ -124,7 +124,20 @@ export default class Filter {
         for (let i = 0; i < goodsData.products.length; i++) {
           if (goodsData.products[i].brand.toLowerCase().includes(searchText.toLowerCase())) {
             searchResults.push(goodsData.products[i]);
-          } else if (goodsData.products[i].title.toLowerCase().includes(searchText.toLowerCase())) {
+          }
+          if (goodsData.products[i].title.toLowerCase().includes(searchText.toLowerCase())) {
+            searchResults.push(goodsData.products[i]);
+          }
+          if (goodsData.products[i].price.toString().includes(searchText.toLowerCase())) {
+            searchResults.push(goodsData.products[i]);
+          }
+          if (goodsData.products[i].stock.toString().includes(searchText.toLowerCase())) {
+            searchResults.push(goodsData.products[i]);
+          }
+          if (goodsData.products[i].description.toLowerCase().includes(searchText.toLowerCase())) {
+            searchResults.push(goodsData.products[i]);
+          }
+          if (goodsData.products[i].rating.toString().includes(searchText.toLowerCase())) {
             searchResults.push(goodsData.products[i]);
           }
         }
@@ -132,6 +145,8 @@ export default class Filter {
         searchQueryContainer.value = searchText;
         const result = [...new Set(searchResults)];
         matrix.push(result);
+      } if (searchQuery.has('sorting')) {
+        console.log('yes');
       }
     }
     const resultGoods: Goods[] | undefined = matrix.shift()?.filter(function (v) {
@@ -201,7 +216,23 @@ export default class Filter {
     for (let i = 0; i < goodsData.products.length; i++) {
       if (goodsData.products[i].brand.toLowerCase().includes(searchQueryInput.toLowerCase())) {
         searchResults.push(goodsData.products[i]);
-      } else if (goodsData.products[i].title.toLowerCase().includes(searchQueryInput.toLowerCase())) {
+      }
+      if (goodsData.products[i].title.toLowerCase().includes(searchQueryInput.toLowerCase())) {
+        searchResults.push(goodsData.products[i]);
+      }
+      if (goodsData.products[i].description.toLowerCase().includes(searchQueryInput.toLowerCase())) {
+        searchResults.push(goodsData.products[i]);
+      }
+      if (goodsData.products[i].category.toLowerCase().includes(searchQueryInput.toLowerCase())) {
+        searchResults.push(goodsData.products[i]);
+      }
+      if (goodsData.products[i].rating.toString().includes(searchQueryInput.toLowerCase())) {
+        searchResults.push(goodsData.products[i]);
+      }
+      if (goodsData.products[i].price.toString().includes(searchQueryInput.toLowerCase())) {
+        searchResults.push(goodsData.products[i]);
+      }
+      if (goodsData.products[i].stock.toString().includes(searchQueryInput.toLowerCase())) {
         searchResults.push(goodsData.products[i]);
       }
     }

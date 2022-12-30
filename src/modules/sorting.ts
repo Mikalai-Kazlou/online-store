@@ -1,10 +1,18 @@
 import goodsData from './goods';
 import { elementNullCheck } from './helpers';
+import Filter from '../components/Filter';
+import Goods from '../components/Goods';
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   const sortingContainer = elementNullCheck(document, '.sort-input') as HTMLSelectElement;
   const viewContainer = elementNullCheck(document, '.view-input') as HTMLSelectElement;
   const goodsItems = elementNullCheck(document, '.goods-items');
+
+  const goodsNumber = elementNullCheck(document, '.goods-number') as HTMLElement;
+  const filterContent = elementNullCheck(document, '.filters-content') as HTMLElement;
+  const goods = new Goods(0);
+  const filter = new Filter(filterContent, goods, goodsNumber);
+  const foundItem = filter.foundItems;
 
   function sort(event: Event): void {
     const target: HTMLSelectElement = event.target as HTMLSelectElement;
@@ -31,6 +39,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
       }
     } else if (target.value === `price-highest`) {
       const itemsArr = [];
+      filter.searchQueryAppend('sorting', `price-highest`, filter.searchQuery);
       for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
           itemsArr.push(allItems[i]);
@@ -49,6 +58,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         goodsItems.appendChild(itemsArr[i]);
       }
     } else if (target.value === `name-a`) {
+      filter.searchQueryAppend('sorting', `name-a`, filter.searchQuery);
       const itemsArr = [];
       for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
@@ -68,6 +78,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         goodsItems.appendChild(itemsArr[i]);
       }
     } else if (target.value === `name-z`) {
+      filter.searchQueryAppend('sorting', `name-z`, filter.searchQuery);
       const itemsArr = [];
       for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
@@ -87,6 +98,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         goodsItems.appendChild(itemsArr[i]);
       }
     } else if (target.value === `view-standard`) {
+      filter.searchQueryAppend('view', `standard`, filter.searchQuery);
       allItems.forEach((item) => {
         if (item.classList.contains('view-small')) item.classList.remove('view-small');
       });
@@ -94,6 +106,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         if (item.classList.contains('hide')) item.classList.remove('hide');
       });
     } else if (target.value === `view-small`) {
+      filter.searchQueryAppend('view', `view-small`, filter.searchQuery);
       allItems.forEach((item) => {
         if (!item.classList.contains('view-small')) item.classList.add('view-small');
       });
