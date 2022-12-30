@@ -70,15 +70,15 @@ export default class GoodsCatalogItem {
     this.refresh();
   }
 
-  saveState() {
-    const uiStockNumber = this.uiElement.querySelector('.selected-stock') as HTMLParagraphElement;
-    const objectToStringify = {
-      ID: this.goods.id,
-      Price: this.goods.price * +uiStockNumber.innerHTML,
-      SelectedStock: uiStockNumber.innerHTML,
-    };
-    localStorage.setItem('RS-Saved-Products', JSON.stringify(objectToStringify));
-  }
+  // saveState() {
+  //   const uiStockNumber = this.uiElement.querySelector('.selected-stock') as HTMLParagraphElement;
+  //   const objectToStringify = {
+  //     ID: this.goods.id,
+  //     Price: this.goods.price * +uiStockNumber.innerHTML,
+  //     SelectedStock: uiStockNumber.innerHTML,
+  //   };
+  //   localStorage.setItem('RS-Saved-Products', JSON.stringify(objectToStringify));
+  // }
 
   private refresh() {
     const uiHeader = document.querySelector('.header-content') as HTMLElement;
@@ -97,7 +97,12 @@ export default class GoodsCatalogItem {
     if (this.cart.has(goods)) {
       this.cart.drop(goods);
     } else {
-      this.cart.add(goods);
+      let quantity = 1;
+      const uiStockNumber = this.uiElement.querySelector('.selected-stock') as HTMLParagraphElement;
+      if (uiStockNumber) {
+        quantity = (uiStockNumber.textContent) ? +uiStockNumber.textContent : 1;
+      }
+      this.cart.add(goods, quantity);
     }
     this.refresh();
   }
