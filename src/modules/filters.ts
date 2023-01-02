@@ -30,34 +30,34 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   }
 
   function resetSliders(): void {
-  setValue(priceSliderFrom, 'min', getValues.getMinimumPrice());
-  setValue(priceSliderFrom, 'max', getValues.getMaximumPrice());
-  setValue(priceSliderFrom, 'value', getValues.getMinimumPrice());
-  priceSliderFrom.value = getValues.getMinimumPrice().toString();
+    setValue(priceSliderFrom, 'min', getValues.getMinimumPrice());
+    setValue(priceSliderFrom, 'max', getValues.getMaximumPrice());
+    setValue(priceSliderFrom, 'value', getValues.getMinimumPrice());
+    priceSliderFrom.value = getValues.getMinimumPrice().toString();
 
-  setValue(priceSliderTo, 'min', getValues.getMinimumPrice());
-  setValue(priceSliderTo, 'max', getValues.getMaximumPrice());
-  setValue(priceSliderTo, 'value', getValues.getMaximumPrice());
-  priceSliderTo.value = getValues.getMaximumPrice().toString();
+    setValue(priceSliderTo, 'min', getValues.getMinimumPrice());
+    setValue(priceSliderTo, 'max', getValues.getMaximumPrice());
+    setValue(priceSliderTo, 'value', getValues.getMaximumPrice());
+    priceSliderTo.value = getValues.getMaximumPrice().toString();
 
-  setValue(stockSliderFrom, 'min', getValues.getMinimumStock());
-  setValue(stockSliderFrom, 'max', getValues.getMaximumStock());
-  setValue(stockSliderFrom, 'value', getValues.getMinimumStock());
-  stockSliderFrom.value = getValues.getMinimumStock().toString();
+    setValue(stockSliderFrom, 'min', getValues.getMinimumStock());
+    setValue(stockSliderFrom, 'max', getValues.getMaximumStock());
+    setValue(stockSliderFrom, 'value', getValues.getMinimumStock());
+    stockSliderFrom.value = getValues.getMinimumStock().toString();
 
-  setValue(stockSliderTo, 'min', getValues.getMinimumStock());
-  setValue(stockSliderTo, 'max', getValues.getMaximumStock());
-  setValue(stockSliderTo, 'value', getValues.getMaximumStock());
-  stockSliderTo.value = getValues.getMaximumStock().toString();
+    setValue(stockSliderTo, 'min', getValues.getMinimumStock());
+    setValue(stockSliderTo, 'max', getValues.getMaximumStock());
+    setValue(stockSliderTo, 'value', getValues.getMaximumStock());
+    stockSliderTo.value = getValues.getMaximumStock().toString();
 
-  minPriceContainer.innerHTML = `$${getValues.getMinimumPrice()}`;
-  maxPriceContainer.innerHTML = `$${getValues.getMaximumPrice()}`;
-  minStockContainer.innerHTML = `${getValues.getMinimumStock()}`;
-  maxStockContainer.innerHTML = `${getValues.getMaximumStock()}`;
+    minPriceContainer.innerHTML = `$${getValues.getMinimumPrice()}`;
+    maxPriceContainer.innerHTML = `$${getValues.getMaximumPrice()}`;
+    minStockContainer.innerHTML = `${getValues.getMinimumStock()}`;
+    maxStockContainer.innerHTML = `${getValues.getMaximumStock()}`;
 
-  paintRange(stockSliderFrom, stockSliderTo);
-  paintRange(priceSliderFrom, priceSliderTo);
-}
+    paintRange(stockSliderFrom, stockSliderTo);
+    paintRange(priceSliderFrom, priceSliderTo);
+  }
 
   resetSliders();
 
@@ -82,15 +82,16 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   };
 
   function refreshSliders(): void {
-    filter.getMatchedResults(filterContent);
+    //filter.getMatchedResults(filterContent);
+    filter.getMatchedResults();
     minPriceContainer.innerHTML = `$${priceSliderFrom.value}`;
     maxPriceContainer.innerHTML = `$${priceSliderTo.value}`;
-    maxStockContainer.innerHTML = stockSliderTo.value;
     minStockContainer.innerHTML = stockSliderFrom.value;
-    paintRange(stockSliderFrom, stockSliderTo);
+    maxStockContainer.innerHTML = stockSliderTo.value;
     paintRange(priceSliderFrom, priceSliderTo);
+    paintRange(stockSliderFrom, stockSliderTo);
     sliderSwitcher();
-    // filter.setPriceSlider(foundItem);
+    //filter.setPriceSlider(foundItem);
   }
 
   function sliderSwitcher(): void {
@@ -140,8 +141,9 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         clickedOption.classList.add('selected');
       }
     }
-    filter.getMatchedResults(filterContent);
-    paintRange(priceSliderFrom, priceSliderTo);
+    //filter.getMatchedResults(filterContent);
+    //paintRange(priceSliderFrom, priceSliderTo);
+    refreshSliders();
   }
 
   const brandButtons = elementNullCheck(document, '.filter-brand-buttons');
@@ -155,8 +157,9 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         clickedOption.classList.add('selected');
       }
     }
-    filter.getMatchedResults(filterContent);
-    paintRange(priceSliderFrom, priceSliderTo);
+    //filter.getMatchedResults(filterContent);
+    //paintRange(priceSliderFrom, priceSliderTo);
+    refreshSliders();
   }
 
   const copyButton = elementNullCheck(document, '.copy-link') as HTMLButtonElement;

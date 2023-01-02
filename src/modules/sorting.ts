@@ -2,7 +2,7 @@ import goodsData from './goods';
 import { elementNullCheck } from './helpers';
 import Filter from '../components/Filter';
 import Goods from '../components/Goods';
-import {sortingType, viewType} from '../modules/enums';
+import { sortingType, viewType } from '../modules/enums';
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   const sortingContainer = elementNullCheck(document, '.sort-input') as HTMLSelectElement;
@@ -32,8 +32,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         return goodsData.products[+a.id - 1].price == goodsData.products[+b.id - 1].price
           ? 0
           : goodsData.products[+a.id - 1].price > goodsData.products[+b.id - 1].price
-          ? 1
-          : -1;
+            ? 1
+            : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {
@@ -52,8 +52,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         return goodsData.products[+a.id - 1].price == goodsData.products[+b.id - 1].price
           ? 0
           : goodsData.products[+a.id - 1].price < goodsData.products[+b.id - 1].price
-          ? 1
-          : -1;
+            ? 1
+            : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {
@@ -72,8 +72,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         return goodsData.products[+a.id - 1].title == goodsData.products[+b.id - 1].title
           ? 0
           : goodsData.products[+a.id - 1].title > goodsData.products[+b.id - 1].title
-          ? 1
-          : -1;
+            ? 1
+            : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {
@@ -92,14 +92,15 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         return goodsData.products[+a.id - 1].title == goodsData.products[+b.id - 1].title
           ? 0
           : goodsData.products[+a.id - 1].title < goodsData.products[+b.id - 1].title
-          ? 1
-          : -1;
+            ? 1
+            : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {
         goodsItems.appendChild(itemsArr[i]);
       }
-    } filter.getMatchedResults(filterContent);
+      //} filter.getMatchedResults(filterContent);
+    } filter.getMatchedResults();
   }
 
   function setView(event: Event): void {
@@ -122,7 +123,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
       allDescriptions.forEach((item) => {
         if (!item.classList.contains('hide')) item.classList.add('hide');
       });
-    } filter.getMatchedResults(filterContent);
+      //} filter.getMatchedResults(filterContent);
+    } filter.getMatchedResults();
   }
 
   function setViewOnLoad(): void {
