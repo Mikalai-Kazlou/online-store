@@ -1,8 +1,7 @@
 import goodsData from './goods';
 import { elementNullCheck } from './helpers';
 import Filter from '../components/Filter';
-import Goods from '../components/Goods';
-import { sortingType, viewType } from '../modules/enums';
+import { FilterType, sortingType, viewType } from '../modules/enums';
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   const sortingContainer = elementNullCheck(document, '.sort-input') as HTMLSelectElement;
@@ -11,14 +10,11 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
 
   const goodsNumber = elementNullCheck(document, '.goods-number') as HTMLElement;
   const filterContent = elementNullCheck(document, '.filters-content') as HTMLElement;
-  const goods = new Goods(0);
-  const filter = new Filter(filterContent, goods, goodsNumber);
-  const foundItem = filter.foundItems;
+  const filter = new Filter(filterContent, goodsNumber);
 
   function sort(event: Event): void {
     const target: HTMLSelectElement = event.target as HTMLSelectElement;
     const allItems = document.querySelectorAll('.good-item');
-    const allDescriptions = document.querySelectorAll('.product-description');
     if (target.value === sortingType.PriceAscending) {
       filter.searchQueryAppend('sorting', sortingType.PriceAscending, filter.searchQuery);
       const itemsArr = [];
@@ -99,8 +95,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
       for (let i = 0; i < itemsArr.length; ++i) {
         goodsItems.appendChild(itemsArr[i]);
       }
-      //} filter.getMatchedResults(filterContent);
-    } filter.getMatchedResults();
+    } filter.getMatchedResults(FilterType.empty);
   }
 
   function setView(event: Event): void {
@@ -123,8 +118,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
       allDescriptions.forEach((item) => {
         if (!item.classList.contains('hide')) item.classList.add('hide');
       });
-      //} filter.getMatchedResults(filterContent);
-    } filter.getMatchedResults();
+    } filter.getMatchedResults(FilterType.empty);
   }
 
   function setViewOnLoad(): void {

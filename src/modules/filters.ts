@@ -1,8 +1,7 @@
 import { getValues } from './get-values';
-import goodsData from './goods';
 import { elementNullCheck } from './helpers';
 import Filter from '../components/Filter';
-import Goods from '../components/Goods';
+import { FilterType } from './enums';
 
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   const goodsNumber = elementNullCheck(document, '.goods-number') as HTMLElement;
@@ -19,8 +18,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   const stockSliderTo: HTMLInputElement = document.querySelector('.stock-slider-to') as HTMLInputElement;
 
   const filterContent = elementNullCheck(document, '.filters-content') as HTMLElement;
-  const goods = new Goods(0);
-  const filter = new Filter(filterContent, goods, goodsNumber);
+  const filter = new Filter(filterContent, goodsNumber);
   const foundItem = filter.foundItems;
 
   const searchInput = document.querySelector('.search-input') as HTMLInputElement;
@@ -62,28 +60,27 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   resetSliders();
 
   searchInput.oninput = function (): void {
-    refreshSliders();
+    refreshSliders(FilterType.search);
   };
 
   priceSliderFrom.oninput = function (): void {
-    refreshSliders();
+    refreshSliders(FilterType.price);
   };
 
   priceSliderTo.oninput = function (): void {
-    refreshSliders();
+    refreshSliders(FilterType.price);
   };
 
   stockSliderFrom.oninput = function (): void {
-    refreshSliders();
+    refreshSliders(FilterType.stock);
   };
 
   stockSliderTo.oninput = function (): void {
-    refreshSliders();
+    refreshSliders(FilterType.stock);
   };
 
-  function refreshSliders(): void {
-    //filter.getMatchedResults(filterContent);
-    filter.getMatchedResults();
+  function refreshSliders(filterType: FilterType): void {
+    filter.getMatchedResults(filterType);
     minPriceContainer.innerHTML = `$${priceSliderFrom.value}`;
     maxPriceContainer.innerHTML = `$${priceSliderTo.value}`;
     minStockContainer.innerHTML = stockSliderFrom.value;
@@ -91,7 +88,6 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     paintRange(priceSliderFrom, priceSliderTo);
     paintRange(stockSliderFrom, stockSliderTo);
     sliderSwitcher();
-    //filter.setPriceSlider(foundItem);
   }
 
   function sliderSwitcher(): void {
@@ -126,10 +122,6 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   paintRange(priceSliderFrom, priceSliderTo);
   paintRange(stockSliderFrom, stockSliderTo);
 
-  function splitString(string: string, separator: string): number {
-    return +string.split(separator)[0];
-  }
-
   const categoryButtons = elementNullCheck(document, '.filter-category-buttons');
   function categoryFilter(event: Event): void {
     const target: HTMLElement = event.target as HTMLElement;
@@ -141,9 +133,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         clickedOption.classList.add('selected');
       }
     }
-    //filter.getMatchedResults(filterContent);
-    //paintRange(priceSliderFrom, priceSliderTo);
-    refreshSliders();
+    refreshSliders(FilterType.category);
   }
 
   const brandButtons = elementNullCheck(document, '.filter-brand-buttons');
@@ -157,9 +147,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         clickedOption.classList.add('selected');
       }
     }
-    //filter.getMatchedResults(filterContent);
-    //paintRange(priceSliderFrom, priceSliderTo);
-    refreshSliders();
+    refreshSliders(FilterType.brand);
   }
 
   const copyButton = elementNullCheck(document, '.copy-link') as HTMLButtonElement;
@@ -174,14 +162,17 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
 
   categoryButtons.addEventListener('click', categoryFilter);
   brandButtons.addEventListener('click', brandFilter);
+
   resetButton.addEventListener('click', () => {
     searchInput.value = '';
     resetSliders();
     filter.reset(foundItem);
   });
+
   copyButton.addEventListener('click', copyLink);
+
   window.addEventListener('load', () => {
     filter.parseQueryString(filter.searchQuery);
-    refreshSliders();
+    refreshSliders(FilterType.empty);
   });
 }
