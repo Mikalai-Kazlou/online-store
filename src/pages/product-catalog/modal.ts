@@ -1,6 +1,5 @@
 import goodsData from '../../modules/goods';
-import { elementNullCheck } from '../../modules/helpers';
-import Header from '../../components/Header';
+import { elementNullCheck, formatAmount } from '../../modules/helpers';
 import Cart from '../../components/Cart';
 import GoodsCatalogItem from '../../components/GoodsCatalogItem';
 import Goods from '../../components/Goods';
@@ -37,7 +36,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
 
     const price = document.createElement('p');
     price.classList.add('main-text');
-    price.innerHTML = `Price: $${goodsData.products[id - 1].price}`;
+
+    price.innerHTML = `Price: ${formatAmount(goodsData.products[id - 1].price)}`;
 
     const discount = document.createElement('p');
     discount.classList.add('main-text');

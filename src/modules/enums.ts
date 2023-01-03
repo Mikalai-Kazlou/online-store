@@ -9,3 +9,25 @@ export enum viewType {
   Standard = 'view-standard',
   Small = 'view-small',
 }
+
+export enum FilterType {
+  empty,
+  reset,
+  view,
+  sorting,
+  search,
+  category,
+  brand,
+  price,
+  stock,
+}
+
+export enum SearchQueryParameters {
+  view = 'view',
+  sorting = 'sorting',
+  search = 'search',
+  category = 'category',
+  brand = 'brand',
+  price = 'price',
+  stock = 'stock',
+}
