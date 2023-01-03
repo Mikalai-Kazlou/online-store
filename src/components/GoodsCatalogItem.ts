@@ -1,6 +1,7 @@
 import Cart from './Cart';
 import Goods from './Goods';
 import Header from './Header';
+import * as helpers from '../modules/helpers';
 
 export default class GoodsCatalogItem {
   private uiElement: HTMLElement;
@@ -29,7 +30,7 @@ export default class GoodsCatalogItem {
 
     const uiPrice = document.createElement('div');
     uiPrice.classList.add('small-text');
-    uiPrice.innerHTML = `$${this.goods.price}`;
+    uiPrice.innerHTML = `${helpers.formatAmount(this.goods.price)}`;
 
     const uiDescription = document.createElement('div');
     uiDescription.classList.add('small-text');

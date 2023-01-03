@@ -1,5 +1,5 @@
 import { getValues } from './get-values';
-import { elementNullCheck } from './helpers';
+import { elementNullCheck, formatAmount } from './helpers';
 import Filter from '../components/Filter';
 import { FilterType } from './enums';
 
@@ -50,8 +50,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     setValue(stockSliderTo, 'value', getValues.getMaximumStock());
     stockSliderTo.value = getValues.getMaximumStock().toString();
 
-    minPriceContainer.innerHTML = `$${getValues.getMinimumPrice()}`;
-    maxPriceContainer.innerHTML = `$${getValues.getMaximumPrice()}`;
+    minPriceContainer.innerHTML = `${formatAmount(getValues.getMinimumPrice())}`;
+    maxPriceContainer.innerHTML = `${formatAmount(getValues.getMaximumPrice())}`;
     minStockContainer.innerHTML = `${getValues.getMinimumStock()}`;
     maxStockContainer.innerHTML = `${getValues.getMaximumStock()}`;
 
@@ -84,8 +84,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   function refreshSliders(filterType: FilterType): void {
     filter.searchQueryRefresh();
     filter.getMatchedResults(filterType);
-    minPriceContainer.innerHTML = `$${priceSliderFrom.value}`;
-    maxPriceContainer.innerHTML = `$${priceSliderTo.value}`;
+    minPriceContainer.innerHTML = `${formatAmount(+priceSliderFrom.value)}`;
+    maxPriceContainer.innerHTML = `${formatAmount(+priceSliderTo.value)}`;
     minStockContainer.innerHTML = stockSliderFrom.value;
     maxStockContainer.innerHTML = stockSliderTo.value;
     paintRange(priceSliderFrom, priceSliderTo);
