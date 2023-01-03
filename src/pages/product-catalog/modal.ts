@@ -8,10 +8,13 @@ import Goods from '../../components/Goods';
 if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
   const modal: HTMLElement = elementNullCheck(document, '.modal') as HTMLElement;
   const overlay: HTMLElement = document.querySelector('.overlay') as HTMLElement;
-  const btnCloseModal: HTMLElement = document.querySelector('.close-modal') as HTMLElement;
   const btnOpenModal: HTMLElement = document.querySelector('.goods-items') as HTMLElement;
 
   function addModalProduct(id: number, parent: HTMLElement): void {
+    const closeIcon = document.createElement('button');
+    closeIcon.classList.add('close-modal');
+    closeIcon.innerHTML = 'X';
+
     const good = document.createElement('button');
     good.classList.add('good-item-modal');
 
@@ -27,9 +30,17 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     productName.innerHTML = `${goodsData.products[id - 1].title}`;
     productName.classList.add('main-text');
 
+    const brand = document.createElement('p');
+    brand.innerHTML = `Brand: ${goodsData.products[id - 1].brand}`;
+    brand.classList.add('main-text');
+
     const price = document.createElement('p');
     price.classList.add('main-text');
-    price.innerHTML = `${formatAmount(goodsData.products[id - 1].price)}`;
+    price.innerHTML = `Price: ${formatAmount(goodsData.products[id - 1].price)}`;
+
+    const discount = document.createElement('p');
+    discount.classList.add('main-text');
+    discount.innerHTML = `Discount: ${goodsData.products[id - 1].discountPercentage}%`;
 
     const inStock = document.createElement('p');
     inStock.classList.add('small-text');
@@ -41,52 +52,22 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
 
     const description = document.createElement('p');
     description.classList.add('small-text');
-    description.innerHTML = `${goodsData.products[id - 1].description}`;
+    description.innerHTML = `Description: \n \n${goodsData.products[id - 1].description}`;
 
-    const amountButtons = document.createElement('div');
-    amountButtons.classList.add('amount-buttons');
-    amountButtons.classList.add('main-text');
-
-    const minusButton = document.createElement('button');
-    minusButton.classList.add('amount-button');
-    minusButton.classList.add('main-text');
-    minusButton.innerHTML = '-';
-
-    const selectedAmount = document.createElement('p');
-    selectedAmount.classList.add('main-text');
-    selectedAmount.innerHTML = '1';
-
-    const plusButton = document.createElement('button');
-    plusButton.classList.add('amount-button');
-    plusButton.classList.add('main-text');
-    plusButton.innerHTML = '+';
-
-    const addToCart = document.createElement('button');
-    addToCart.classList.add('add-to-cart');
-    addToCart.classList.add('big-button');
-    addToCart.innerHTML = `Add to cart`;
-
+    parent.appendChild(closeIcon);
     parent.appendChild(good);
     good.setAttribute('id', goodsData.products[id - 1].id.toString());
     good.appendChild(picture);
     good.appendChild(goodInfo);
     goodInfo.appendChild(productName);
+    goodInfo.appendChild(brand);
     goodInfo.appendChild(price);
+    goodInfo.appendChild(discount);
     goodInfo.appendChild(inStock);
     goodInfo.appendChild(rating);
     goodInfo.appendChild(description);
-    goodInfo.appendChild(amountButtons);
-    amountButtons.appendChild(minusButton);
-    amountButtons.appendChild(selectedAmount);
-    amountButtons.appendChild(plusButton);
-    goodInfo.appendChild(addToCart);
 
-    const cart = new Cart();
-    const currentProductID = goodsData.products[id - 1].id;
-    const currentProduct = new Goods(currentProductID);
-    const uiElement = good;
-    const currentItem = new GoodsCatalogItem(uiElement, currentProduct, cart);
-    currentItem.fillProductInfo();
+    closeIcon.addEventListener('click', () => closeModal());
   }
 
   const openModal = function (event: Event): void {
@@ -116,6 +97,5 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   }
 
   btnOpenModal.addEventListener('click', openModal);
-  btnCloseModal.addEventListener('click', closeModal);
   overlay.addEventListener('click', closeModal);
 }

@@ -21,7 +21,6 @@
         <div class="header-nav-and-total">
           <nav class="header-navbar">
             <a class="header-link" href="./index.html">Products</a>
-            <a class="header-link" href="#about">About</a>
             <a class="header-link" href="./404.html">404</a>
           </nav>
           <p class="main-text total">Total: $1</p>
@@ -49,12 +48,12 @@
             <label class="items-on-page-label"> Items on the page:
               <input class="items-on-page-value" type="number" min="1" max="999">
             </label>
-            <span class="page-buttons">
+            <div class="page-buttons">
               <span class="page-label">Page:</span>
-              <button class="prev-page">&lt</button>
+              <button class="prev-page button">&lt</button>
               <span class="current-page small-text"></span>
-              <button class="next-page">&gt</button>
-            </span>
+              <button class="next-page button">&gt</button>
+            </div>
           </div>
         </div>
         <div class="cart-items"></div>
@@ -96,9 +95,12 @@
         </template>
         <input class="promo-input" type="text" placeholder="Enter promo code">
         <button class="buy-now product-button main-text">Buy Now</button>
-        <p class="promo-hint small-text">*Promo for test:<span class="promo-test">WINTER</span>,<span
-            class="promo-test">NEWYEAR</span>,<span class="promo-test">RSSCHOOL</span>
-        </p>
+        <div class="promo-container">
+        <p class="promo-hint small-text">*Promo for test:</p>
+          <button class="promo-test">WINTER</button>
+          <button class="promo-test">NEWYEAR</button>
+          <button class="promo-test">RSSCHOOL</button>
+        </div>
       </div>
       <div class="error-message no-display">
         <h2 class="title">Your cart is empty</h2>
@@ -158,7 +160,7 @@
           <div class="error purchase-cvv-error"></div>
         </label>
       </div>
-      <input class="purchase-submit" type="submit" name="action" value="submit">
+      <input class="purchase-submit goods-button" type="submit" name="action" value="submit">
     </form>
   </div>
 </body>

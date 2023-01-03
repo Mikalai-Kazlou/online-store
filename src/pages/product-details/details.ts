@@ -20,8 +20,11 @@ export default class Breadcrumb {
 
   fillBreadcrumb(categoryBox: Element, brandBox: Element, nameBox: Element) {
     categoryBox.innerHTML = this.category + ' /';
+    categoryBox.setAttribute('href', `/?category=${this.category}`);
     brandBox.innerHTML = this.brand + ' /';
+    brandBox.setAttribute('href', `/?brand=${this.brand}`);
     nameBox.innerHTML = this.name;
+    nameBox.setAttribute('href', `/?searchQuery=${this.name.split(' ').slice(0, 1).join(' ')}`);
   }
 }
 
