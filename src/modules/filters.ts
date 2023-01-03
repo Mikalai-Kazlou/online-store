@@ -28,6 +28,8 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   }
 
   function resetSliders(): void {
+    filter.searchQueryRefresh();
+
     setValue(priceSliderFrom, 'min', getValues.getMinimumPrice());
     setValue(priceSliderFrom, 'max', getValues.getMaximumPrice());
     setValue(priceSliderFrom, 'value', getValues.getMinimumPrice());
@@ -80,6 +82,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   };
 
   function refreshSliders(filterType: FilterType): void {
+    filter.searchQueryRefresh();
     filter.getMatchedResults(filterType);
     minPriceContainer.innerHTML = `$${priceSliderFrom.value}`;
     maxPriceContainer.innerHTML = `$${priceSliderTo.value}`;

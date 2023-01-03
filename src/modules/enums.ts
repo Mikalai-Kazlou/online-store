@@ -13,6 +13,8 @@ export enum viewType {
 export enum FilterType {
   empty,
   reset,
+  view,
+  sorting,
   search,
   category,
   brand,
@@ -21,6 +23,8 @@ export enum FilterType {
 }
 
 export enum SearchQueryParameters {
+  view = 'view',
+  sorting = 'sorting',
   search = 'search',
   category = 'category',
   brand = 'brand',

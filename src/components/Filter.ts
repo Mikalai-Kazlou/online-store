@@ -28,7 +28,7 @@ export default class Filter {
     this.hideItems();
     this.setAmountRemainder(this.uiElement, this.foundItems);
     this.save(this.foundItems);
-    this.checkSearch(this.searchQuery, this.foundItems);
+    this.checkSearch(this.searchQuery, this.foundItems, filterType);
     this.setPriceSlider(this.foundItems);
     this.setStockSlider(this.foundItems);
   }
@@ -37,8 +37,9 @@ export default class Filter {
     localStorage.setItem('RS Online-Store SearchResults', JSON.stringify(result));
   }
 
-  checkSearch(searchQuery: URLSearchParams, foundItems: number[]): void {
-    if (foundItems.length !== goodsData.products.length) {
+  checkSearch(searchQuery: URLSearchParams, foundItems: number[], filterType: FilterType): void {
+    if (foundItems.length !== goodsData.products.length
+      || [FilterType.view, FilterType.sorting].includes(filterType)) {
       window.history.pushState({}, '', `/?${searchQuery}`);
     } else {
       for (let key of Array.from(searchQuery.keys())) {
@@ -359,6 +360,10 @@ export default class Filter {
     if (value.length > 0) {
       query.append(name, value);
     }
+  }
+
+  searchQueryRefresh() {
+    this.searchQuery = new URLSearchParams(document.location.search);
   }
 
   private hideItems(): void {
