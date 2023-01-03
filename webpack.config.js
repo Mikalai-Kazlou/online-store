@@ -27,13 +27,9 @@ const baseConfig = {
                 test: /\.(png|jpg|gif|svg)$/,
                 loader: 'file-loader',
                 options: {
-                    name: '[name].[ext]',
+                    name: 'assets/[folder]/[name].[ext]',
                 },
             },
-            // {
-            //     test: /\.html$/i,
-            //     loader: "html-loader",
-            //   },
         ],
     },
     resolve: {
@@ -60,7 +56,6 @@ const baseConfig = {
             filename: '404.html',
             template: path.resolve(__dirname, './src/pages/404/404.html'),
         }),
-
         new CleanWebpackPlugin(),
         new miniCss({
             filename: 'style.css',
