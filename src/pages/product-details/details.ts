@@ -6,6 +6,7 @@ import Cart from '../../components/Cart';
 import Header from '../../components/Header';
 import StockButtons from '../../components/StockButtons';
 import * as helpers from '../../modules/helpers';
+import { SearchQueryParameters } from '../../modules/enums';
 
 export default class Breadcrumb {
   private category: string;
@@ -20,11 +21,11 @@ export default class Breadcrumb {
 
   fillBreadcrumb(categoryBox: Element, brandBox: Element, nameBox: Element) {
     categoryBox.innerHTML = this.category + ' /';
-    categoryBox.setAttribute('href', `/?category=${this.category}`);
+    categoryBox.setAttribute('href', `./?${SearchQueryParameters.category}=${this.category}`);
     brandBox.innerHTML = this.brand + ' /';
-    brandBox.setAttribute('href', `/?brand=${this.brand}`);
+    brandBox.setAttribute('href', `./?${SearchQueryParameters.brand}=${this.brand}`);
     nameBox.innerHTML = this.name;
-    nameBox.setAttribute('href', `/?searchQuery=${this.name.split(' ').slice(0, 1).join(' ')}`);
+    nameBox.setAttribute('href', `./?${SearchQueryParameters.search}=${this.name.split(' ').slice(0, 1).join(' ')}`);
   }
 }
 
