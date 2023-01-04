@@ -50,6 +50,23 @@ if (document.location.pathname.includes('cart')) {
   const uiItemsOnPage = elementNullCheck(document, '.items-on-page-value') as HTMLInputElement;
   uiItemsOnPage.addEventListener('keypress', onItemsOnPageKeyPress);
 
+  const uiPromoOptions = elementNullCheck(document, '.promo-container') as HTMLElement;
+
+  function copyPromoCode(event: Event): void {
+    const target: HTMLElement = event.target as HTMLElement;
+    if (target !== null) {
+      const clickedOption = target.closest('button') as HTMLButtonElement;
+      const textContent = clickedOption.innerHTML;
+      navigator.clipboard.writeText(textContent);
+      clickedOption.innerHTML = 'Copied!';
+      setTimeout(() => {
+        clickedOption.innerHTML = `${textContent}`;
+      }, 1200);
+    }
+  }
+
+  uiPromoOptions.addEventListener('click', copyPromoCode);
+
   // -------------------------------------------------------------
   // Redirection
   // -------------------------------------------------------------

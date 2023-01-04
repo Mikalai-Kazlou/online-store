@@ -17,12 +17,10 @@
   <header class="header-container">
     <div class="wrapper">
       <div class="header-content">
-        <div class="header-logo"></div>
+        <a class="header-link" href="./index.html">
+          <div class="header-logo"></div>
+        </a>
         <div class="header-nav-and-total">
-          <nav class="header-navbar">
-            <a class="header-link" href="./index.html">Products</a>
-            <a class="header-link" href="./404.html">404</a>
-          </nav>
           <p class="main-text total">Total: $1</p>
         </div>
         <div class="header-basket button">
@@ -39,7 +37,7 @@
       <h1 class="title">Purchase Order Confirmation</h1>
     </div>
   </div>
-  <div class="cart-wrapper">
+  <div class="wrapper">
     <main class="main-container-cart">
       <div class="cart-content">
         <div class="cart-header">
@@ -61,21 +59,23 @@
           <div class="cart-item">
             <div class="info-index main-text">1</div>
             <div class="info-picture">
-              <img class="small-picture" src="https://i.dummyjson.com/data/products/1/1.jpg" alt="iPhone 9">
+              <img class="small-picture small-picture-cart" src="https://i.dummyjson.com/data/products/1/1.jpg" alt="iPhone 9">
             </div>
-            <div class="info-container">
-              <p class="info-title main-text">Title: iPhone 9</p>
-              <p class="info-brand main-text">Brand: Apple</p>
-              <p class="info-rating small-text">Rating: 4.69</p>
-              <p class="info-discount small-text">Discount: 12.96</p>
-              <p class="info-description small-text">Description: An apple mobile which is nothing like apple</p>
-              <p class="info-stock small-text">Stock: 94</p>
-              <p class="info-price main-text">Price: $549</p>
-            </div>
-            <div class="amount-buttons main-text">
-              <button class="amount-button main-text button-decrement">-</button>
-              <p class="main-text selected-stock">1</p>
-              <button class="amount-button main-text button-increment">+</button>
+            <div class="info-and-buttons-container">
+              <div class="info-container info-cart">
+                <p class="info-title main-text">Title: iPhone 9</p>
+                <p class="info-brand main-text">Brand: Apple</p>
+                <p class="info-rating small-text">Rating: 4.69</p>
+                <p class="info-discount small-text">Discount: 12.96</p>
+                <p class="info-description small-text">Description: An apple mobile which is nothing like apple</p>
+                <p class="info-stock small-text">Stock: 94</p>
+                <p class="info-price main-text">Price: $549</p>
+              </div>
+              <div class="amount-buttons main-text">
+                <button class="amount-button main-text button-decrement">-</button>
+                <p class="main-text selected-stock">1</p>
+                <button class="amount-button main-text button-increment">+</button>
+              </div>
             </div>
           </div>
         </template>
@@ -101,6 +101,9 @@
           <button class="promo-test">NEWYEAR</button>
           <button class="promo-test">RSSCHOOL</button>
         </div>
+        <a class="header-link" href="./index.html">
+        <button class="product-button">Back to Catalog</button>
+      </a>
       </div>
       <div class="error-message no-display">
         <h2 class="title">Your cart is empty</h2>
@@ -115,9 +118,8 @@
         </a>
         <div class="link mobile-hide">Winter 2022</div>
         <div class="authors-link">
-          <a href="https://github.com/rockmonolit" class="link text_hover"
-            localization-key="authorGH">mikalai-kazlou</a>
-          <a href="https://github.com/rockmonolit" class="link text_hover" localization-key="authorGH">rockmonolit</a>
+          <a href="https://github.com/mikalai-kazlou" class="link text_hover">mikalai-kazlou</a>
+          <a href="https://github.com/rockmonolit" class="link text_hover">rockmonolit</a>
         </div>
       </div>
     </div>

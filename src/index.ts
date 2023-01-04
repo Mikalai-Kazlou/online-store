@@ -1,3 +1,4 @@
+import './modules/routing'
 import './style.scss';
 import './pages/product-catalog/script';
 import './modules/goods';

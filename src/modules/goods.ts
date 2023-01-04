@@ -40,7 +40,7 @@ const goodsData = {
     },
     {
       id: 3,
-      title: 'Samsung Universe 9',
+      title: 'Universe 9',
       description: "Samsung's new variant which goes beyond Galaxy to the Universe",
       price: 1249,
       discountPercentage: 15.46,
@@ -53,7 +53,7 @@ const goodsData = {
     },
     {
       id: 4,
-      title: 'OPPOF19',
+      title: 'F19',
       description: 'OPPO F19 is officially announced on April 2021.',
       price: 280,
       discountPercentage: 17.91,
@@ -72,7 +72,7 @@ const goodsData = {
     },
     {
       id: 5,
-      title: 'Huawei P30',
+      title: 'P30',
       description:
         'Huawei’s re-badged P30 Pro New Edition was officially unveiled yesterday in Germany and now the device has made its way to the UK.',
       price: 499,
@@ -96,7 +96,7 @@ const goodsData = {
       discountPercentage: 11.02,
       rating: 4.57,
       stock: 83,
-      brand: 'APPle',
+      brand: 'Apple',
       category: 'laptops',
       thumbnail: 'https://i.dummyjson.com/data/products/6/thumbnail.png',
       images: [
@@ -108,7 +108,7 @@ const goodsData = {
     },
     {
       id: 7,
-      title: 'Samsung Galaxy Book',
+      title: 'Galaxy Book',
       description: 'Samsung Galaxy Book S (2020) Laptop With Intel Lakefield Chip, 8GB of RAM Launched',
       price: 1499,
       discountPercentage: 4.15,
@@ -126,14 +126,14 @@ const goodsData = {
     },
     {
       id: 8,
-      title: 'Microsoft Surface Laptop 4',
+      title: 'Surface Laptop 4',
       description:
         'Style and speed. Stand out on HD video calls backed by Studio Mics. Capture ideas on the vibrant touchscreen.',
       price: 1499,
       discountPercentage: 10.23,
       rating: 4.43,
       stock: 68,
-      brand: 'Microsoft Surface',
+      brand: 'Microsoft',
       category: 'laptops',
       thumbnail: 'https://i.dummyjson.com/data/products/8/thumbnail.jpg',
       images: [
