@@ -1,7 +1,7 @@
 import './modules/routing'
 import './style.scss';
-import './pages/product-catalog/script.ts';
-import './modules/goods.ts';
+import './pages/product-catalog/script';
+import './modules/goods';
 import './modules/get-values';
 import './modules/filters';
 import './modules/sorting';

@@ -6,6 +6,7 @@ import Cart from '../../components/Cart';
 import Header from '../../components/Header';
 import StockButtons from '../../components/StockButtons';
 import * as helpers from '../../modules/helpers';
+import { SearchQueryParameters } from '../../modules/enums';
 
 export default class Breadcrumb {
   private category: string;
@@ -20,11 +21,11 @@ export default class Breadcrumb {
 
   fillBreadcrumb(categoryBox: Element, brandBox: Element, nameBox: Element) {
     categoryBox.innerHTML = this.category + ' /';
-    categoryBox.setAttribute('href', `/?category=${this.category}`);
+    categoryBox.setAttribute('href', `./?${SearchQueryParameters.category}=${this.category}`);
     brandBox.innerHTML = this.brand + ' /';
-    brandBox.setAttribute('href', `/?brand=${this.brand}`);
+    brandBox.setAttribute('href', `./?${SearchQueryParameters.brand}=${this.brand}`);
     nameBox.innerHTML = this.name;
-    nameBox.setAttribute('href', `/?searchQuery=${this.name.split(' ').slice(0, 1).join(' ')}`);
+    nameBox.setAttribute('href', `./?${SearchQueryParameters.search}=${this.name.split(' ').slice(0, 1).join(' ')}`);
   }
 }
 
@@ -52,7 +53,7 @@ if (document.location.pathname.includes('details')) {
   function fillProductPage(product: Goods): void {
     const fullName = elementNullCheck(document, '.brand-and-title');
     const sidePicturesContainer = elementNullCheck(document, '.side-pictures');
-    const selectedPicture = elementNullCheck(document, '.selected-picture');
+    const selectedPicture = elementNullCheck(document, '.selected-picture') as HTMLElement;
     const infoTitle = elementNullCheck(document, '.info-title');
     const infoBrand = elementNullCheck(document, '.info-brand');
     const infoRating = elementNullCheck(document, '.info-rating');
@@ -68,7 +69,7 @@ if (document.location.pathname.includes('details')) {
     infoDiscount.innerHTML = `Discount percentage: ${product.discountPercentage}%`;
     infoDescription.innerHTML = `Description: ${product.description}`;
     infoStock.innerHTML = `Stock: ${product.stock}`;
-    infoPrice.innerHTML = `Price: ${helpers.formatAmount(product.stock)}`;
+    infoPrice.innerHTML = `Price: ${helpers.formatAmount(product.price)}`;
 
     function findImageID(event: Event): void {
       if (event.target) {
@@ -89,13 +90,15 @@ if (document.location.pathname.includes('details')) {
 
     addPictures(sidePicturesContainer, product.images);
     displaySelectedPicture(selectedPicture, product.images, product.title, 0);
+    helpers.loadImage(product.images[0], selectedPicture);
   }
 
   function addPictures(parent: Element, images: string[]): void {
     for (let i = 0; i < images.length; i++) {
       const picture = document.createElement('div');
       picture.classList.add('small-picture');
-      picture.style.backgroundImage = `url("${images[i]}")`;
+      //picture.style.backgroundImage = `url("${images[i]}")`;
+      helpers.loadImage(images[i], picture);
       picture.setAttribute('id', `${i}`);
       parent.appendChild(picture);
     }
@@ -114,7 +117,7 @@ if (document.location.pathname.includes('details')) {
     if (!cart.has(currentProduct)) {
       currentItem.addToCart();
     }
-    location.href = '../cart.html?action=buy'
+    location.href = './cart.html?action=buy';
   }
 
   const uiBuyNow = document.querySelector('.buy-now');

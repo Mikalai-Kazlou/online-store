@@ -3,7 +3,11 @@ import { elementNullCheck, formatAmount } from './helpers';
 import Filter from '../components/Filter';
 import { FilterType } from './enums';
 
-if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
+if (
+  document.location.pathname === '/' ||
+  document.location.pathname === '/online-store/' ||
+  document.location.pathname.includes('index')
+) {
   const goodsNumber = elementNullCheck(document, '.goods-number') as HTMLElement;
   const resetButton = elementNullCheck(document, '.reset-filters') as HTMLButtonElement;
 
@@ -19,7 +23,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
 
   const filterContent = elementNullCheck(document, '.filters-content') as HTMLElement;
   const filter = new Filter(filterContent, goodsNumber);
-  const foundItem = filter.foundItems;
+  //const foundItem = filter.foundItems;
 
   const searchInput = document.querySelector('.search-input') as HTMLInputElement;
 
@@ -160,7 +164,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     copyButton.innerHTML = 'Copied!';
     setTimeout(() => {
       copyButton.innerHTML = 'Copy Link';
-    }, 1200)
+    }, 1200);
   }
 
   categoryButtons.addEventListener('click', categoryFilter);
@@ -169,7 +173,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   resetButton.addEventListener('click', () => {
     searchInput.value = '';
     resetSliders();
-    filter.reset(foundItem);
+    filter.reset(/*foundItem*/);
   });
 
   copyButton.addEventListener('click', copyLink);

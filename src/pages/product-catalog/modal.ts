@@ -1,11 +1,11 @@
 import goodsData from '../../modules/goods';
 import { elementNullCheck, formatAmount } from '../../modules/helpers';
-import Cart from '../../components/Cart';
-import GoodsCatalogItem from '../../components/GoodsCatalogItem';
-import Goods from '../../components/Goods';
 
-
-if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
+if (
+  document.location.pathname === '/' ||
+  document.location.pathname === '/online-store/' ||
+  document.location.pathname.includes('index')
+) {
   const modal: HTMLElement = elementNullCheck(document, '.modal') as HTMLElement;
   const overlay: HTMLElement = document.querySelector('.overlay') as HTMLElement;
   const btnOpenModal: HTMLElement = document.querySelector('.goods-items') as HTMLElement;
@@ -36,7 +36,6 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
 
     const price = document.createElement('p');
     price.classList.add('main-text');
-
     price.innerHTML = `Price: ${formatAmount(goodsData.products[id - 1].price)}`;
 
     const discount = document.createElement('p');

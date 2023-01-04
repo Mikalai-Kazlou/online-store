@@ -10,12 +10,12 @@ export const getValues = {
   },
 
   getMinimumPrice(): number {
-    const minPrice: number = Math.min.apply(Math, this.getAllPrices());
+    const minPrice: number = Math.min(...this.getAllPrices()); //Math.min.apply(Math, this.getAllPrices());
     return minPrice;
   },
 
   getMaximumPrice(): number {
-    const maxPrice: number = Math.max.apply(Math, this.getAllPrices());
+    const maxPrice: number = Math.max(...this.getAllPrices()); //Math.max.apply(Math, this.getAllPrices());
     return maxPrice;
   },
 
@@ -28,12 +28,12 @@ export const getValues = {
   },
 
   getMinimumStock(): number {
-    const minStock: number = Math.min.apply(Math, this.getAllStock());
+    const minStock: number = Math.min(...this.getAllStock()); //Math.min.apply(Math, this.getAllStock());
     return minStock;
   },
 
   getMaximumStock(): number {
-    const maxStock: number = Math.max.apply(Math, this.getAllStock());
+    const maxStock: number = Math.max(...this.getAllStock()); //Math.max.apply(Math, this.getAllStock());
     return maxStock;
   },
 

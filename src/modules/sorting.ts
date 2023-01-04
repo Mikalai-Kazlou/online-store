@@ -3,7 +3,11 @@ import { elementNullCheck } from './helpers';
 import Filter from '../components/Filter';
 import { FilterType, sortingType, viewType, SearchQueryParameters } from '../modules/enums';
 
-if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
+if (
+  document.location.pathname === '/' ||
+  document.location.pathname === '/online-store/' ||
+  document.location.pathname.includes('index')
+) {
   const sortingContainer = elementNullCheck(document, '.sort-input') as HTMLSelectElement;
   const viewContainer = elementNullCheck(document, '.view-input') as HTMLSelectElement;
   const goodsItems = elementNullCheck(document, '.goods-items');

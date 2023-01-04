@@ -22,7 +22,8 @@ export default class GoodsCatalogItem {
 
     const uiPicture = document.createElement('div');
     uiPicture.classList.add('picture');
-    uiPicture.style.backgroundImage = `url("${this.goods.thumbnail}")`;
+    //uiPicture.style.backgroundImage = `url("${this.goods.thumbnail}")`;
+    helpers.loadImage(this.goods.thumbnail, uiPicture);
 
     const uiProductName = document.createElement('div');
     uiProductName.innerHTML = `${this.goods.title}`;
@@ -91,7 +92,7 @@ export default class GoodsCatalogItem {
       let quantity = 1;
       const uiStockNumber = this.uiElement.querySelector('.selected-stock') as HTMLParagraphElement;
       if (uiStockNumber) {
-        quantity = (uiStockNumber.textContent) ? +uiStockNumber.textContent : 1;
+        quantity = uiStockNumber.textContent ? +uiStockNumber.textContent : 1;
       }
       this.cart.add(this.goods, quantity);
     }
@@ -99,6 +100,6 @@ export default class GoodsCatalogItem {
   }
 
   private showDetails() {
-    location.href = `../../details.html?id=${this.goods.id}`;
+    location.href = `./details.html?id=${this.goods.id}`;
   }
 }
