@@ -99,6 +99,6 @@ export default class GoodsCatalogItem {
   }
 
   private showDetails() {
-    location.href = `../../details.html?id=${this.goods.id}`;
+    location.href = `./details.html?id=${this.goods.id}`;
   }
 }

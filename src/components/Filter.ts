@@ -37,16 +37,26 @@ export default class Filter {
     localStorage.setItem('RS Online-Store SearchResults', JSON.stringify(result));
   }
 
+  // checkSearch(searchQuery: URLSearchParams, foundItems: number[], filterType: FilterType): void {
+  //   if (foundItems.length !== goodsData.products.length
+  //     || [FilterType.view, FilterType.sorting].includes(filterType)) {
+  //     window.history.pushState({}, '', `/?${searchQuery}`);
+  //   } else {
+  //     for (let key of Array.from(searchQuery.keys())) {
+  //       searchQuery.delete(key);
+  //     }
+  //     window.history.replaceState({}, '', `/${searchQuery}`);
+  //   }
+  // }
+
   checkSearch(searchQuery: URLSearchParams, foundItems: number[], filterType: FilterType): void {
-    if (foundItems.length !== goodsData.products.length
-      || [FilterType.view, FilterType.sorting].includes(filterType)) {
-      window.history.pushState({}, '', `/?${searchQuery}`);
-    } else {
+    if (foundItems.length === goodsData.products.length) {
       for (let key of Array.from(searchQuery.keys())) {
         searchQuery.delete(key);
       }
-      window.history.replaceState({}, '', `/${searchQuery}`);
     }
+    const questionMark = !searchQuery.toString() || searchQuery.toString()[0] === '?' ? '' : '?';
+    window.history.replaceState({}, '', `${window.location.pathname}${questionMark}${searchQuery.toString()}`);
   }
 
   parseQueryString(searchQuery: URLSearchParams): void {
