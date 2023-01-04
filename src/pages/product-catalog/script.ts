@@ -5,7 +5,10 @@ import GoodsCatalog from '../../components/GoodsCatalog';
 import Header from '../../components/Header';
 import { elementNullCheck } from '../../modules/helpers';
 
-if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
+if (document.location.pathname === '/'
+  || document.location.pathname === '/online-store/'
+  || document.location.pathname.includes('index')) {
+
   function getCategories(): Set<string> {
     const length = goodsData.products.length;
     const result: string[] = [];

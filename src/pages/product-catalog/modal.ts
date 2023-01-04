@@ -5,7 +5,10 @@ import GoodsCatalogItem from '../../components/GoodsCatalogItem';
 import Goods from '../../components/Goods';
 
 
-if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
+if (document.location.pathname === '/'
+  || document.location.pathname === '/online-store/'
+  || document.location.pathname.includes('index')) {
+
   const modal: HTMLElement = elementNullCheck(document, '.modal') as HTMLElement;
   const overlay: HTMLElement = document.querySelector('.overlay') as HTMLElement;
   const btnOpenModal: HTMLElement = document.querySelector('.goods-items') as HTMLElement;

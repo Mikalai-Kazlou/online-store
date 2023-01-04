@@ -1,5 +1,6 @@
 switch (true) {
   case document.location.pathname === '/'
+    || document.location.pathname === '/online-store/'
     || document.location.pathname.includes('index'):
     break;
   case document.location.pathname.includes('details'):

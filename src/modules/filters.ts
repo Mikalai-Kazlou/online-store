@@ -3,7 +3,10 @@ import { elementNullCheck, formatAmount } from './helpers';
 import Filter from '../components/Filter';
 import { FilterType } from './enums';
 
-if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
+if (document.location.pathname === '/'
+  || document.location.pathname === '/online-store/'
+  || document.location.pathname.includes('index')) {
+
   const goodsNumber = elementNullCheck(document, '.goods-number') as HTMLElement;
   const resetButton = elementNullCheck(document, '.reset-filters') as HTMLButtonElement;
 
