@@ -16,7 +16,8 @@
   width: 100%;
   height: 100%;
 
-  background: rgba(20, 20, 20, 0.3);
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
 
   &:hover {
     cursor: pointer;
@@ -37,6 +38,10 @@
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
+  }
+
+  @media screen and (max-width: 450px) {
+    padding: 0.7rem;
   }
 }
 
@@ -88,6 +93,10 @@
   &.invalid {
     border: 1px solid red;
     background-color: #fcd7d7;
+  }
+
+  @media screen and (max-width: 450px) {
+    width: 75vw;
   }
 }
 

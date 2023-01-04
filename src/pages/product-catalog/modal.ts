@@ -36,6 +36,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
 
     const price = document.createElement('p');
     price.classList.add('main-text');
+
     price.innerHTML = `Price: ${formatAmount(goodsData.products[id - 1].price)}`;
 
     const discount = document.createElement('p');
