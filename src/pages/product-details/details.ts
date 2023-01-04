@@ -53,7 +53,7 @@ if (document.location.pathname.includes('details')) {
   function fillProductPage(product: Goods): void {
     const fullName = elementNullCheck(document, '.brand-and-title');
     const sidePicturesContainer = elementNullCheck(document, '.side-pictures');
-    const selectedPicture = elementNullCheck(document, '.selected-picture');
+    const selectedPicture = elementNullCheck(document, '.selected-picture') as HTMLElement;
     const infoTitle = elementNullCheck(document, '.info-title');
     const infoBrand = elementNullCheck(document, '.info-brand');
     const infoRating = elementNullCheck(document, '.info-rating');
@@ -90,6 +90,7 @@ if (document.location.pathname.includes('details')) {
 
     addPictures(sidePicturesContainer, product.images);
     displaySelectedPicture(selectedPicture, product.images, product.title, 0);
+    helpers.loadImage(product.images[0], selectedPicture);
   }
 
   function addPictures(parent: Element, images: string[]): void {

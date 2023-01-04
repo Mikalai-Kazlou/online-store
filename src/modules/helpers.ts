@@ -10,7 +10,7 @@ export function formatAmount(amount: number): string {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
 }
 
-export function loadImage(src: string, uiImage: HTMLElement) {
+export function loadImage(src: string, uiImage: HTMLElement): void {
   const image = new Image();
   image.src = src;
   image.onload = () => {
