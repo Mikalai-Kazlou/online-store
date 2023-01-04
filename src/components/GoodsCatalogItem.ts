@@ -22,7 +22,8 @@ export default class GoodsCatalogItem {
 
     const uiPicture = document.createElement('div');
     uiPicture.classList.add('picture');
-    uiPicture.style.backgroundImage = `url("${this.goods.thumbnail}")`;
+    //uiPicture.style.backgroundImage = `url("${this.goods.thumbnail}")`;
+    helpers.loadImage(this.goods.thumbnail, uiPicture);
 
     const uiProductName = document.createElement('div');
     uiProductName.innerHTML = `${this.goods.title}`;
