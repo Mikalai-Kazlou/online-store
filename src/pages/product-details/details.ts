@@ -68,7 +68,7 @@ if (document.location.pathname.includes('details')) {
     infoDiscount.innerHTML = `Discount percentage: ${product.discountPercentage}%`;
     infoDescription.innerHTML = `Description: ${product.description}`;
     infoStock.innerHTML = `Stock: ${product.stock}`;
-    infoPrice.innerHTML = `Price: ${helpers.formatAmount(product.stock)}`;
+    infoPrice.innerHTML = `Price: ${helpers.formatAmount(product.price)}`;
 
     function findImageID(event: Event): void {
       if (event.target) {
@@ -114,7 +114,7 @@ if (document.location.pathname.includes('details')) {
     if (!cart.has(currentProduct)) {
       currentItem.addToCart();
     }
-    location.href = '../cart.html?action=buy'
+    location.href = './cart.html?action=buy';
   }
 
   const uiBuyNow = document.querySelector('.buy-now');

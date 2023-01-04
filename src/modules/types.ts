@@ -1,4 +1,4 @@
 export type PromoCode = {
-  id: string,
-  discount: number
-}
+  id: string;
+  discount: number;
+};

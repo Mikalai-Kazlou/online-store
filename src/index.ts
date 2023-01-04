@@ -1,4 +1,4 @@
-import './modules/routing'
+import './modules/routing';
 import './style.scss';
 import './pages/product-catalog/script.ts';
 import './modules/goods.ts';

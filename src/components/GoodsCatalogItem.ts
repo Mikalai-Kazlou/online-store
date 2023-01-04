@@ -91,7 +91,7 @@ export default class GoodsCatalogItem {
       let quantity = 1;
       const uiStockNumber = this.uiElement.querySelector('.selected-stock') as HTMLParagraphElement;
       if (uiStockNumber) {
-        quantity = (uiStockNumber.textContent) ? +uiStockNumber.textContent : 1;
+        quantity = uiStockNumber.textContent ? +uiStockNumber.textContent : 1;
       }
       this.cart.add(this.goods, quantity);
     }

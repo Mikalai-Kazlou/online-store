@@ -69,7 +69,7 @@ if (document.location.pathname.includes('cart')) {
     }
   }
 
-  if (searchParams.get("action") === 'submit') {
+  if (searchParams.get('action') === 'submit') {
     cart.clear();
     displayMessage();
   }
