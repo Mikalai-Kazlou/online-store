@@ -27,15 +27,20 @@ export default class Filter {
     this.refreshCounter(this.foundItems);
     this.hideItems();
     this.setAmountRemainder(this.uiElement, this.foundItems);
-    this.save(this.foundItems);
+    //this.save(this.foundItems);
     this.checkSearch(this.searchQuery, this.foundItems);
-    this.setPriceSlider(this.foundItems);
-    this.setStockSlider(this.foundItems);
+
+    if (filterType !== FilterType.price) {
+      this.setPriceSlider(this.foundItems);
+    }
+    if (filterType !== FilterType.stock) {
+      this.setStockSlider(this.foundItems);
+    }
   }
 
-  private save(result: number[]): void {
-    localStorage.setItem('RS Online-Store SearchResults', JSON.stringify(result));
-  }
+  // private save(result: number[]): void {
+  //   localStorage.setItem('RS Online-Store SearchResults', JSON.stringify(result));
+  // }
 
   // checkSearch(searchQuery: URLSearchParams, foundItems: number[], filterType: FilterType): void {
   //   if (foundItems.length !== goodsData.products.length
@@ -201,8 +206,7 @@ export default class Filter {
     container.value = value;
   }
 
-  reset(/*foundItems: number[]*/) {
-    //foundItems = [];
+  reset() {
     const allItems = document.querySelectorAll('.good-item');
     const categories = document.querySelectorAll('.category-button');
     const brands = document.querySelectorAll('.brand-button');
