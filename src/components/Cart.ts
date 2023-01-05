@@ -20,12 +20,14 @@ export default class Cart {
   promoCodes: Set<PromoCode> = new Set();
   page: number = 1;
   itemsOnPage: number = 3;
+  public searchQuery: URLSearchParams = new URLSearchParams(window.location.search);
 
   constructor(uiCart?: HTMLElement) {
     this.uiCart = uiCart;
     this.restore();
 
     if (this.uiCart) {
+      this.parseQueryString(this.searchQuery);
       const uiItemsOnPage = this.uiCart.querySelector('.items-on-page-value') as HTMLInputElement;
       uiItemsOnPage.value = this.itemsOnPage.toString();
       uiItemsOnPage.addEventListener('change', () => this.setItemsOnPage());
@@ -60,7 +62,6 @@ export default class Cart {
     const uiCartItems = this.uiCart.querySelector('.cart-items') as HTMLElement;
     uiCartItems.innerHTML = '';
     uiCartItems.append(uiFragment);
-
     this.refresh();
   }
 
@@ -115,6 +116,9 @@ export default class Cart {
       const uiFullAmount = this.uiCart.querySelector('full-amount') as HTMLElement;
       uiFullAmount?.remove();
     }
+
+    this.searchQueryChange();
+
   }
 
   has(goods: Goods): boolean {
@@ -161,7 +165,7 @@ export default class Cart {
 
     let totalAmount = fullAmount;
     this.promoCodes.forEach((code) => {
-      totalAmount -= fullAmount * code.discount / 100;
+      totalAmount -= (fullAmount * code.discount) / 100;
     });
 
     return totalAmount;
@@ -194,7 +198,7 @@ export default class Cart {
 
   private recalculateCurrentPage(): void {
     const maxPage = this.getMaxPage();
-    this.page = (this.page > maxPage) ? maxPage : this.page;
+    this.page = this.page > maxPage ? maxPage : this.page;
   }
 
   protected setNextPage(): void {
@@ -228,22 +232,23 @@ export default class Cart {
   private save(): void {
     this.items = this.items.filter((item) => item.quantity > 0);
     const cart: SavedCart = {
-      items:
-        this.items
-          .map((item) => {
-            return { id: item.goods.id, qnt: item.quantity }
-          }),
-      promo:
-        Array.from(this.promoCodes).map((code) => code.id),
+      items: this.items.map((item) => {
+        return { id: item.goods.id, qnt: item.quantity };
+      }),
+      promo: Array.from(this.promoCodes).map((code) => code.id),
       page: this.page,
-      itemsOnPage: this.itemsOnPage
+      itemsOnPage: this.itemsOnPage,
     };
     localStorage.setItem('rs-online-store-cart', JSON.stringify(cart));
   }
 
   private restore(): void {
-    const cart: SavedCart = JSON.parse(localStorage.getItem('rs-online-store-cart') as string)
-      || { promo: [], items: [], page: this.page, itemsOnPage: this.itemsOnPage };
+    const cart: SavedCart = JSON.parse(localStorage.getItem('rs-online-store-cart') as string) || {
+      promo: [],
+      items: [],
+      page: this.page,
+      itemsOnPage: this.itemsOnPage,
+    };
 
     this.items = cart.items.map((item) => new CartItem(new Goods(item.id), item.qnt));
     cart.promo.forEach((promo) => {
@@ -254,5 +259,32 @@ export default class Cart {
     });
     this.page = cart.page;
     this.itemsOnPage = cart.itemsOnPage;
+  }
+
+  parseQueryString(searchQuery: URLSearchParams): void {
+    if (searchQuery && this.uiCart) {
+      if (searchQuery.has('page')) {
+        const page = searchQuery.get('page') as string;
+        this.page = +page;
+        const uiCurrentPage = this.uiCart.querySelector('.current-page') as HTMLElement;
+        uiCurrentPage.textContent = `${this.page}/${this.getMaxPage()}`;
+      }
+      if (searchQuery.has('items')) {
+        const itemsPerPage = searchQuery.get('items') as string;
+        this.itemsOnPage = +itemsPerPage;
+        const uiItemsOnPage = this.uiCart.querySelector('.items-on-page-value') as HTMLInputElement;
+        uiItemsOnPage.value = this.itemsOnPage.toString();
+      }
+    } this.save();
+  }
+
+  searchQueryChange(): void {
+    if (this.searchQuery.has('page') && this.searchQuery.has('items')) {
+      this.searchQuery.delete('page');
+      this.searchQuery.delete('items');
+    }
+    this.searchQuery.append('page', this.page.toString());
+    this.searchQuery.append('items', this.itemsOnPage.toString());
+    window.history.replaceState({}, '', `/cart.html?${this.searchQuery}`);
   }
 }

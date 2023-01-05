@@ -14,10 +14,17 @@ export default class Filter {
   }
 
   private refreshCounter(foundItems: number[]): void {
+    const noResultsMessage = document.querySelector('.error-message') as HTMLElement;
     if (foundItems.length > 0) {
       this.counter.innerHTML = `Found: ${foundItems.length}`;
+      if (!noResultsMessage.classList.contains('hide')) {
+        noResultsMessage.classList.add('hide');
+      }
     } else {
       this.counter.innerHTML = `Found: 0`;
+      if (noResultsMessage.classList.contains('hide')) {
+        noResultsMessage.classList.remove('hide');
+      }
     }
   }
 
@@ -38,8 +45,7 @@ export default class Filter {
   }
 
   checkSearch(searchQuery: URLSearchParams, foundItems: number[], filterType: FilterType): void {
-    if (foundItems.length !== goodsData.products.length
-      || [FilterType.view, FilterType.sorting].includes(filterType)) {
+    if (foundItems.length !== goodsData.products.length || [FilterType.view, FilterType.sorting].includes(filterType)) {
       window.history.pushState({}, '', `/?${searchQuery}`);
     } else {
       for (let key of Array.from(searchQuery.keys())) {
@@ -146,7 +152,8 @@ export default class Filter {
         searchQueryContainer.value = searchText;
         const result = [...new Set(searchResults)];
         matrix.push(result);
-      } if (searchQuery.has('sorting')) {
+      }
+      if (searchQuery.has('sorting')) {
         const sorting = searchQuery.get('sorting');
         const sortInput = document.querySelector('.sort-input') as HTMLSelectElement;
         if (sorting === sortingType.NameAscending) {
@@ -178,11 +185,13 @@ export default class Filter {
         return a.indexOf(v) !== -1;
       });
     });
-    const result = resultGoods?.map((item) => item.id) || [0];
-    if (result[0] !== 0) {
+
+    if (typeof resultGoods !== 'undefined'){
+    const result = resultGoods.map((item) => item.id);
+    if (result.length > 0) {
       this.foundItems = result;
       this.getMatchedResults(FilterType.empty);
-    }
+    }}
   }
 
   setSliderValue(container: HTMLInputElement, value: string): void {
@@ -211,42 +220,52 @@ export default class Filter {
     const matrix: Goods[][] = [];
     matrix.push(goodsData.products);
 
-    if ([FilterType.reset, FilterType.search].includes(filterType)
-      || this.searchQuery.has(SearchQueryParameters.search)) {
+    if (
+      [FilterType.reset, FilterType.search].includes(filterType) ||
+      this.searchQuery.has(SearchQueryParameters.search)
+    ) {
       const resultByText = this.findByText(uiElement);
-      if (resultByText.length > 0) {
+      if (resultByText.length > 0 && resultByText.length !== goodsData.products.length) {
         matrix.push(resultByText);
       }
     }
 
-    if ([FilterType.reset, FilterType.category].includes(filterType)
-      || this.searchQuery.has(SearchQueryParameters.category)) {
+    if (
+      [FilterType.reset, FilterType.category].includes(filterType) ||
+      this.searchQuery.has(SearchQueryParameters.category)
+    ) {
       const resultByCategory = this.findByCategories(this.uiElement);
-      if (resultByCategory.length > 0) {
+      if (resultByCategory.length > 0 && resultByCategory.length !== goodsData.products.length) {
         matrix.push(resultByCategory);
       }
     }
 
-    if ([FilterType.reset, FilterType.brand].includes(filterType)
-      || this.searchQuery.has(SearchQueryParameters.brand)) {
+    if (
+      [FilterType.reset, FilterType.brand].includes(filterType) ||
+      this.searchQuery.has(SearchQueryParameters.brand)
+    ) {
       const resultByBrand = this.findByBrands(this.uiElement);
-      if (resultByBrand.length > 0) {
+      if (resultByBrand.length > 0 && resultByBrand.length !== goodsData.products.length) {
         matrix.push(resultByBrand);
       }
     }
 
-    if ([FilterType.reset, FilterType.price].includes(filterType)
-      || this.searchQuery.has(SearchQueryParameters.price)) {
+    if (
+      [FilterType.reset, FilterType.price].includes(filterType) ||
+      this.searchQuery.has(SearchQueryParameters.price)
+    ) {
       const resultByPrice = this.findByPriceRange(this.uiElement);
-      if (resultByPrice.length > 0) {
+      if (resultByPrice.length > 0 && resultByPrice.length !== goodsData.products.length) {
         matrix.push(resultByPrice);
       }
     }
 
-    if ([FilterType.reset, FilterType.stock].includes(filterType)
-      || this.searchQuery.has(SearchQueryParameters.stock)) {
+    if (
+      [FilterType.reset, FilterType.stock].includes(filterType) ||
+      this.searchQuery.has(SearchQueryParameters.stock)
+    ) {
       const resultByStock = this.findByStockRange(this.uiElement);
-      if (resultByStock.length > 0) {
+      if (resultByStock.length > 0 && resultByStock.length !== goodsData.products.length) {
         matrix.push(resultByStock);
       }
     }
@@ -257,7 +276,13 @@ export default class Filter {
       });
     });
 
-    this.foundItems = result?.map((item) => item.id) || [0];
+    if (typeof result !== 'undefined' && result.length == 0) {
+      this.foundItems = [];
+    }
+
+    if (typeof result !== 'undefined' && result.length !== 0) {
+      this.foundItems = result.map((item) => item.id);
+    }
   }
 
   private findByText(uiElement: HTMLElement) {
@@ -291,6 +316,10 @@ export default class Filter {
     const result = [...new Set(searchResults)];
     if (searchQueryInput.length > 0 && result.length === 0) {
       searchQueryContainer.setAttribute('maxlength', `${searchQueryInput.length - 1}`);
+      const allItems = document.querySelectorAll('.good-item');
+      allItems.forEach((item) => {
+        if (!item.classList.contains('hide')) item.classList.add('hide');
+      });
     } else {
       searchQueryContainer.removeAttribute('maxlength');
     }
@@ -307,7 +336,11 @@ export default class Filter {
     const result = goodsData.products.filter((item) => selectedCategories.includes(item.category));
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
     this.buttonsDisabler(result, brands, selectedCategories.length, 'brand');
-    this.searchQueryAppend(SearchQueryParameters.category, `${[...new Set(result.map((item) => item.category))]}`, this.searchQuery);
+    this.searchQueryAppend(
+      SearchQueryParameters.category,
+      `${[...new Set(result.map((item) => item.category))]}`,
+      this.searchQuery
+    );
     return result;
   }
 
@@ -317,7 +350,11 @@ export default class Filter {
     const result = goodsData.products.filter((item) => selectedBrands.includes(item.brand));
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     this.buttonsDisabler(result, categories, selectedBrands.length, 'category');
-    this.searchQueryAppend(SearchQueryParameters.brand, `${[...new Set(result.map((item) => item.brand))]}`, this.searchQuery);
+    this.searchQueryAppend(
+      SearchQueryParameters.brand,
+      `${[...new Set(result.map((item) => item.brand))]}`,
+      this.searchQuery
+    );
     return result;
   }
 
@@ -391,8 +428,7 @@ export default class Filter {
       if (+maxPrice.value !== maxPriceValue) {
         this.setSliderValue(maxPrice, maxPriceValue.toString());
       }
-    }
-    else {
+    } else {
       minPrice.setAttribute('value', `${minPrice.value}`);
       maxPrice.setAttribute('value', `${maxPrice.value}`);
     }
@@ -481,14 +517,18 @@ export default class Filter {
     if (foundItems.length > 0) {
       brandRemainder.forEach(
         (item) =>
-        (item.innerHTML = `(${items.filter((v) => v.brand === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
-          }/${goodsData.products.filter((v) => v.brand === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
+          (item.innerHTML = `(${
+            items.filter((v) => v.brand === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
+          }/${
+            goodsData.products.filter((v) => v.brand === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
           })`)
       );
       categoryRemainder.forEach(
         (item) =>
-        (item.innerHTML = `(${items.filter((v) => v.category === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
-          }/${goodsData.products.filter((v) => v.category === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
+          (item.innerHTML = `(${
+            items.filter((v) => v.category === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
+          }/${
+            goodsData.products.filter((v) => v.category === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
           })`)
       );
     }

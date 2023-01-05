@@ -21,7 +21,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     const picture = document.createElement('div');
     picture.classList.add('picture');
     picture.classList.add('big-picture');
-    picture.style.backgroundImage = `url("${goodsData.products[id - 1].images[0]}")`;
+    picture.style.backgroundImage = `url("${goodsData.products[id - 1].images[0] || goodsData.products[0].images[0]}")`;
 
     const goodInfo = document.createElement('div');
     goodInfo.classList.add('good-info');
