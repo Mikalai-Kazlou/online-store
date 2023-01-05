@@ -634,6 +634,10 @@ body {
     text-align: justify;
     border: transparent;
     width: 100%;
+
+    @media screen and (max-width: 860px) {
+        flex-direction: column;
+    }
 }
 
 .good-info {
@@ -642,6 +646,10 @@ body {
     gap: 3rem;
     justify-content: space-around;
     height: 100%;
+
+    @media screen and (max-width: 860px) {
+        height: auto;
+    }
 }
 
 .button-add-card {

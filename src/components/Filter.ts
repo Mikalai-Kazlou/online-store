@@ -316,10 +316,7 @@ export default class Filter {
     const result = [...new Set(searchResults)];
     if (searchQueryInput.length > 0 && result.length === 0) {
       searchQueryContainer.setAttribute('maxlength', `${searchQueryInput.length - 1}`);
-      const allItems = document.querySelectorAll('.good-item');
-      allItems.forEach((item) => {
-        if (!item.classList.contains('hide')) item.classList.add('hide');
-      });
+      return this.foundItems.map((item) => goodsData.products[item - 1]);
     } else {
       searchQueryContainer.removeAttribute('maxlength');
     }

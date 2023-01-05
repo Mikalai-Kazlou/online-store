@@ -480,7 +480,7 @@ const goodsData = {
         'https://i.dummyjson.com/data/products/26/2.jpg',
         'https://i.dummyjson.com/data/products/26/3.jpg',
         'https://i.dummyjson.com/data/products/26/4.jpg',
-        'https://i.dummyjson.com/data/products/26/5.jpg',
+        //'https://i.dummyjson.com/data/products/26/5.jpg',
         'https://i.dummyjson.com/data/products/26/thumbnail.jpg',
       ],
     },
