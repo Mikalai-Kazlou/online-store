@@ -452,18 +452,18 @@ export default class Filter {
 
   private buttonsDisabler(result: Goods[], buttons: Element[], selected: number, prop: string): void {
     buttons.forEach((item) => {
-      if (item.classList.contains('disabled')) item.classList.remove('disabled');
+      if (item.classList.contains('disabled1')) item.classList.remove('disabled1');
     });
     if (prop === 'brand') {
       buttons.forEach((item) => {
         if (!result.map((v) => v.brand).includes(item.id) && selected > 0) {
-          item.classList.add('disabled');
+          item.classList.add('disabled1');
         }
       });
     } else if (prop === 'category') {
       buttons.forEach((item) => {
         if (!result.map((v) => v.category).includes(item.id) && selected > 0) {
-          item.classList.add('disabled');
+          item.classList.add('disabled1');
         }
       });
     }
@@ -471,19 +471,19 @@ export default class Filter {
 
   private buttonsDisablerText(result: Goods[], buttonsBrand: Element[], buttonsCateg: Element[]): void {
     buttonsBrand.forEach((item) => {
-      if (item.classList.contains('disable')) item.classList.remove('disable');
+      if (item.classList.contains('disabled2')) item.classList.remove('disabled2');
     });
     buttonsCateg.forEach((item) => {
-      if (item.classList.contains('disable')) item.classList.remove('disable');
+      if (item.classList.contains('disabled2')) item.classList.remove('disabled2');
     });
     buttonsBrand.forEach((item) => {
       if (!result.map((v) => v.brand).includes(item.id) && result.length > 0) {
-        item.classList.add('disable');
+        item.classList.add('disabled2');
       }
     });
     buttonsCateg.forEach((item) => {
       if (!result.map((v) => v.category).includes(item.id) && result.length > 0) {
-        item.classList.add('disable');
+        item.classList.add('disabled2');
       }
     });
   }
@@ -495,13 +495,19 @@ export default class Filter {
     selected: number
   ): void {
     buttonsBrand.forEach((item) => {
+      if (item.classList.contains('disabled3')) item.classList.remove('disabled3');
+    });
+    buttonsCateg.forEach((item) => {
+      if (item.classList.contains('disabled3')) item.classList.remove('disabled3');
+    });
+    buttonsBrand.forEach((item) => {
       if (!result.map((v) => v.brand).includes(item.id) && selected > 0) {
-        item.classList.add('disabled');
+        item.classList.add('disabled3');
       }
     });
     buttonsCateg.forEach((item) => {
       if (!result.map((v) => v.category).includes(item.id) && selected > 0) {
-        item.classList.add('disabled');
+        item.classList.add('disabled3');
       }
     });
   }

@@ -340,6 +340,7 @@ body {
 }
 
 .slider::-moz-range-thumb {
+    appearance: none;
     -webkit-appearance: none;
     pointer-events: all;
     width: 2rem;
@@ -448,6 +449,7 @@ body {
     gap: 1rem;
     text-align: center;
 }
+
 .total {
     text-align: center;
 }
@@ -676,15 +678,10 @@ body {
     border-bottom: 0.1rem solid darkorchid;
 }
 
-.disabled {
-    opacity: 0.4;
-    cursor: default;
-    user-select: none;
-    text-decoration: none;
-    pointer-events: none;
-}
-
-.disable {
+.disabled,
+.disabled1,
+.disabled2,
+.disabled3 {
     opacity: 0.4;
     cursor: default;
     user-select: none;
