@@ -92,22 +92,22 @@ if (
   }
 
   function refreshSliders(): void {
+    sliderSwitcher();
     minPriceContainer.innerHTML = `${formatAmount(+priceSliderFrom.value)}`;
     maxPriceContainer.innerHTML = `${formatAmount(+priceSliderTo.value)}`;
     minStockContainer.innerHTML = stockSliderFrom.value;
     maxStockContainer.innerHTML = stockSliderTo.value;
     paintRange(priceSliderFrom, priceSliderTo);
     paintRange(stockSliderFrom, stockSliderTo);
-    sliderSwitcher();
   }
 
   function sliderSwitcher(): void {
-    if (+priceSliderFrom.value > +priceSliderTo.value + 10) {
+    if (+priceSliderFrom.value > +priceSliderTo.value /*+ 10*/) {
       const temp = priceSliderFrom.value;
       priceSliderFrom.value = priceSliderTo.value;
       priceSliderTo.value = temp;
     }
-    if (+stockSliderFrom.value > +stockSliderTo.value + 1) {
+    if (+stockSliderFrom.value > +stockSliderTo.value /*+ 1*/) {
       const temp = stockSliderFrom.value;
       stockSliderFrom.value = stockSliderTo.value;
       stockSliderTo.value = temp;
