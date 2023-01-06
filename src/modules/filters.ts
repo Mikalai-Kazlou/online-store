@@ -102,12 +102,12 @@ if (
   }
 
   function sliderSwitcher(): void {
-    if (+priceSliderFrom.value > +priceSliderTo.value /*+ 10*/) {
+    if (+priceSliderFrom.value > +priceSliderTo.value) {
       const temp = priceSliderFrom.value;
       priceSliderFrom.value = priceSliderTo.value;
       priceSliderTo.value = temp;
     }
-    if (+stockSliderFrom.value > +stockSliderTo.value /*+ 1*/) {
+    if (+stockSliderFrom.value > +stockSliderTo.value) {
       const temp = stockSliderFrom.value;
       stockSliderFrom.value = stockSliderTo.value;
       stockSliderTo.value = temp;

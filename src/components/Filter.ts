@@ -27,7 +27,6 @@ export default class Filter {
     this.refreshCounter(this.foundItems);
     this.hideItems();
     this.setAmountRemainder(this.uiElement, this.foundItems);
-    //this.save(this.foundItems);
     this.checkSearch(this.searchQuery, this.foundItems);
 
     if (filterType !== FilterType.price) {
@@ -37,22 +36,6 @@ export default class Filter {
       this.setStockSlider(this.foundItems);
     }
   }
-
-  // private save(result: number[]): void {
-  //   localStorage.setItem('RS Online-Store SearchResults', JSON.stringify(result));
-  // }
-
-  // checkSearch(searchQuery: URLSearchParams, foundItems: number[], filterType: FilterType): void {
-  //   if (foundItems.length !== goodsData.products.length
-  //     || [FilterType.view, FilterType.sorting].includes(filterType)) {
-  //     window.history.pushState({}, '', `/?${searchQuery}`);
-  //   } else {
-  //     for (let key of Array.from(searchQuery.keys())) {
-  //       searchQuery.delete(key);
-  //     }
-  //     window.history.replaceState({}, '', `/${searchQuery}`);
-  //   }
-  // }
 
   checkSearch(searchQuery: URLSearchParams, foundItems: number[]): void {
     if (foundItems.length === goodsData.products.length) {
@@ -233,9 +216,7 @@ export default class Filter {
       this.searchQuery.has(SearchQueryParameters.search)
     ) {
       const resultByText = this.findByText(uiElement);
-      //if (resultByText.length > 0) {
       matrix.push(resultByText);
-      //}
     }
 
     if (
@@ -243,9 +224,7 @@ export default class Filter {
       this.searchQuery.has(SearchQueryParameters.category)
     ) {
       const resultByCategory = this.findByCategories(this.uiElement);
-      //if (resultByCategory.length > 0) {
       matrix.push(resultByCategory);
-      //}
     }
 
     if (
@@ -253,9 +232,7 @@ export default class Filter {
       this.searchQuery.has(SearchQueryParameters.brand)
     ) {
       const resultByBrand = this.findByBrands(this.uiElement);
-      //if (resultByBrand.length > 0) {
       matrix.push(resultByBrand);
-      //}
     }
 
     if (
@@ -263,9 +240,7 @@ export default class Filter {
       this.searchQuery.has(SearchQueryParameters.price)
     ) {
       const resultByPrice = this.findByPriceRange(this.uiElement);
-      //if (resultByPrice.length > 0) {
       matrix.push(resultByPrice);
-      //}
     }
 
     if (
@@ -273,9 +248,7 @@ export default class Filter {
       this.searchQuery.has(SearchQueryParameters.stock)
     ) {
       const resultByStock = this.findByStockRange(this.uiElement);
-      //if (resultByStock.length > 0) {
       matrix.push(resultByStock);
-      //}
     }
 
     const result: Goods[] | undefined = matrix.shift()?.filter(function (v) {
@@ -324,7 +297,6 @@ export default class Filter {
 
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
-    //this.buttonsDisablerText(result, brands, categories);
     this.buttonsDisabler(result, categories, result.length, 'category', 'disabled1');
     this.buttonsDisabler(result, brands, result.length, 'brand', 'disabled1');
 
@@ -377,15 +349,14 @@ export default class Filter {
   private findByPriceRange(uiElement: HTMLElement): Goods[] {
     const fromPriceContainer = uiElement.querySelector('.price-slider-from') as HTMLInputElement;
     const toPriceContainer = uiElement.querySelector('.price-slider-to') as HTMLInputElement;
-    const minPrice = Math.min(+fromPriceContainer.value, +toPriceContainer.value); //+fromPriceContainer.value;
-    const maxPrice = Math.max(+fromPriceContainer.value, +toPriceContainer.value); //+toPriceContainer.value;
+    const minPrice = Math.min(+fromPriceContainer.value, +toPriceContainer.value);
+    const maxPrice = Math.max(+fromPriceContainer.value, +toPriceContainer.value);
     fromPriceContainer.setAttribute('value', `${fromPriceContainer.value}`);
     toPriceContainer.setAttribute('value', `${toPriceContainer.value}`);
     const result = goodsData.products.filter((item) => item.price >= minPrice && item.price <= maxPrice);
 
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
-    //this.buttonsDisablerSlider(result, brands, categories, result.length, 'disabled4');
     this.buttonsDisabler(result, categories, result.length, 'category', 'disabled4');
     this.buttonsDisabler(result, brands, result.length, 'brand', 'disabled4');
 
@@ -398,15 +369,14 @@ export default class Filter {
   private findByStockRange(uiElement: HTMLElement): Goods[] {
     const fromStockContainer = uiElement.querySelector('.stock-slider-from') as HTMLInputElement;
     const toStockContainer = uiElement.querySelector('.stock-slider-to') as HTMLInputElement;
-    const minStock = Math.min(+fromStockContainer.value, +toStockContainer.value); //+fromStockContainer.value;
-    const maxStock = Math.max(+fromStockContainer.value, +toStockContainer.value); //+toStockContainer.value;
+    const minStock = Math.min(+fromStockContainer.value, +toStockContainer.value);
+    const maxStock = Math.max(+fromStockContainer.value, +toStockContainer.value);
     fromStockContainer.setAttribute('value', `${fromStockContainer.value}`);
     toStockContainer.setAttribute('value', `${toStockContainer.value}`);
     const result = goodsData.products.filter((item) => item.stock >= minStock && item.stock <= maxStock);
 
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
-    //this.buttonsDisablerSlider(result, brands, categories, result.length, 'disabled5');
     this.buttonsDisabler(result, categories, result.length, 'category', 'disabled5');
     this.buttonsDisabler(result, brands, result.length, 'brand', 'disabled5');
 
@@ -443,8 +413,8 @@ export default class Filter {
     const minPrice = document.querySelector('.price-slider-from') as HTMLInputElement;
     const maxPrice = document.querySelector('.price-slider-to') as HTMLInputElement;
     const prices = foundItems.map((item) => goodsData.products[item - 1].price);
-    const minPriceValue = Math.min(...prices); //Math.min.apply(Math, prices);
-    const maxPriceValue = Math.max(...prices); //Math.max.apply(Math, prices);
+    const minPriceValue = Math.min(...prices);
+    const maxPriceValue = Math.max(...prices);
     if (foundItems.length > 0) {
       if (+minPrice.value !== minPriceValue) {
         this.setSliderValue(minPrice, minPriceValue.toString());
@@ -462,8 +432,8 @@ export default class Filter {
     const minStock = document.querySelector('.stock-slider-from') as HTMLInputElement;
     const maxStock = document.querySelector('.stock-slider-to') as HTMLInputElement;
     const stock = foundItems.map((item) => goodsData.products[item - 1].stock);
-    const minStockValue = Math.min(...stock); //Math.min.apply(Math, stock);
-    const maxStockValue = Math.max(...stock); //Math.max.apply(Math, stock);
+    const minStockValue = Math.min(...stock);
+    const maxStockValue = Math.max(...stock);
 
     if (foundItems.length > 0) {
       if (+minStock.value !== +minStockValue) {
@@ -488,50 +458,6 @@ export default class Filter {
       }
     });
   }
-
-  // private buttonsDisablerText(result: Goods[], buttonsBrand: Element[], buttonsCateg: Element[]): void {
-  //   buttonsBrand.forEach((item) => {
-  //     if (item.classList.contains('disabled1')) item.classList.remove('disabled1');
-  //   });
-  //   buttonsCateg.forEach((item) => {
-  //     if (item.classList.contains('disabled1')) item.classList.remove('disabled1');
-  //   });
-  //   buttonsBrand.forEach((item) => {
-  //     if (!result.map((v) => v.brand).includes(item.id) && result.length > 0) {
-  //       item.classList.add('disabled1');
-  //     }
-  //   });
-  //   buttonsCateg.forEach((item) => {
-  //     if (!result.map((v) => v.category).includes(item.id) && result.length > 0) {
-  //       item.classList.add('disabled1');
-  //     }
-  //   });
-  // }
-
-  // private buttonsDisablerSlider(
-  //   result: Goods[],
-  //   buttonsBrand: Element[],
-  //   buttonsCateg: Element[],
-  //   selected: number,
-  //   classCSS: string
-  // ): void {
-  //   buttonsBrand.forEach((item) => {
-  //     if (item.classList.contains(classCSS)) item.classList.remove(classCSS);
-  //   });
-  //   buttonsCateg.forEach((item) => {
-  //     if (item.classList.contains(classCSS)) item.classList.remove(classCSS);
-  //   });
-  //   buttonsBrand.forEach((item) => {
-  //     if (!result.map((v) => v.brand).includes(item.id) && selected > 0) {
-  //       item.classList.add(classCSS);
-  //     }
-  //   });
-  //   buttonsCateg.forEach((item) => {
-  //     if (!result.map((v) => v.category).includes(item.id) && selected > 0) {
-  //       item.classList.add(classCSS);
-  //     }
-  //   });
-  // }
 
   private setAmountRemainder(uiElement: HTMLElement, foundItems: number[]) {
     const brandRemainder = uiElement.querySelectorAll('.brand-remainder');
