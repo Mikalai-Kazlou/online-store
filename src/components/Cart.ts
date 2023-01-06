@@ -279,12 +279,16 @@ export default class Cart {
   }
 
   searchQueryChange(): void {
-    if (this.searchQuery.has('page') && this.searchQuery.has('items')) {
+    if (this.searchQuery.has('page')) {
       this.searchQuery.delete('page');
+    }
+    if (this.searchQuery.has('items')) {
       this.searchQuery.delete('items');
     }
     this.searchQuery.append('page', this.page.toString());
     this.searchQuery.append('items', this.itemsOnPage.toString());
-    window.history.replaceState({}, '', `/cart.html?${this.searchQuery}`);
+
+    const questionMark = !this.searchQuery.toString() || this.searchQuery.toString()[0] === '?' ? '' : '?';
+    window.history.replaceState({}, '', `${window.location.pathname}${questionMark}${this.searchQuery.toString()}`);
   }
 }
