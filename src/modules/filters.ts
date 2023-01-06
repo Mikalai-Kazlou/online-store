@@ -15,6 +15,7 @@ if (
   const maxPriceContainer = elementNullCheck(document, '.max-price');
   const minStockContainer = elementNullCheck(document, '.min-stock');
   const maxStockContainer = elementNullCheck(document, '.max-stock');
+
   const priceSliderFrom: HTMLInputElement = document.querySelector('.price-slider') as HTMLInputElement;
   const stockSliderFrom: HTMLInputElement = document.querySelector('.stock-slider') as HTMLInputElement;
 
@@ -23,7 +24,6 @@ if (
 
   const filterContent = elementNullCheck(document, '.filters-content') as HTMLElement;
   const filter = new Filter(filterContent, goodsNumber);
-  //const foundItem = filter.foundItems;
 
   const searchInput = document.querySelector('.search-input') as HTMLInputElement;
 
@@ -66,44 +66,48 @@ if (
   resetSliders();
 
   searchInput.oninput = function (): void {
-    refreshSliders(FilterType.search);
+    refreshFilters(FilterType.search);
   };
 
   priceSliderFrom.oninput = function (): void {
-    refreshSliders(FilterType.price);
+    refreshFilters(FilterType.price);
   };
 
   priceSliderTo.oninput = function (): void {
-    refreshSliders(FilterType.price);
+    refreshFilters(FilterType.price);
   };
 
   stockSliderFrom.oninput = function (): void {
-    refreshSliders(FilterType.stock);
+    refreshFilters(FilterType.stock);
   };
 
   stockSliderTo.oninput = function (): void {
-    refreshSliders(FilterType.stock);
+    refreshFilters(FilterType.stock);
   };
 
-  function refreshSliders(filterType: FilterType): void {
+  function refreshFilters(filterType: FilterType): void {
     filter.searchQueryRefresh();
     filter.getMatchedResults(filterType);
+    refreshSliders();
+  }
+
+  function refreshSliders(): void {
+    sliderSwitcher();
     minPriceContainer.innerHTML = `${formatAmount(+priceSliderFrom.value)}`;
     maxPriceContainer.innerHTML = `${formatAmount(+priceSliderTo.value)}`;
     minStockContainer.innerHTML = stockSliderFrom.value;
     maxStockContainer.innerHTML = stockSliderTo.value;
     paintRange(priceSliderFrom, priceSliderTo);
     paintRange(stockSliderFrom, stockSliderTo);
-    sliderSwitcher();
   }
 
   function sliderSwitcher(): void {
-    if (+priceSliderFrom.value > +priceSliderTo.value + 10) {
+    if (+priceSliderFrom.value > +priceSliderTo.value) {
       const temp = priceSliderFrom.value;
       priceSliderFrom.value = priceSliderTo.value;
       priceSliderTo.value = temp;
     }
-    if (+stockSliderFrom.value > +stockSliderTo.value + 1) {
+    if (+stockSliderFrom.value > +stockSliderTo.value) {
       const temp = stockSliderFrom.value;
       stockSliderFrom.value = stockSliderTo.value;
       stockSliderTo.value = temp;
@@ -140,7 +144,7 @@ if (
         clickedOption.classList.add('selected');
       }
     }
-    refreshSliders(FilterType.category);
+    refreshFilters(FilterType.category);
   }
 
   const brandButtons = elementNullCheck(document, '.filter-brand-buttons');
@@ -154,7 +158,7 @@ if (
         clickedOption.classList.add('selected');
       }
     }
-    refreshSliders(FilterType.brand);
+    refreshFilters(FilterType.brand);
   }
 
   const copyButton = elementNullCheck(document, '.copy-link') as HTMLButtonElement;
@@ -173,13 +177,13 @@ if (
   resetButton.addEventListener('click', () => {
     searchInput.value = '';
     resetSliders();
-    filter.reset(/*foundItem*/);
+    filter.reset();
   });
 
   copyButton.addEventListener('click', copyLink);
 
   window.addEventListener('load', () => {
     filter.parseQueryString(filter.searchQuery);
-    refreshSliders(FilterType.empty);
+    refreshFilters(FilterType.empty);
   });
 }

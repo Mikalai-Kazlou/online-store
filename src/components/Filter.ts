@@ -34,22 +34,22 @@ export default class Filter {
     this.refreshCounter(this.foundItems);
     this.hideItems();
     this.setAmountRemainder(this.uiElement, this.foundItems);
-    this.save(this.foundItems);
     this.checkSearch(this.searchQuery, this.foundItems);
-    this.setPriceSlider(this.foundItems);
-    this.setStockSlider(this.foundItems);
+
+    if (filterType !== FilterType.price) {
+      this.setPriceSlider(this.foundItems);
+    }
+    if (filterType !== FilterType.stock) {
+      this.setStockSlider(this.foundItems);
+    }
   }
 
-  private save(result: number[]): void {
-    localStorage.setItem('RS Online-Store SearchResults', JSON.stringify(result));
-  }
-
-  checkSearch(searchQuery: URLSearchParams, foundItems: number[], filterType: FilterType): void {
-    if (foundItems.length !== goodsData.products.length || [FilterType.view, FilterType.sorting].includes(filterType)) {
-      window.history.pushState({}, '', `/?${searchQuery}`);
-    } else {
-      for (let key of Array.from(searchQuery.keys())) {
-        searchQuery.delete(key);
+  checkSearch(searchQuery: URLSearchParams, foundItems: number[]): void {
+    if (foundItems.length === goodsData.products.length) {
+      for (const key of Array.from(searchQuery.keys())) {
+        if (key !== SearchQueryParameters.sorting && key !== SearchQueryParameters.view) {
+          searchQuery.delete(key);
+        }
       }
     }
     const questionMark = !searchQuery.toString() || searchQuery.toString()[0] === '?' ? '' : '?';
@@ -154,8 +154,8 @@ export default class Filter {
         const result = [...new Set(searchResults)];
         matrix.push(result);
       }
-      if (searchQuery.has('sorting')) {
-        const sorting = searchQuery.get('sorting');
+      if (searchQuery.has(SearchQueryParameters.sorting)) {
+        const sorting = searchQuery.get(SearchQueryParameters.sorting);
         const sortInput = document.querySelector('.sort-input') as HTMLSelectElement;
         if (sorting === sortingType.NameAscending) {
           sortInput.value = sortingType.NameAscending;
@@ -170,8 +170,8 @@ export default class Filter {
           sortInput.value = sortingType.PriceDescending;
         }
       }
-      if (searchQuery.has('view')) {
-        const view = searchQuery.get('view');
+      if (searchQuery.has(SearchQueryParameters.view)) {
+        const view = searchQuery.get(SearchQueryParameters.view);
         const viewInput = document.querySelector('.view-input') as HTMLSelectElement;
         if (view === viewType.Standard) {
           viewInput.value = viewType.Standard;
@@ -200,8 +200,7 @@ export default class Filter {
     container.value = value;
   }
 
-  reset(/*foundItems: number[]*/) {
-    //foundItems = [];
+  reset() {
     const allItems = document.querySelectorAll('.good-item');
     const categories = document.querySelectorAll('.category-button');
     const brands = document.querySelectorAll('.brand-button');
@@ -226,9 +225,7 @@ export default class Filter {
       this.searchQuery.has(SearchQueryParameters.search)
     ) {
       const resultByText = this.findByText(uiElement);
-      if (resultByText.length > 0 && resultByText.length !== goodsData.products.length) {
-        matrix.push(resultByText);
-      }
+      matrix.push(resultByText);
     }
 
     if (
@@ -236,9 +233,7 @@ export default class Filter {
       this.searchQuery.has(SearchQueryParameters.category)
     ) {
       const resultByCategory = this.findByCategories(this.uiElement);
-      if (resultByCategory.length > 0 && resultByCategory.length !== goodsData.products.length) {
-        matrix.push(resultByCategory);
-      }
+      matrix.push(resultByCategory);
     }
 
     if (
@@ -246,9 +241,7 @@ export default class Filter {
       this.searchQuery.has(SearchQueryParameters.brand)
     ) {
       const resultByBrand = this.findByBrands(this.uiElement);
-      if (resultByBrand.length > 0 && resultByBrand.length !== goodsData.products.length) {
-        matrix.push(resultByBrand);
-      }
+      matrix.push(resultByBrand);
     }
 
     if (
@@ -256,9 +249,7 @@ export default class Filter {
       this.searchQuery.has(SearchQueryParameters.price)
     ) {
       const resultByPrice = this.findByPriceRange(this.uiElement);
-      if (resultByPrice.length > 0 && resultByPrice.length !== goodsData.products.length) {
-        matrix.push(resultByPrice);
-      }
+      matrix.push(resultByPrice);
     }
 
     if (
@@ -266,9 +257,7 @@ export default class Filter {
       this.searchQuery.has(SearchQueryParameters.stock)
     ) {
       const resultByStock = this.findByStockRange(this.uiElement);
-      if (resultByStock.length > 0 && resultByStock.length !== goodsData.products.length) {
-        matrix.push(resultByStock);
-      }
+      matrix.push(resultByStock);
     }
 
     const result: Goods[] | undefined = matrix.shift()?.filter(function (v) {
@@ -322,52 +311,72 @@ export default class Filter {
     } else {
       searchQueryContainer.removeAttribute('maxlength');
     }
-    const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
+
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
-    this.buttonsDisablerText(result, brands, categories);
+    const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
+    this.buttonsDisabler(result, categories, result.length, 'category', 'disabled1');
+    this.buttonsDisabler(result, brands, result.length, 'brand', 'disabled1');
+
     this.searchQueryAppend(SearchQueryParameters.search, `${searchQueryInput}`, this.searchQuery);
     return result;
   }
 
   private findByCategories(uiElement: HTMLElement): Goods[] {
+    let result = goodsData.products;
+    this.searchQuery.delete(SearchQueryParameters.category);
+
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     const selectedCategories = categories.filter((item) => item.classList.contains('selected')).map((item) => item.id);
-    const result = goodsData.products.filter((item) => selectedCategories.includes(item.category));
+    if (selectedCategories.length > 0) {
+      result = goodsData.products.filter((item) => selectedCategories.includes(item.category));
+      this.searchQueryAppend(
+        SearchQueryParameters.category,
+        `${[...new Set(result.map((item) => item.category))]}`,
+        this.searchQuery
+      );
+    }
+
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
-    this.buttonsDisabler(result, brands, selectedCategories.length, 'brand');
-    this.searchQueryAppend(
-      SearchQueryParameters.category,
-      `${[...new Set(result.map((item) => item.category))]}`,
-      this.searchQuery
-    );
+    this.buttonsDisabler(result, brands, selectedCategories.length, 'brand', 'disabled2');
+
     return result;
   }
 
   private findByBrands(uiElement: HTMLElement): Goods[] {
+    let result = goodsData.products;
+    this.searchQuery.delete(SearchQueryParameters.brand);
+
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
     const selectedBrands = brands.filter((item) => item.classList.contains('selected')).map((item) => item.id);
-    const result = goodsData.products.filter((item) => selectedBrands.includes(item.brand));
+    if (selectedBrands.length > 0) {
+      result = goodsData.products.filter((item) => selectedBrands.includes(item.brand));
+      this.searchQueryAppend(
+        SearchQueryParameters.brand,
+        `${[...new Set(result.map((item) => item.brand))]}`,
+        this.searchQuery
+      );
+    }
+
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
-    this.buttonsDisabler(result, categories, selectedBrands.length, 'category');
-    this.searchQueryAppend(
-      SearchQueryParameters.brand,
-      `${[...new Set(result.map((item) => item.brand))]}`,
-      this.searchQuery
-    );
+    this.buttonsDisabler(result, categories, selectedBrands.length, 'category', 'disabled3');
+
     return result;
   }
 
   private findByPriceRange(uiElement: HTMLElement): Goods[] {
-    const fromPriceCOntainer = uiElement.querySelector('.price-slider-from') as HTMLInputElement;
+    const fromPriceContainer = uiElement.querySelector('.price-slider-from') as HTMLInputElement;
     const toPriceContainer = uiElement.querySelector('.price-slider-to') as HTMLInputElement;
-    const minPrice = +fromPriceCOntainer.value;
-    const maxPrice = +toPriceContainer.value;
-    fromPriceCOntainer.setAttribute('value', `${fromPriceCOntainer.value}`);
+    const minPrice = Math.min(+fromPriceContainer.value, +toPriceContainer.value);
+    const maxPrice = Math.max(+fromPriceContainer.value, +toPriceContainer.value);
+    fromPriceContainer.setAttribute('value', `${fromPriceContainer.value}`);
     toPriceContainer.setAttribute('value', `${toPriceContainer.value}`);
     const result = goodsData.products.filter((item) => item.price >= minPrice && item.price <= maxPrice);
+
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
-    this.buttonsDisablerSlider(result, brands, categories, result.length);
+    this.buttonsDisabler(result, categories, result.length, 'category', 'disabled4');
+    this.buttonsDisabler(result, brands, result.length, 'brand', 'disabled4');
+
     if (result.length !== goodsData.products.length) {
       this.searchQueryAppend(SearchQueryParameters.price, `${minPrice}/${maxPrice}`, this.searchQuery);
     }
@@ -375,16 +384,19 @@ export default class Filter {
   }
 
   private findByStockRange(uiElement: HTMLElement): Goods[] {
-    const fromStockCOntainer = uiElement.querySelector('.stock-slider-from') as HTMLInputElement;
+    const fromStockContainer = uiElement.querySelector('.stock-slider-from') as HTMLInputElement;
     const toStockContainer = uiElement.querySelector('.stock-slider-to') as HTMLInputElement;
-    const minStock = +fromStockCOntainer.value;
-    const maxStock = +toStockContainer.value;
-    fromStockCOntainer.setAttribute('value', `${fromStockCOntainer.value}`);
+    const minStock = Math.min(+fromStockContainer.value, +toStockContainer.value);
+    const maxStock = Math.max(+fromStockContainer.value, +toStockContainer.value);
+    fromStockContainer.setAttribute('value', `${fromStockContainer.value}`);
     toStockContainer.setAttribute('value', `${toStockContainer.value}`);
     const result = goodsData.products.filter((item) => item.stock >= minStock && item.stock <= maxStock);
+
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
-    this.buttonsDisablerSlider(result, brands, categories, result.length);
+    this.buttonsDisabler(result, categories, result.length, 'category', 'disabled5');
+    this.buttonsDisabler(result, brands, result.length, 'brand', 'disabled5');
+
     if (result.length !== goodsData.products.length) {
       this.searchQueryAppend(SearchQueryParameters.stock, `${minStock}/${maxStock}`, this.searchQuery);
     }
@@ -418,8 +430,8 @@ export default class Filter {
     const minPrice = document.querySelector('.price-slider-from') as HTMLInputElement;
     const maxPrice = document.querySelector('.price-slider-to') as HTMLInputElement;
     const prices = foundItems.map((item) => goodsData.products[item - 1].price);
-    const minPriceValue = Math.min(...prices); //Math.min.apply(Math, prices);
-    const maxPriceValue = Math.max(...prices); //Math.max.apply(Math, prices);
+    const minPriceValue = Math.min(...prices);
+    const maxPriceValue = Math.max(...prices);
     if (foundItems.length > 0) {
       if (+minPrice.value !== minPriceValue) {
         this.setSliderValue(minPrice, minPriceValue.toString());
@@ -437,8 +449,8 @@ export default class Filter {
     const minStock = document.querySelector('.stock-slider-from') as HTMLInputElement;
     const maxStock = document.querySelector('.stock-slider-to') as HTMLInputElement;
     const stock = foundItems.map((item) => goodsData.products[item - 1].stock);
-    const minStockValue = Math.min(...stock); //Math.min.apply(Math, stock);
-    const maxStockValue = Math.max(...stock); //Math.max.apply(Math, stock);
+    const minStockValue = Math.min(...stock);
+    const maxStockValue = Math.max(...stock);
 
     if (foundItems.length > 0) {
       if (+minStock.value !== +minStockValue) {
@@ -453,58 +465,13 @@ export default class Filter {
     }
   }
 
-  private buttonsDisabler(result: Goods[], buttons: Element[], selected: number, prop: string): void {
+  private buttonsDisabler(result: Goods[], buttons: Element[], selected: number, property: keyof Goods, classCSS: string): void {
     buttons.forEach((item) => {
-      if (item.classList.contains('disabled')) item.classList.remove('disabled');
+      if (item.classList.contains(classCSS)) item.classList.remove(classCSS);
     });
-    if (prop === 'brand') {
-      buttons.forEach((item) => {
-        if (!result.map((v) => v.brand).includes(item.id) && selected > 0) {
-          item.classList.add('disabled');
-        }
-      });
-    } else if (prop === 'category') {
-      buttons.forEach((item) => {
-        if (!result.map((v) => v.category).includes(item.id) && selected > 0) {
-          item.classList.add('disabled');
-        }
-      });
-    }
-  }
-
-  private buttonsDisablerText(result: Goods[], buttonsBrand: Element[], buttonsCateg: Element[]): void {
-    buttonsBrand.forEach((item) => {
-      if (item.classList.contains('disable')) item.classList.remove('disable');
-    });
-    buttonsCateg.forEach((item) => {
-      if (item.classList.contains('disable')) item.classList.remove('disable');
-    });
-    buttonsBrand.forEach((item) => {
-      if (!result.map((v) => v.brand).includes(item.id) && result.length > 0) {
-        item.classList.add('disable');
-      }
-    });
-    buttonsCateg.forEach((item) => {
-      if (!result.map((v) => v.category).includes(item.id) && result.length > 0) {
-        item.classList.add('disable');
-      }
-    });
-  }
-
-  private buttonsDisablerSlider(
-    result: Goods[],
-    buttonsBrand: Element[],
-    buttonsCateg: Element[],
-    selected: number
-  ): void {
-    buttonsBrand.forEach((item) => {
-      if (!result.map((v) => v.brand).includes(item.id) && selected > 0) {
-        item.classList.add('disabled');
-      }
-    });
-    buttonsCateg.forEach((item) => {
-      if (!result.map((v) => v.category).includes(item.id) && selected > 0) {
-        item.classList.add('disabled');
+    buttons.forEach((item) => {
+      if (!result.map((v) => v[property]).includes(item.id) && selected > 0) {
+        item.classList.add(classCSS);
       }
     });
   }
@@ -515,20 +482,26 @@ export default class Filter {
     const items = foundItems.map((item) => goodsData.products[item - 1]);
     if (foundItems.length > 0) {
       brandRemainder.forEach(
-        (item) =>
-          (item.innerHTML = `(${
-            items.filter((v) => v.brand === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
-          }/${
-            goodsData.products.filter((v) => v.brand === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
-          })`)
+        (item) => {
+          const a1 = items.filter((v) => {
+            return v.brand === item.id.toString().slice(item.id.indexOf(' ') + 1);
+          });
+          const a2 = goodsData.products.filter((v) => {
+            return v.brand === item.id.toString().slice(item.id.indexOf(' ') + 1);
+          });
+          item.innerHTML = `(${a1.length}/${a2.length})`;
+        }
       );
       categoryRemainder.forEach(
-        (item) =>
-          (item.innerHTML = `(${
-            items.filter((v) => v.category === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
-          }/${
-            goodsData.products.filter((v) => v.category === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
-          })`)
+        (item) => {
+          const a1 = items.filter((v) => {
+            return v.category === item.id.toString().slice(item.id.indexOf(' ') + 1);
+          });
+          const a2 = goodsData.products.filter((v) => {
+            return v.category === item.id.toString().slice(item.id.indexOf(' ') + 1);
+          });
+          item.innerHTML = `(${a1.length}/${a2.length})`;
+        }
       );
     }
   }
