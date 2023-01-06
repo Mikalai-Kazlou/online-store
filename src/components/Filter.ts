@@ -35,7 +35,7 @@ export default class Filter {
     this.hideItems();
     this.setAmountRemainder(this.uiElement, this.foundItems);
     this.save(this.foundItems);
-    this.checkSearch(this.searchQuery, this.foundItems, filterType);
+    this.checkSearch(this.searchQuery, this.foundItems);
     this.setPriceSlider(this.foundItems);
     this.setStockSlider(this.foundItems);
   }
@@ -51,8 +51,9 @@ export default class Filter {
       for (let key of Array.from(searchQuery.keys())) {
         searchQuery.delete(key);
       }
-      window.history.replaceState({}, '', `/${searchQuery}`);
     }
+    const questionMark = !searchQuery.toString() || searchQuery.toString()[0] === '?' ? '' : '?';
+    window.history.replaceState({}, '', `${window.location.pathname}${questionMark}${searchQuery.toString()}`);
   }
 
   parseQueryString(searchQuery: URLSearchParams): void {
@@ -86,7 +87,7 @@ export default class Filter {
         matrix.push(result);
       }
       if (searchQuery.has(SearchQueryParameters.price)) {
-        const range = searchQuery.get(SearchQueryParameters.price) as String;
+        const range = searchQuery.get(SearchQueryParameters.price) as string;
         if (range.includes('/') && range.length > 2) {
           let minPrice = range.slice(0, range.indexOf('/'));
           let maxPrice = range.slice(range.indexOf('/') + 1);
@@ -199,8 +200,8 @@ export default class Filter {
     container.value = value;
   }
 
-  reset(foundItems: number[]) {
-    foundItems = [];
+  reset(/*foundItems: number[]*/) {
+    //foundItems = [];
     const allItems = document.querySelectorAll('.good-item');
     const categories = document.querySelectorAll('.category-button');
     const brands = document.querySelectorAll('.brand-button');
@@ -417,8 +418,8 @@ export default class Filter {
     const minPrice = document.querySelector('.price-slider-from') as HTMLInputElement;
     const maxPrice = document.querySelector('.price-slider-to') as HTMLInputElement;
     const prices = foundItems.map((item) => goodsData.products[item - 1].price);
-    const minPriceValue = Math.min.apply(Math, prices);
-    const maxPriceValue = Math.max.apply(Math, prices);
+    const minPriceValue = Math.min(...prices); //Math.min.apply(Math, prices);
+    const maxPriceValue = Math.max(...prices); //Math.max.apply(Math, prices);
     if (foundItems.length > 0) {
       if (+minPrice.value !== minPriceValue) {
         this.setSliderValue(minPrice, minPriceValue.toString());
@@ -436,9 +437,9 @@ export default class Filter {
     const minStock = document.querySelector('.stock-slider-from') as HTMLInputElement;
     const maxStock = document.querySelector('.stock-slider-to') as HTMLInputElement;
     const stock = foundItems.map((item) => goodsData.products[item - 1].stock);
-    const minStockValue = Math.min.apply(Math, stock);
-    const maxStockValue = Math.max.apply(Math, stock);
-    const range = [minStockValue, maxStockValue];
+    const minStockValue = Math.min(...stock); //Math.min.apply(Math, stock);
+    const maxStockValue = Math.max(...stock); //Math.max.apply(Math, stock);
+
     if (foundItems.length > 0) {
       if (+minStock.value !== +minStockValue) {
         this.setSliderValue(minStock, minStockValue.toString());

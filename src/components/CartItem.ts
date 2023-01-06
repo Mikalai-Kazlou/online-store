@@ -4,7 +4,7 @@ import * as helpers from '../modules/helpers';
 export default class CartItem {
   private uiQuantity: HTMLElement | undefined;
   goods: Goods;
-  quantity: number = 1;
+  quantity = 1;
 
   constructor(goods: Goods, quantity: number) {
     this.goods = goods;
