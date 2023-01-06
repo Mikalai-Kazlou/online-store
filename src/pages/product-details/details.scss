@@ -19,6 +19,7 @@
   padding: 1rem;
   justify-content: center;
   justify-items: center;
+  flex-grow: 1;
 }
 
 .main-container-product {
@@ -30,7 +31,7 @@
   max-width: 85vw;
   border: 0.1rem solid #e8e8e8;
   border-radius: 0.5rem;
-  margin: 8vh auto;
+  margin: 2vh auto;
   padding: 2rem;
 
   @media screen and (max-width: 780px) {
@@ -183,7 +184,7 @@
 
   &:hover {
     cursor: pointer;
-    box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0.5rem 0.5rem rgba(196, 196, 196, 0.3);
     background: #f3f2f2;
   }
 

@@ -83,14 +83,14 @@ if (document.location.pathname.includes('cart')) {
 
   function displayMessage() {
     if (sec === 0) {
-      location.href = '../../';
+      location.href = './';
     } else {
       uiTitle.innerHTML = `Operation has been completed.<br>You will be redirected to main page in ${sec--}s`;
       setTimeout(displayMessage, 1000);
     }
   }
 
-  if (searchParams.get("action") === 'submit') {
+  if (searchParams.get('action') === 'submit') {
     cart.clear();
     displayMessage();
   }

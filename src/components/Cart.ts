@@ -5,13 +5,13 @@ import promoCodes from '../modules/promo-codes';
 import * as helpers from '../modules/helpers';
 
 interface SavedCart {
-  promo: string[],
+  promo: string[];
   items: {
     id: number;
     qnt: number;
-  }[],
-  page: number,
-  itemsOnPage: number
+  }[];
+  page: number;
+  itemsOnPage: number;
 }
 
 export default class Cart {

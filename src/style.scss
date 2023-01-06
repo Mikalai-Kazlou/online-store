@@ -92,13 +92,31 @@ body {
     transition: 0.25s;
 
     &:hover {
-        scale: 1.05;
+        text-decoration: none;
+        color: rgb(64, 64, 64);
+        text-shadow: 0.1rem 0.1rem 0.1rem #7e7e7e;
     }
 }
 
-.header-link:hover {
-    text-decoration: underline;
-    color: rgb(64, 64, 64);
+.button-link {
+    width: 100%;
+}
+
+.max-price,
+.min-price,
+.max-stock,
+.min-stock,
+.double-arrow {
+    width: 33%;
+}
+
+.double-arrow {
+    text-align: center;
+}
+
+.max-price,
+.max-stock {
+    text-align: end;
 }
 
 .main-container {
@@ -196,6 +214,10 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     opacity: 0.5;
+
+    &:hover {
+        opacity: 0.7;
+    }
 
     @media screen and (max-width: 500px) {
         width: 11rem;
@@ -345,6 +367,7 @@ body {
 }
 
 .slider::-moz-range-thumb {
+    appearance: none;
     -webkit-appearance: none;
     pointer-events: all;
     width: 2rem;
@@ -519,7 +542,7 @@ body {
     cursor: pointer;
     justify-content: flex-start;
     background: transparent;
-    text-align: justify;
+    text-align: left;
     justify-content: space-between;
 
     @media screen and (max-width: 1035px) {
@@ -680,6 +703,10 @@ body {
     &:active {
         border: 0.1rem solid darkorchid;
     }
+
+    @media screen and (max-width: 780px) {
+        width: 2.3rem;
+    }
 }
 
 .hide {
@@ -691,15 +718,12 @@ body {
     border-bottom: 0.1rem solid darkorchid;
 }
 
-.disabled {
-    opacity: 0.4;
-    cursor: default;
-    user-select: none;
-    text-decoration: none;
-    pointer-events: none;
-}
-
-.disable {
+.disabled,
+.disabled1,
+.disabled2,
+.disabled3,
+.disabled4,
+.disabled5 {
     opacity: 0.4;
     cursor: default;
     user-select: none;

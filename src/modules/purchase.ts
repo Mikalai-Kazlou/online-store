@@ -5,7 +5,7 @@ enum ValidatedFields {
   email,
   card,
   valid,
-  cvv
+  cvv,
 }
 
 if (document.location.pathname.includes('cart')) {
@@ -21,7 +21,7 @@ if (document.location.pathname.includes('cart')) {
   const search = document.location.search;
   const searchParams = new URLSearchParams(search);
 
-  if (searchParams.get("action") === 'buy') {
+  if (searchParams.get('action') === 'buy') {
     showPurchaseWindow();
   }
 
@@ -31,18 +31,18 @@ if (document.location.pathname.includes('cart')) {
     document.body.classList.add('no-scroll');
 
     const uiErrors = document.querySelectorAll('.error');
-    uiErrors.forEach((uiError) => uiError.textContent = '');
+    uiErrors.forEach((uiError) => (uiError.textContent = ''));
   }
 
   function hidePurchaseWindow(event: Event) {
     const target = event.target as HTMLElement;
-    if (!target?.classList.contains("purchase-background")) return;
+    if (!target?.classList.contains('purchase-background')) return;
 
     target?.classList.add('no-display');
     document.body.classList.remove('no-scroll');
 
-    if (searchParams.has("action")) {
-      searchParams.delete("action");
+    if (searchParams.has('action')) {
+      searchParams.delete('action');
       document.location.search = searchParams.toString();
     }
   }
@@ -86,7 +86,6 @@ if (document.location.pathname.includes('cart')) {
   const uiCvvValue = document.querySelector('.purchase-cvv-value') as HTMLInputElement;
   const uiCvvError = document.querySelector('.purchase-cvv-error') as HTMLElement;
   uiCvvValue.addEventListener('keypress', onCvvKeyPress);
-
 
   function isNameValid(value: string): boolean {
     const words = value.split(' ');
@@ -151,7 +150,12 @@ if (document.location.pathname.includes('cart')) {
     }
   }
 
-  function isValidationPassed(field: ValidatedFields, uiValue: HTMLInputElement, uiError: HTMLElement, isValid: (value: string) => boolean): boolean {
+  function isValidationPassed(
+    field: ValidatedFields,
+    uiValue: HTMLInputElement,
+    uiError: HTMLElement,
+    isValid: (value: string) => boolean
+  ): boolean {
     switch (false) {
       case uiValue.validity.valid:
         showValidationMessage(uiValue, uiError);
@@ -192,7 +196,7 @@ if (document.location.pathname.includes('cart')) {
 
   function definePaymentSystem(digit: string) {
     const system = paymentSystems.get(digit);
-    return (system) ? system : '';
+    return system ? system : '';
   }
 
   function onCardInput(event: Event) {

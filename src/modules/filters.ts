@@ -3,7 +3,11 @@ import { elementNullCheck, formatAmount } from './helpers';
 import Filter from '../components/Filter';
 import { FilterType } from './enums';
 
-if (document.location.pathname === '/' || document.location.pathname === '/index.html') {
+if (
+  document.location.pathname === '/' ||
+  document.location.pathname === '/online-store/' ||
+  document.location.pathname.includes('index')
+) {
   const goodsNumber = elementNullCheck(document, '.goods-number') as HTMLElement;
   const resetButton = elementNullCheck(document, '.reset-filters') as HTMLButtonElement;
 
@@ -11,6 +15,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   const maxPriceContainer = elementNullCheck(document, '.max-price');
   const minStockContainer = elementNullCheck(document, '.min-stock');
   const maxStockContainer = elementNullCheck(document, '.max-stock');
+
   const priceSliderFrom: HTMLInputElement = document.querySelector('.price-slider') as HTMLInputElement;
   const stockSliderFrom: HTMLInputElement = document.querySelector('.stock-slider') as HTMLInputElement;
 
@@ -19,7 +24,6 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
 
   const filterContent = elementNullCheck(document, '.filters-content') as HTMLElement;
   const filter = new Filter(filterContent, goodsNumber);
-  const foundItem = filter.foundItems;
 
   const searchInput = document.querySelector('.search-input') as HTMLInputElement;
 
@@ -62,44 +66,48 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   resetSliders();
 
   searchInput.oninput = function (): void {
-    refreshSliders(FilterType.search);
+    refreshFilters(FilterType.search);
   };
 
   priceSliderFrom.oninput = function (): void {
-    refreshSliders(FilterType.price);
+    refreshFilters(FilterType.price);
   };
 
   priceSliderTo.oninput = function (): void {
-    refreshSliders(FilterType.price);
+    refreshFilters(FilterType.price);
   };
 
   stockSliderFrom.oninput = function (): void {
-    refreshSliders(FilterType.stock);
+    refreshFilters(FilterType.stock);
   };
 
   stockSliderTo.oninput = function (): void {
-    refreshSliders(FilterType.stock);
+    refreshFilters(FilterType.stock);
   };
 
-  function refreshSliders(filterType: FilterType): void {
+  function refreshFilters(filterType: FilterType): void {
     filter.searchQueryRefresh();
     filter.getMatchedResults(filterType);
+    refreshSliders();
+  }
+
+  function refreshSliders(): void {
+    sliderSwitcher();
     minPriceContainer.innerHTML = `${formatAmount(+priceSliderFrom.value)}`;
     maxPriceContainer.innerHTML = `${formatAmount(+priceSliderTo.value)}`;
     minStockContainer.innerHTML = stockSliderFrom.value;
     maxStockContainer.innerHTML = stockSliderTo.value;
     paintRange(priceSliderFrom, priceSliderTo);
     paintRange(stockSliderFrom, stockSliderTo);
-    sliderSwitcher();
   }
 
   function sliderSwitcher(): void {
-    if (+priceSliderFrom.value > +priceSliderTo.value + 10) {
+    if (+priceSliderFrom.value > +priceSliderTo.value) {
       const temp = priceSliderFrom.value;
       priceSliderFrom.value = priceSliderTo.value;
       priceSliderTo.value = temp;
     }
-    if (+stockSliderFrom.value > +stockSliderTo.value + 1) {
+    if (+stockSliderFrom.value > +stockSliderTo.value) {
       const temp = stockSliderFrom.value;
       stockSliderFrom.value = stockSliderTo.value;
       stockSliderTo.value = temp;
@@ -136,7 +144,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         clickedOption.classList.add('selected');
       }
     }
-    refreshSliders(FilterType.category);
+    refreshFilters(FilterType.category);
   }
 
   const brandButtons = elementNullCheck(document, '.filter-brand-buttons');
@@ -150,7 +158,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
         clickedOption.classList.add('selected');
       }
     }
-    refreshSliders(FilterType.brand);
+    refreshFilters(FilterType.brand);
   }
 
   const copyButton = elementNullCheck(document, '.copy-link') as HTMLButtonElement;
@@ -160,7 +168,7 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
     copyButton.innerHTML = 'Copied!';
     setTimeout(() => {
       copyButton.innerHTML = 'Copy Link';
-    }, 1200)
+    }, 1200);
   }
 
   categoryButtons.addEventListener('click', categoryFilter);
@@ -169,13 +177,13 @@ if (document.location.pathname === '/' || document.location.pathname === '/index
   resetButton.addEventListener('click', () => {
     searchInput.value = '';
     resetSliders();
-    filter.reset(foundItem);
+    filter.reset();
   });
 
   copyButton.addEventListener('click', copyLink);
 
   window.addEventListener('load', () => {
     filter.parseQueryString(filter.searchQuery);
-    refreshSliders(FilterType.empty);
+    refreshFilters(FilterType.empty);
   });
 }
