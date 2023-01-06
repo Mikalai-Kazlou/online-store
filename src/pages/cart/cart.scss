@@ -16,6 +16,7 @@
   max-width: 85vw;
   margin: 7vh auto;
   padding: 0.5rem;
+  justify-content: center;
 
   @media screen and (max-width: 914px) {
     margin: 5vh auto;
@@ -26,6 +27,10 @@
     flex-direction: column-reverse;
     margin: 3.8vh auto;
   }
+}
+
+.cart-title {
+  margin-left: 0;
 }
 
 .cart-content {

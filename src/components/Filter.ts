@@ -316,6 +316,7 @@ export default class Filter {
     const result = [...new Set(searchResults)];
     if (searchQueryInput.length > 0 && result.length === 0) {
       searchQueryContainer.setAttribute('maxlength', `${searchQueryInput.length - 1}`);
+      searchQueryContainer.value = searchQueryContainer.value.slice(0, -1);
       return this.foundItems.map((item) => goodsData.products[item - 1]);
     } else {
       searchQueryContainer.removeAttribute('maxlength');

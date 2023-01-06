@@ -580,10 +580,12 @@ body {
 }
 
 .error-message {
-    width: 70%;
+    width: auto;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .modal {
