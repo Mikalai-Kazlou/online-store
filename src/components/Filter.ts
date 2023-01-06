@@ -57,7 +57,9 @@ export default class Filter {
   checkSearch(searchQuery: URLSearchParams, foundItems: number[]): void {
     if (foundItems.length === goodsData.products.length) {
       for (const key of Array.from(searchQuery.keys())) {
-        searchQuery.delete(key);
+        if (key !== SearchQueryParameters.sorting && key !== SearchQueryParameters.view) {
+          searchQuery.delete(key);
+        }
       }
     }
     const questionMark = !searchQuery.toString() || searchQuery.toString()[0] === '?' ? '' : '?';
@@ -163,7 +165,7 @@ export default class Filter {
         matrix.push(result);
       }
       if (searchQuery.has(SearchQueryParameters.sorting)) {
-        const sorting = searchQuery.get('sorting');
+        const sorting = searchQuery.get(SearchQueryParameters.sorting);
         const sortInput = document.querySelector('.sort-input') as HTMLSelectElement;
         if (sorting === sortingType.NameAscending) {
           sortInput.value = sortingType.NameAscending;
@@ -179,7 +181,7 @@ export default class Filter {
         }
       }
       if (searchQuery.has(SearchQueryParameters.view)) {
-        const view = searchQuery.get('view');
+        const view = searchQuery.get(SearchQueryParameters.view);
         const viewInput = document.querySelector('.view-input') as HTMLSelectElement;
         if (view === viewType.Standard) {
           viewInput.value = viewType.Standard;
