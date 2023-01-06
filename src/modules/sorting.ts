@@ -16,6 +16,11 @@ if (
   const filterContent = elementNullCheck(document, '.filters-content') as HTMLElement;
   const filter = new Filter(filterContent, goodsNumber);
 
+  function disableDefaultSort() {
+    const defaultSortValue = document.querySelector('#sort-by>option[value=default]') as HTMLOptionElement;
+    defaultSortValue.disabled = true;
+  }
+
   function setSort(uiElement: HTMLSelectElement): void {
     const allItems = document.querySelectorAll('.good-item');
 
@@ -140,6 +145,7 @@ if (
 
   function onSortChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
+    disableDefaultSort();
     setSort(target);
   }
 
