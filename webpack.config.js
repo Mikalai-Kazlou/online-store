@@ -24,7 +24,7 @@ const baseConfig = {
                 use: [miniCss.loader, 'css-loader', 'sass-loader']
             },
             {
-                test: /\.(png|jpg|gif|svg)$/,
+                test: /\.(png|jpg|gif|svg|ico)$/,
                 loader: 'file-loader',
                 options: {
                     name: 'assets/[folder]/[name].[ext]',

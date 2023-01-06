@@ -14,10 +14,17 @@ export default class Filter {
   }
 
   private refreshCounter(foundItems: number[]): void {
+    const noResultsMessage = document.querySelector('.error-message') as HTMLElement;
     if (foundItems.length > 0) {
       this.counter.innerHTML = `Found: ${foundItems.length}`;
+      if (!noResultsMessage.classList.contains('hide')) {
+        noResultsMessage.classList.add('hide');
+      }
     } else {
       this.counter.innerHTML = `Found: 0`;
+      if (noResultsMessage.classList.contains('hide')) {
+        noResultsMessage.classList.remove('hide');
+      }
     }
   }
 
@@ -179,11 +186,13 @@ export default class Filter {
         return a.indexOf(v) !== -1;
       });
     });
-    const result = resultGoods?.map((item) => item.id) || [0];
-    if (result[0] !== 0) {
+
+    if (typeof resultGoods !== 'undefined'){
+    const result = resultGoods.map((item) => item.id);
+    if (result.length > 0) {
       this.foundItems = result;
       this.getMatchedResults(FilterType.empty);
-    }
+    }}
   }
 
   setSliderValue(container: HTMLInputElement, value: string): void {
@@ -257,7 +266,13 @@ export default class Filter {
       });
     });
 
-    this.foundItems = result?.map((item) => item.id) || [0];
+    if (typeof result !== 'undefined' && result.length == 0) {
+      this.foundItems = [];
+    }
+
+    if (typeof result !== 'undefined' && result.length !== 0) {
+      this.foundItems = result.map((item) => item.id);
+    }
   }
 
   private findByText(uiElement: HTMLElement) {
@@ -291,6 +306,8 @@ export default class Filter {
     const result = [...new Set(searchResults)];
     if (searchQueryInput.length > 0 && result.length === 0) {
       searchQueryContainer.setAttribute('maxlength', `${searchQueryInput.length - 1}`);
+      searchQueryContainer.value = searchQueryContainer.value.slice(0, -1);
+      return this.foundItems.map((item) => goodsData.products[item - 1]);
     } else {
       searchQueryContainer.removeAttribute('maxlength');
     }

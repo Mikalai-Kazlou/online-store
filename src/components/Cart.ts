@@ -18,14 +18,16 @@ export default class Cart {
   private readonly uiCart: HTMLElement | undefined;
   items: CartItem[] = [];
   promoCodes: Set<PromoCode> = new Set();
-  page = 1;
-  itemsOnPage = 3;
+  page: number = 1;
+  itemsOnPage: number = 3;
+  public searchQuery: URLSearchParams = new URLSearchParams(window.location.search);
 
   constructor(uiCart?: HTMLElement) {
     this.uiCart = uiCart;
     this.restore();
 
     if (this.uiCart) {
+      this.parseQueryString(this.searchQuery);
       const uiItemsOnPage = this.uiCart.querySelector('.items-on-page-value') as HTMLInputElement;
       uiItemsOnPage.value = this.itemsOnPage.toString();
       uiItemsOnPage.addEventListener('change', () => this.setItemsOnPage());
@@ -60,7 +62,6 @@ export default class Cart {
     const uiCartItems = this.uiCart.querySelector('.cart-items') as HTMLElement;
     uiCartItems.innerHTML = '';
     uiCartItems.append(uiFragment);
-
     this.refresh();
   }
 
@@ -115,6 +116,9 @@ export default class Cart {
       const uiFullAmount = this.uiCart.querySelector('full-amount') as HTMLElement;
       uiFullAmount?.remove();
     }
+
+    this.searchQueryChange();
+
   }
 
   has(goods: Goods): boolean {
@@ -255,5 +259,32 @@ export default class Cart {
     });
     this.page = cart.page;
     this.itemsOnPage = cart.itemsOnPage;
+  }
+
+  parseQueryString(searchQuery: URLSearchParams): void {
+    if (searchQuery && this.uiCart) {
+      if (searchQuery.has('page')) {
+        const page = searchQuery.get('page') as string;
+        this.page = +page;
+        const uiCurrentPage = this.uiCart.querySelector('.current-page') as HTMLElement;
+        uiCurrentPage.textContent = `${this.page}/${this.getMaxPage()}`;
+      }
+      if (searchQuery.has('items')) {
+        const itemsPerPage = searchQuery.get('items') as string;
+        this.itemsOnPage = +itemsPerPage;
+        const uiItemsOnPage = this.uiCart.querySelector('.items-on-page-value') as HTMLInputElement;
+        uiItemsOnPage.value = this.itemsOnPage.toString();
+      }
+    } this.save();
+  }
+
+  searchQueryChange(): void {
+    if (this.searchQuery.has('page') && this.searchQuery.has('items')) {
+      this.searchQuery.delete('page');
+      this.searchQuery.delete('items');
+    }
+    this.searchQuery.append('page', this.page.toString());
+    this.searchQuery.append('items', this.itemsOnPage.toString());
+    window.history.replaceState({}, '', `/cart.html?${this.searchQuery}`);
   }
 }
