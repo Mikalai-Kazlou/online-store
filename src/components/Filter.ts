@@ -14,10 +14,17 @@ export default class Filter {
   }
 
   private refreshCounter(foundItems: number[]): void {
+    const noResultsMessage = document.querySelector('.error-message') as HTMLElement;
     if (foundItems.length > 0) {
       this.counter.innerHTML = `Found: ${foundItems.length}`;
+      if (!noResultsMessage.classList.contains('hide')) {
+        noResultsMessage.classList.add('hide');
+      }
     } else {
       this.counter.innerHTML = `Found: 0`;
+      if (noResultsMessage.classList.contains('hide')) {
+        noResultsMessage.classList.remove('hide');
+      }
     }
   }
 
@@ -37,21 +44,11 @@ export default class Filter {
     localStorage.setItem('RS Online-Store SearchResults', JSON.stringify(result));
   }
 
-  // checkSearch(searchQuery: URLSearchParams, foundItems: number[], filterType: FilterType): void {
-  //   if (foundItems.length !== goodsData.products.length
-  //     || [FilterType.view, FilterType.sorting].includes(filterType)) {
-  //     window.history.pushState({}, '', `/?${searchQuery}`);
-  //   } else {
-  //     for (let key of Array.from(searchQuery.keys())) {
-  //       searchQuery.delete(key);
-  //     }
-  //     window.history.replaceState({}, '', `/${searchQuery}`);
-  //   }
-  // }
-
-  checkSearch(searchQuery: URLSearchParams, foundItems: number[]): void {
-    if (foundItems.length === goodsData.products.length) {
-      for (const key of Array.from(searchQuery.keys())) {
+  checkSearch(searchQuery: URLSearchParams, foundItems: number[], filterType: FilterType): void {
+    if (foundItems.length !== goodsData.products.length || [FilterType.view, FilterType.sorting].includes(filterType)) {
+      window.history.pushState({}, '', `/?${searchQuery}`);
+    } else {
+      for (let key of Array.from(searchQuery.keys())) {
         searchQuery.delete(key);
       }
     }
@@ -189,11 +186,13 @@ export default class Filter {
         return a.indexOf(v) !== -1;
       });
     });
-    const result = resultGoods?.map((item) => item.id) || [0];
-    if (result[0] !== 0) {
+
+    if (typeof resultGoods !== 'undefined'){
+    const result = resultGoods.map((item) => item.id);
+    if (result.length > 0) {
       this.foundItems = result;
       this.getMatchedResults(FilterType.empty);
-    }
+    }}
   }
 
   setSliderValue(container: HTMLInputElement, value: string): void {
@@ -227,7 +226,7 @@ export default class Filter {
       this.searchQuery.has(SearchQueryParameters.search)
     ) {
       const resultByText = this.findByText(uiElement);
-      if (resultByText.length > 0) {
+      if (resultByText.length > 0 && resultByText.length !== goodsData.products.length) {
         matrix.push(resultByText);
       }
     }
@@ -237,7 +236,7 @@ export default class Filter {
       this.searchQuery.has(SearchQueryParameters.category)
     ) {
       const resultByCategory = this.findByCategories(this.uiElement);
-      if (resultByCategory.length > 0) {
+      if (resultByCategory.length > 0 && resultByCategory.length !== goodsData.products.length) {
         matrix.push(resultByCategory);
       }
     }
@@ -247,7 +246,7 @@ export default class Filter {
       this.searchQuery.has(SearchQueryParameters.brand)
     ) {
       const resultByBrand = this.findByBrands(this.uiElement);
-      if (resultByBrand.length > 0) {
+      if (resultByBrand.length > 0 && resultByBrand.length !== goodsData.products.length) {
         matrix.push(resultByBrand);
       }
     }
@@ -257,7 +256,7 @@ export default class Filter {
       this.searchQuery.has(SearchQueryParameters.price)
     ) {
       const resultByPrice = this.findByPriceRange(this.uiElement);
-      if (resultByPrice.length > 0) {
+      if (resultByPrice.length > 0 && resultByPrice.length !== goodsData.products.length) {
         matrix.push(resultByPrice);
       }
     }
@@ -267,7 +266,7 @@ export default class Filter {
       this.searchQuery.has(SearchQueryParameters.stock)
     ) {
       const resultByStock = this.findByStockRange(this.uiElement);
-      if (resultByStock.length > 0) {
+      if (resultByStock.length > 0 && resultByStock.length !== goodsData.products.length) {
         matrix.push(resultByStock);
       }
     }
@@ -278,7 +277,13 @@ export default class Filter {
       });
     });
 
-    this.foundItems = result?.map((item) => item.id) || [0];
+    if (typeof result !== 'undefined' && result.length == 0) {
+      this.foundItems = [];
+    }
+
+    if (typeof result !== 'undefined' && result.length !== 0) {
+      this.foundItems = result.map((item) => item.id);
+    }
   }
 
   private findByText(uiElement: HTMLElement) {
@@ -312,6 +317,8 @@ export default class Filter {
     const result = [...new Set(searchResults)];
     if (searchQueryInput.length > 0 && result.length === 0) {
       searchQueryContainer.setAttribute('maxlength', `${searchQueryInput.length - 1}`);
+      searchQueryContainer.value = searchQueryContainer.value.slice(0, -1);
+      return this.foundItems.map((item) => goodsData.products[item - 1]);
     } else {
       searchQueryContainer.removeAttribute('maxlength');
     }
@@ -508,34 +515,20 @@ export default class Filter {
     const items = foundItems.map((item) => goodsData.products[item - 1]);
     if (foundItems.length > 0) {
       brandRemainder.forEach(
-        // (item) =>
-        // (item.innerHTML = `(${items.filter((v) => v.brand === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
-        //   }/${goodsData.products.filter((v) => v.brand === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
-        //   })`)
-        (item) => {
-          const a1 = items.filter((v) => {
-            return v.brand === item.id.toString().slice(item.id.indexOf(' ') + 1);
-          });
-          const a2 = goodsData.products.filter((v) => {
-            return v.brand === item.id.toString().slice(item.id.indexOf(' ') + 1);
-          });
-          item.innerHTML = `(${a1.length}/${a2.length})`;
-        }
+        (item) =>
+          (item.innerHTML = `(${
+            items.filter((v) => v.brand === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
+          }/${
+            goodsData.products.filter((v) => v.brand === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
+          })`)
       );
       categoryRemainder.forEach(
-        // (item) =>
-        // (item.innerHTML = `(${items.filter((v) => v.category === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
-        //   }/${goodsData.products.filter((v) => v.category === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
-        //   })`)
-        (item) => {
-          const a1 = items.filter((v) => {
-            return v.category === item.id.toString().slice(item.id.indexOf(' ') + 1);
-          });
-          const a2 = goodsData.products.filter((v) => {
-            return v.category === item.id.toString().slice(item.id.indexOf(' ') + 1);
-          });
-          item.innerHTML = `(${a1.length}/${a2.length})`;
-        }
+        (item) =>
+          (item.innerHTML = `(${
+            items.filter((v) => v.category === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
+          }/${
+            goodsData.products.filter((v) => v.category === item.id.toString().substr(item.id.indexOf(' ') + 1)).length
+          })`)
       );
     }
   }

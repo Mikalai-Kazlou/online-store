@@ -20,6 +20,11 @@ body {
     min-height: 100vh;
 }
 
+.main {
+    display: flex;
+    flex-direction: column;
+}
+
 .wrapper {
     width: 100%;
     max-width: 120rem;
@@ -28,6 +33,7 @@ body {
     margin-right: auto;
     margin-left: auto;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    flex-grow: 1;
 }
 
 .main-text {
@@ -109,7 +115,6 @@ body {
 }
 
 .main-container-404 {
-    min-height: 61vh;
     width: 100%;
     padding: 2%;
     display: flex;
@@ -575,10 +580,12 @@ body {
 }
 
 .error-message {
-    width: 70%;
+    width: auto;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .modal {
@@ -629,6 +636,10 @@ body {
     text-align: justify;
     border: transparent;
     width: 100%;
+
+    @media screen and (max-width: 860px) {
+        flex-direction: column;
+    }
 }
 
 .good-info {
@@ -637,6 +648,10 @@ body {
     gap: 3rem;
     justify-content: space-around;
     height: 100%;
+
+    @media screen and (max-width: 860px) {
+        height: auto;
+    }
 }
 
 .button-add-card {

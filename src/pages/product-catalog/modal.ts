@@ -21,7 +21,7 @@ if (
     const picture = document.createElement('div');
     picture.classList.add('picture');
     picture.classList.add('big-picture');
-    picture.style.backgroundImage = `url("${goodsData.products[id - 1].images[0]}")`;
+    picture.style.backgroundImage = `url("${goodsData.products[id - 1].images[0] || goodsData.products[0].images[0]}")`;
 
     const goodInfo = document.createElement('div');
     goodInfo.classList.add('good-info');
@@ -36,6 +36,7 @@ if (
 
     const price = document.createElement('p');
     price.classList.add('main-text');
+
     price.innerHTML = `Price: ${formatAmount(goodsData.products[id - 1].price)}`;
 
     const discount = document.createElement('p');

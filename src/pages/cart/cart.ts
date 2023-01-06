@@ -67,6 +67,10 @@ if (document.location.pathname.includes('cart')) {
 
   uiPromoOptions.addEventListener('click', copyPromoCode);
 
+  window.addEventListener('load', () => {
+    cart.parseQueryString(cart.searchQuery);
+  });
+
   // -------------------------------------------------------------
   // Redirection
   // -------------------------------------------------------------
