@@ -1,4 +1,5 @@
 @import '../../styles/purchase';
+@import '../../styles/constants';
 
 .cart-wrapper {
   display: flex;
@@ -36,7 +37,7 @@
 .cart-content {
   flex-grow: 1;
   padding: 1rem;
-  border: 0.1rem solid #e8e8e8;
+  border: 0.1rem solid $color-light;
   border-radius: 0.5rem;
 }
 
@@ -120,7 +121,7 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  border: 0.1rem solid #e8e8e8;
+  border: 0.1rem solid $color-light;
   border-radius: 0.5rem;
 
   .info-container {
@@ -173,7 +174,7 @@
   align-items: center;
   min-width: 20vw;
   padding: 1rem;
-  border: 0.1rem solid #e8e8e8;
+  border: 0.1rem solid $color-light;
   border-radius: 0.5rem;
   height: fit-content;
   position: sticky;
@@ -199,27 +200,32 @@
 
 .promo-codes {
   list-style: none;
+  width: 100%;
 }
 
 .promo-code {
   display: flex;
   margin: 1rem;
+  gap: 1rem;
+  justify-content: center;
 }
 
 .promo-text {
-  display: inline-block;
-  width: 200px;
+  display: flex;
+  max-width: 20rem;
   text-align: center;
   text-transform: uppercase;
   font-size: 2rem;
   font-weight: 400;
-  border-radius: 10px;
+  border-radius: 0.5rem;
   background: linear-gradient(90deg, #8480c2 0%, #8884c2 47%, #938fca 100%);
+  justify-content: center;
+  width: 100%;
 }
 
 .promo-delete {
-  width: 24px;
-  height: 24px;
+  width: 2.4rem;
+  height: 2.4rem;
   text-align: center;
   text-transform: uppercase;
   font-size: 2rem;
