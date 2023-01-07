@@ -54,7 +54,7 @@
     top: 0;
     background-color: white;
     padding-bottom: 1rem;
-    box-shadow: 0px -5px 5px -5px rgba(229, 229, 229, 0.6) inset;
+    box-shadow: 0px -5px 5px -5px $color-shadow-lighter inset;
     border-radius: 0.5rem;
   }
 }
@@ -63,19 +63,19 @@
 .items-on-page-label,
 .items-on-page-value {
   font-size: 1.5rem;
-  color: #413f3f;
+  color: $color-text-primary;
   display: flex;
   gap: 1rem;
 }
 
 .items-on-page-value {
   width: 5rem;
-  border-color: #8080801f;
+  border-color: $color-shadow-lighter;
   border-radius: 0.5rem;
   text-align: center;
 
   &:focus {
-    background-color: #bcff8661;
+    background-color: $color-input-focus;
   }
 }
 
@@ -91,7 +91,7 @@
   border-radius: 0.5rem;
 
   &:hover {
-    background-color: #e6fdd3;
+    background-color: $color-button-hover;
   }
 
   &:active {
@@ -206,7 +206,7 @@
 .promo-code {
   display: flex;
   margin: 1rem;
-  gap: 1rem;
+  gap: 0.2rem;
   justify-content: center;
 }
 
@@ -215,10 +215,10 @@
   max-width: 20rem;
   text-align: center;
   text-transform: uppercase;
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 400;
   border-radius: 0.5rem;
-  background: linear-gradient(90deg, #8480c2 0%, #8884c2 47%, #938fca 100%);
+  background: $color-main-gradient;
   justify-content: center;
   width: 100%;
 }
@@ -258,7 +258,7 @@
   text-align: center;
   border-radius: 0.5rem;
   border-color: transparent;
-  background: linear-gradient(90deg, #8480c2 0%, #8884c2 47%, #938fca 100%);
+  background: $color-main-gradient;
   align-self: center;
   opacity: 0.7;
 

@@ -1,3 +1,5 @@
+@import './constants';
+
 .no-scroll {
   overflow: hidden;
 }
@@ -16,7 +18,7 @@
   width: 100%;
   height: 100%;
 
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: $color-dark-overlay;
   backdrop-filter: blur(3px);
 
   &:hover {
@@ -51,7 +53,7 @@
   gap: 0.7rem;
   margin: 1rem;
   padding: 1rem;
-  border: 0.1rem solid #413f3f;
+  border: 0.1rem solid $color-text-primary;
   border-radius: 0.5rem;
 }
 
@@ -59,7 +61,7 @@
 .purchase-field,
 .purchase-submit {
   font-size: 1.5rem;
-  color: #413f3f;
+  color: $color-text-primary;
   border-radius: 0.5rem;
 }
 
@@ -77,17 +79,17 @@
   display: block;
   width: 350px;
   padding: 0.5rem;
-  border: 0.1rem solid #413f3f3b;
+  border: 0.1rem solid $color-shadow;
   border-radius: 0.5rem;
 
   &:focus {
-    border-color: #d0eeab;
+    border-color: $color-button-hover;
     background-color: #f8fff0;
   }
 
   &.valid {
-    border: 1px solid green;
-    background-color: #f1ffe0;
+    border: 1px solid $color-button-active;
+    background-color: $color-button-hover-lighter;
   }
 
   &.invalid {

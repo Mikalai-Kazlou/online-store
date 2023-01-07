@@ -1,3 +1,5 @@
+@import '../../styles/constants';
+
 .main {
   min-height: 100vh;
   display: flex;
@@ -20,7 +22,7 @@
   width: 100%;
   height: 100%;
   max-width: 85vw;
-  border: 0.1rem solid #e8e8e8;
+  border: 0.1rem solid $color-light;
   border-radius: 0.5rem;
   margin: 2vh auto;
   padding: 2rem;
@@ -69,8 +71,8 @@
   width: 10rem;
   height: 10rem;
   border-radius: 1rem;
-  border: 0.1rem solid #e8e8e8;
-  background-color: aliceblue;
+  border: 0.1rem solid $color-light;
+  background-color: $color-lightest;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -80,12 +82,12 @@
 
   &:hover {
     cursor: pointer;
-    box-shadow: 0 0.5rem 0.5rem rgba(202, 202, 202, 0.3);
-    border: 0.1rem solid #bcff86;
+    box-shadow: 0 0.5rem 0.5rem $color-shadow-lighter;
+    border: 0.1rem solid $color-button-hover;
   }
 
   &:active {
-    border: 0.1rem solid darkorchid;
+    border: 0.1rem solid $color-main-bright-accent;
   }
 
   @media screen and (max-width: 1070px) {
@@ -116,7 +118,7 @@
   max-height: 40vh;
   width: auto;
   max-width: 100%;
-  border: 0.1rem solid #e8e8e8;
+  border: 0.1rem solid $color-light;
   border-radius: 1rem;
   animation: fadeIn 0.25s;
 }

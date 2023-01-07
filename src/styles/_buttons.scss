@@ -1,3 +1,5 @@
+@import './constants';
+
 .button {
     background: transparent;
     border: transparent;
@@ -5,8 +7,8 @@
     text-align: justify;
 
     &:hover {
-        color: #000000;
-        text-shadow: 0.1rem 0.1rem 0.1rem #7e7e7e;
+        color: black;
+        text-shadow: 0.1rem 0.1rem 0.1rem $color-shadow;
     }
 }
 
@@ -14,17 +16,17 @@
     background: transparent;
     width: 3rem;
     border-radius: 5rem;
-    border: 0.1rem solid #969696;
+    border: 0.1rem solid $color-shadow;
     text-align: center;
 
     &:hover {
         cursor: pointer;
-        box-shadow: 0 0.5rem 0.5rem rgba(202, 202, 202, 0.3);
+        box-shadow: 0 0.5rem 0.5rem $color-shadow-lighter;
         border: 0.1rem solid #bcff86;
     }
 
     &:active {
-        border: 0.1rem solid darkorchid;
+        border: 0.1rem solid $color-main-bright-accent;
     }
 
     @media screen and (max-width: 780px) {
@@ -37,19 +39,19 @@
     background: transparent;
     border: transparent;
     border-radius: 0.5rem;
-    border: 0.1rem solid #e8e8e8;
+    border: 0.1rem solid $color-light;
     padding: 1rem;
     width: 100%;
     font-size: 2rem;
 
     &:hover {
         cursor: pointer;
-        box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.3);
-        background: #f3f2f2;
+        box-shadow: 0 0.5rem 0.5rem $color-dark-overlay;
+        background: $color-lightest;
     }
 
     &:active {
-        border: 0.1rem solid darkorchid;
+        border: 0.1rem solid $color-main-bright-accent;
     }
 }
 
@@ -58,18 +60,18 @@
     background: transparent;
     border: transparent;
     border-radius: 0.5rem;
-    border: 0.1rem solid #e8e8e8;
+    border: 0.1rem solid $color-light;
     padding: 1rem;
     width: 12vw;
 
     &:hover {
         cursor: pointer;
-        box-shadow: 0 0.5rem 0.5rem rgba(196, 196, 196, 0.3);
-        background: #f3f2f2;
+        box-shadow: 0 0.5rem 0.5rem $color-shadow-lighter;
+        background: $color-lightest;
     }
 
     &:active {
-        border: 0.1rem solid darkorchid;
+        border: 0.1rem solid $color-main-bright-accent;
     }
 
     @media screen and (max-width: 768px) {
@@ -90,7 +92,7 @@
     background: transparent;
     border: transparent;
     border-radius: 0.5rem;
-    border: 0.1rem solid #e8e8e8;
+    border: 0.1rem solid $color-light;
     padding: 1rem;
     width: 100%;
     text-align: center;
@@ -98,11 +100,11 @@
     &:hover {
         cursor: pointer;
         box-shadow: 0 0.5rem 0.5rem rgba(196, 196, 196, 0.3);
-        background: #d0eeab;
+        background: $color-button-hover;
     }
 
     &:active {
-        border: 0.1rem solid rgb(50, 204, 50);
+        border: 0.1rem solid $color-button-active;
     }
 }
 
