@@ -79,7 +79,7 @@ if (document.location.pathname.includes('cart')) {
   const searchParams = new URLSearchParams(search);
 
   const uiTitle = document.querySelector('.error-message>.title') as HTMLElement;
-  let sec = 3;
+  let sec = 5;
 
   function displayMessage() {
     if (sec === 0) {
