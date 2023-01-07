@@ -36,8 +36,8 @@ if (isCatalogPage(document.location.pathname)) {
         return goodsData.products[+a.id - 1].price == goodsData.products[+b.id - 1].price
           ? 0
           : goodsData.products[+a.id - 1].price > goodsData.products[+b.id - 1].price
-            ? 1
-            : -1;
+          ? 1
+          : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {
@@ -56,8 +56,8 @@ if (isCatalogPage(document.location.pathname)) {
         return goodsData.products[+a.id - 1].price == goodsData.products[+b.id - 1].price
           ? 0
           : goodsData.products[+a.id - 1].price < goodsData.products[+b.id - 1].price
-            ? 1
-            : -1;
+          ? 1
+          : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {
@@ -76,8 +76,8 @@ if (isCatalogPage(document.location.pathname)) {
         return goodsData.products[+a.id - 1].title == goodsData.products[+b.id - 1].title
           ? 0
           : goodsData.products[+a.id - 1].title > goodsData.products[+b.id - 1].title
-            ? 1
-            : -1;
+          ? 1
+          : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {
@@ -96,8 +96,8 @@ if (isCatalogPage(document.location.pathname)) {
         return goodsData.products[+a.id - 1].title == goodsData.products[+b.id - 1].title
           ? 0
           : goodsData.products[+a.id - 1].title < goodsData.products[+b.id - 1].title
-            ? 1
-            : -1;
+          ? 1
+          : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {
