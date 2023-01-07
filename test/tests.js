@@ -1,6 +1,8 @@
 const assert = require('assert');
+
 const helpers = require('../out-tsc/modules/helpers');
 const validations = require('../out-tsc/modules/validations');
+const pages = require('../out-tsc/modules/pages');
 
 describe('Module "helpers"', () => {
   it('Function "formatAmount" should transform number to currency format: 12345 => $12,345.00', () => {
@@ -59,5 +61,26 @@ describe('Module "validations"', () => {
     assert.equal(validations.isCvvValid('01'), false);
     assert.equal(validations.isCvvValid('12345'), false);
     assert.equal(validations.isCvvValid('aaa'), false);
+  });
+});
+
+describe('Module "pages"', () => {
+  it('Check path of catalog page', () => {
+    assert.equal(pages.isCatalogPage('/'), true);
+    assert.equal(pages.isCatalogPage('/online-store/'), true);
+    assert.equal(pages.isCatalogPage('/online-store/index.html'), true);
+    assert.equal(pages.isCatalogPage(''), false);
+  });
+
+  it('Check path of cart page', () => {
+    assert.equal(pages.isCartPage('/cart.html'), true);
+    assert.equal(pages.isCartPage('/online-store/cart.html'), true);
+    assert.equal(pages.isCartPage(''), false);
+  });
+
+  it('Check path of details page', () => {
+    assert.equal(pages.isDetailsPage('/details.html'), true);
+    assert.equal(pages.isDetailsPage('/online-store/details.html'), true);
+    assert.equal(pages.isDetailsPage(''), false);
   });
 });
