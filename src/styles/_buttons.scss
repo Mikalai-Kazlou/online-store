@@ -1,0 +1,111 @@
+.button {
+    background: transparent;
+    border: transparent;
+    cursor: pointer;
+    text-align: justify;
+
+    &:hover {
+        color: #000000;
+        text-shadow: 0.1rem 0.1rem 0.1rem #7e7e7e;
+    }
+}
+
+.amount-button {
+    background: transparent;
+    width: 3rem;
+    border-radius: 5rem;
+    border: 0.1rem solid #969696;
+    text-align: center;
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0 0.5rem 0.5rem rgba(202, 202, 202, 0.3);
+        border: 0.1rem solid #bcff86;
+    }
+
+    &:active {
+        border: 0.1rem solid darkorchid;
+    }
+
+    @media screen and (max-width: 780px) {
+        width: 2.3rem;
+    }
+}
+
+.big-button {
+    display: block;
+    background: transparent;
+    border: transparent;
+    border-radius: 0.5rem;
+    border: 0.1rem solid #e8e8e8;
+    padding: 1rem;
+    width: 100%;
+    font-size: 2rem;
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.3);
+        background: #f3f2f2;
+    }
+
+    &:active {
+        border: 0.1rem solid darkorchid;
+    }
+}
+
+.goods-button {
+    display: block;
+    background: transparent;
+    border: transparent;
+    border-radius: 0.5rem;
+    border: 0.1rem solid #e8e8e8;
+    padding: 1rem;
+    width: 12vw;
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0 0.5rem 0.5rem rgba(196, 196, 196, 0.3);
+        background: #f3f2f2;
+    }
+
+    &:active {
+        border: 0.1rem solid darkorchid;
+    }
+
+    @media screen and (max-width: 768px) {
+        width: 15rem;
+        height: 4rem;
+        padding: 0.2rem;
+    }
+
+    @media screen and (max-width: 400px) {
+        width: 12rem;
+        height: auto;
+        padding: 0.1rem;
+    }
+}
+
+.product-button {
+    display: block;
+    background: transparent;
+    border: transparent;
+    border-radius: 0.5rem;
+    border: 0.1rem solid #e8e8e8;
+    padding: 1rem;
+    width: 100%;
+    text-align: center;
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0 0.5rem 0.5rem rgba(196, 196, 196, 0.3);
+        background: #d0eeab;
+    }
+
+    &:active {
+        border: 0.1rem solid rgb(50, 204, 50);
+    }
+}
+
+.button-add-card {
+    cursor: pointer;
+}
