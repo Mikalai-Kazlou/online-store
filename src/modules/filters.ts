@@ -1,13 +1,10 @@
 import { getValues } from './get-values';
 import { elementNullCheck, formatAmount } from './helpers';
+import { isCatalogPage } from './pages';
 import Filter from '../components/Filter';
 import { FilterType } from './enums';
 
-if (
-  document.location.pathname === '/' ||
-  document.location.pathname === '/online-store/' ||
-  document.location.pathname.includes('index')
-) {
+if (isCatalogPage(document.location.pathname)) {
   const goodsNumber = elementNullCheck(document, '.goods-number') as HTMLElement;
   const resetButton = elementNullCheck(document, '.reset-filters') as HTMLButtonElement;
 

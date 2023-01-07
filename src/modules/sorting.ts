@@ -1,13 +1,10 @@
 import goodsData from './goods';
 import { elementNullCheck } from './helpers';
+import { isCatalogPage } from './pages';
 import Filter from '../components/Filter';
-import { FilterType, sortingType, viewType, SearchQueryParameters } from '../modules/enums';
+import { FilterType, sortingType, viewType, SearchQueryParameters } from './enums';
 
-if (
-  document.location.pathname === '/' ||
-  document.location.pathname === '/online-store/' ||
-  document.location.pathname.includes('index')
-) {
+if (isCatalogPage(document.location.pathname)) {
   const sortingContainer = elementNullCheck(document, '.sort-input') as HTMLSelectElement;
   const viewContainer = elementNullCheck(document, '.view-input') as HTMLSelectElement;
   const goodsItems = elementNullCheck(document, '.goods-items');
@@ -39,8 +36,8 @@ if (
         return goodsData.products[+a.id - 1].price == goodsData.products[+b.id - 1].price
           ? 0
           : goodsData.products[+a.id - 1].price > goodsData.products[+b.id - 1].price
-          ? 1
-          : -1;
+            ? 1
+            : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {
@@ -59,8 +56,8 @@ if (
         return goodsData.products[+a.id - 1].price == goodsData.products[+b.id - 1].price
           ? 0
           : goodsData.products[+a.id - 1].price < goodsData.products[+b.id - 1].price
-          ? 1
-          : -1;
+            ? 1
+            : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {
@@ -79,8 +76,8 @@ if (
         return goodsData.products[+a.id - 1].title == goodsData.products[+b.id - 1].title
           ? 0
           : goodsData.products[+a.id - 1].title > goodsData.products[+b.id - 1].title
-          ? 1
-          : -1;
+            ? 1
+            : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {
@@ -99,8 +96,8 @@ if (
         return goodsData.products[+a.id - 1].title == goodsData.products[+b.id - 1].title
           ? 0
           : goodsData.products[+a.id - 1].title < goodsData.products[+b.id - 1].title
-          ? 1
-          : -1;
+            ? 1
+            : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {

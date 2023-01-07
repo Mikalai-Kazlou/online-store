@@ -6,6 +6,7 @@ import Cart from '../../components/Cart';
 import Header from '../../components/Header';
 import StockButtons from '../../components/StockButtons';
 import * as helpers from '../../modules/helpers';
+import { isDetailsPage } from '../../modules/pages';
 import { SearchQueryParameters } from '../../modules/enums';
 
 export default class Breadcrumb {
@@ -29,7 +30,7 @@ export default class Breadcrumb {
   }
 }
 
-if (document.location.pathname.includes('details')) {
+if (isDetailsPage(document.location.pathname)) {
   const categoryContainer = elementNullCheck(document, '.product-category');
   const brandContainer = elementNullCheck(document, '.product-brand');
   const nameContainer = elementNullCheck(document, '.product-name');

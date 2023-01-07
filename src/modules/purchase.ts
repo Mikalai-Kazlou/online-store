@@ -1,4 +1,5 @@
 import * as validations from './validations';
+import { isCartPage } from './pages';
 
 enum ValidatedFields {
   name,
@@ -10,7 +11,7 @@ enum ValidatedFields {
   cvv,
 }
 
-if (document.location.pathname.includes('cart')) {
+if (isCartPage(document.location.pathname)) {
   const paymentSystems: Map<string, string> = new Map();
   paymentSystems.set('4', 'Visa');
   paymentSystems.set('5', 'MasterCard');

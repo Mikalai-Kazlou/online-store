@@ -1,11 +1,8 @@
 import goodsData from '../../modules/goods';
 import { elementNullCheck, formatAmount } from '../../modules/helpers';
+import { isCatalogPage } from '../../modules/pages';
 
-if (
-  document.location.pathname === '/' ||
-  document.location.pathname === '/online-store/' ||
-  document.location.pathname.includes('index')
-) {
+if (isCatalogPage(document.location.pathname)) {
   const modal: HTMLElement = elementNullCheck(document, '.modal') as HTMLElement;
   const overlay: HTMLElement = document.querySelector('.overlay') as HTMLElement;
   const btnOpenModal: HTMLElement = document.querySelector('.goods-items') as HTMLElement;

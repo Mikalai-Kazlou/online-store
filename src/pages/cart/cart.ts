@@ -1,12 +1,13 @@
 import './cart.scss';
 
 import { elementNullCheck } from '../../modules/helpers';
+import { isCartPage } from '../../modules/pages';
 import Header from '../../components/Header';
 import Cart from '../../components/Cart';
 import promoCodes from '../../modules/promo-codes';
 import '../../modules/purchase';
 
-if (document.location.pathname.includes('cart')) {
+if (isCartPage(document.location.pathname)) {
   function onCartChanged() {
     cart.draw();
     header.refresh();
