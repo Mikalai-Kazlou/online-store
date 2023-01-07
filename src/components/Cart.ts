@@ -18,8 +18,8 @@ export default class Cart {
   private readonly uiCart: HTMLElement | undefined;
   items: CartItem[] = [];
   promoCodes: Set<PromoCode> = new Set();
-  page: number = 1;
-  itemsOnPage: number = 3;
+  page = 1;
+  itemsOnPage = 3;
   public searchQuery: URLSearchParams = new URLSearchParams(window.location.search);
 
   constructor(uiCart?: HTMLElement) {
@@ -118,7 +118,6 @@ export default class Cart {
     }
 
     this.searchQueryChange();
-
   }
 
   has(goods: Goods): boolean {
@@ -275,7 +274,8 @@ export default class Cart {
         const uiItemsOnPage = this.uiCart.querySelector('.items-on-page-value') as HTMLInputElement;
         uiItemsOnPage.value = this.itemsOnPage.toString();
       }
-    } this.save();
+    }
+    this.save();
   }
 
   searchQueryChange(): void {
