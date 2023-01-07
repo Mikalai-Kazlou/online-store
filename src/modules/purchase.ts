@@ -1,3 +1,5 @@
+import * as validations from './validations';
+
 enum ValidatedFields {
   name,
   phone,
@@ -87,36 +89,6 @@ if (document.location.pathname.includes('cart')) {
   const uiCvvError = document.querySelector('.purchase-cvv-error') as HTMLElement;
   uiCvvValue.addEventListener('keypress', onCvvKeyPress);
 
-  function isNameValid(value: string): boolean {
-    const words = value.split(' ');
-    return words.length >= 2 && words.every((word) => word.length >= 3);
-  }
-
-  function isPhoneValid(value: string): boolean {
-    return /^\+[0-9]{9,}$/.test(value);
-  }
-
-  function isAddressValid(value: string): boolean {
-    const words = value.split(' ');
-    return words.length >= 3 && words.every((word) => word.length >= 5);
-  }
-
-  function isEmailValid(value: string): boolean {
-    return /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(value);
-  }
-
-  function isCardValid(value: string): boolean {
-    return /^[0-9]{16}$/.test(value);
-  }
-
-  function isValidValid(value: string): boolean {
-    return /^(0[1-9])|(1[0-2])\/[0-9]{2}$/.test(value);
-  }
-
-  function isCvvValid(value: string): boolean {
-    return /^[0-9]{3}$/.test(value);
-  }
-
   function showValidationMessage(uiValue: HTMLInputElement, uiError: HTMLElement) {
     uiError.textContent = uiValue.validationMessage;
   }
@@ -177,13 +149,13 @@ if (document.location.pathname.includes('cart')) {
 
   function validateFields(event: Event): void {
     const isAllFieldsValid =
-      isValidationPassed(ValidatedFields.name, uiNameValue, uiNameError, isNameValid) &&
-      isValidationPassed(ValidatedFields.phone, uiPhoneValue, uiPhoneError, isPhoneValid) &&
-      isValidationPassed(ValidatedFields.address, uiAddressValue, uiAddressError, isAddressValid) &&
-      isValidationPassed(ValidatedFields.email, uiEmailValue, uiEmailError, isEmailValid) &&
-      isValidationPassed(ValidatedFields.card, uiCardValue, uiCardError, isCardValid) &&
-      isValidationPassed(ValidatedFields.valid, uiValidValue, uiValidError, isValidValid) &&
-      isValidationPassed(ValidatedFields.cvv, uiCvvValue, uiCvvError, isCvvValid);
+      isValidationPassed(ValidatedFields.name, uiNameValue, uiNameError, validations.isNameValid) &&
+      isValidationPassed(ValidatedFields.phone, uiPhoneValue, uiPhoneError, validations.isPhoneValid) &&
+      isValidationPassed(ValidatedFields.address, uiAddressValue, uiAddressError, validations.isAddressValid) &&
+      isValidationPassed(ValidatedFields.email, uiEmailValue, uiEmailError, validations.isEmailValid) &&
+      isValidationPassed(ValidatedFields.card, uiCardValue, uiCardError, validations.isCardValid) &&
+      isValidationPassed(ValidatedFields.valid, uiValidValue, uiValidError, validations.isValidValid) &&
+      isValidationPassed(ValidatedFields.cvv, uiCvvValue, uiCvvError, validations.isCvvValid);
 
     if (!isAllFieldsValid) {
       event.preventDefault();

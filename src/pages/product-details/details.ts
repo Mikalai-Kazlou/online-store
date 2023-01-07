@@ -97,7 +97,6 @@ if (document.location.pathname.includes('details')) {
     for (let i = 0; i < images.length; i++) {
       const picture = document.createElement('div');
       picture.classList.add('small-picture');
-      //picture.style.backgroundImage = `url("${images[i]}")`;
       helpers.loadImage(images[i], picture);
       picture.setAttribute('id', `${i}`);
       parent.appendChild(picture);
