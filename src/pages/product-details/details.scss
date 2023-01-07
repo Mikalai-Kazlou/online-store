@@ -4,14 +4,14 @@
   flex-direction: column;
 }
 
-.big-text {
-  font-size: 3rem;
-  font-weight: 400;
+// .big-text {
+//   font-size: 3rem;
+//   font-weight: 400;
 
-  @media screen and (max-width: 550px) {
-    font-size: 2.2rem;
-  }
-}
+//   @media screen and (max-width: 550px) {
+//     font-size: 2.2rem;
+//   }
+// }
 
 .product-wrapper {
   display: flex;
@@ -173,76 +173,76 @@
   gap: 1rem;
 }
 
-.goods-button {
-  display: block;
-  background: transparent;
-  border: transparent;
-  border-radius: 0.5rem;
-  border: 0.1rem solid #e8e8e8;
-  padding: 1rem;
-  width: 12vw;
+// .goods-button {
+//   display: block;
+//   background: transparent;
+//   border: transparent;
+//   border-radius: 0.5rem;
+//   border: 0.1rem solid #e8e8e8;
+//   padding: 1rem;
+//   width: 12vw;
 
-  &:hover {
-    cursor: pointer;
-    box-shadow: 0 0.5rem 0.5rem rgba(196, 196, 196, 0.3);
-    background: #f3f2f2;
-  }
+//   &:hover {
+//     cursor: pointer;
+//     box-shadow: 0 0.5rem 0.5rem rgba(196, 196, 196, 0.3);
+//     background: #f3f2f2;
+//   }
 
-  &:active {
-    border: 0.1rem solid darkorchid;
-  }
+//   &:active {
+//     border: 0.1rem solid darkorchid;
+//   }
 
-  @media screen and (max-width: 768px) {
-    width: 15rem;
-    height: 4rem;
-    padding: 0.2rem;
-  }
+//   @media screen and (max-width: 768px) {
+//     width: 15rem;
+//     height: 4rem;
+//     padding: 0.2rem;
+//   }
 
-  @media screen and (max-width: 400px) {
-    width: 12rem;
-    height: auto;
-    padding: 0.1rem;
-  }
-}
+//   @media screen and (max-width: 400px) {
+//     width: 12rem;
+//     height: auto;
+//     padding: 0.1rem;
+//   }
+// }
 
-.product-button {
-  display: block;
-  background: transparent;
-  border: transparent;
-  border-radius: 0.5rem;
-  border: 0.1rem solid #e8e8e8;
-  padding: 1rem;
-  width: 100%;
-  text-align: center;
+// .product-button {
+//   display: block;
+//   background: transparent;
+//   border: transparent;
+//   border-radius: 0.5rem;
+//   border: 0.1rem solid #e8e8e8;
+//   padding: 1rem;
+//   width: 100%;
+//   text-align: center;
 
-  &:hover {
-    cursor: pointer;
-    box-shadow: 0 0.5rem 0.5rem rgba(196, 196, 196, 0.3);
-    background: #d0eeab;
-  }
+//   &:hover {
+//     cursor: pointer;
+//     box-shadow: 0 0.5rem 0.5rem rgba(196, 196, 196, 0.3);
+//     background: #d0eeab;
+//   }
 
-  &:active {
-    border: 0.1rem solid rgb(50, 204, 50);
-  }
-}
+//   &:active {
+//     border: 0.1rem solid rgb(50, 204, 50);
+//   }
+// }
 
-.bread-text {
-  font-size: 3rem;
-  font-weight: 500;
-  text-transform: capitalize;
-  text-decoration: none;
-  color: black;
+// .bread-text {
+//   font-size: 3rem;
+//   font-weight: 500;
+//   text-transform: capitalize;
+//   text-decoration: none;
+//   color: black;
 
-  &:hover {
-    cursor: pointer;
-    color: darkorchid;
-  }
+//   &:hover {
+//     cursor: pointer;
+//     color: darkorchid;
+//   }
 
-  @media screen and (max-width: 500px) {
-    font-size: 2rem;
-    font-weight: 400;
-  }
-}
+//   @media screen and (max-width: 500px) {
+//     font-size: 2rem;
+//     font-weight: 400;
+//   }
+// }
 
 .breadcrumb {
   display: flex;

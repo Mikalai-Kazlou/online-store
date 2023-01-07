@@ -187,12 +187,13 @@ export default class Filter {
       });
     });
 
-    if (typeof resultGoods !== 'undefined'){
-    const result = resultGoods.map((item) => item.id);
-    if (result.length > 0) {
-      this.foundItems = result;
-      this.getMatchedResults(FilterType.empty);
-    }}
+    if (typeof resultGoods !== 'undefined') {
+      const result = resultGoods.map((item) => item.id);
+      if (result.length > 0) {
+        this.foundItems = result;
+        this.getMatchedResults(FilterType.empty);
+      }
+    }
   }
 
   setSliderValue(container: HTMLInputElement, value: string): void {
@@ -465,7 +466,13 @@ export default class Filter {
     }
   }
 
-  private buttonsDisabler(result: Goods[], buttons: Element[], selected: number, property: keyof Goods, classCSS: string): void {
+  private buttonsDisabler(
+    result: Goods[],
+    buttons: Element[],
+    selected: number,
+    property: keyof Goods,
+    classCSS: string
+  ): void {
     buttons.forEach((item) => {
       if (item.classList.contains(classCSS)) item.classList.remove(classCSS);
     });
@@ -481,28 +488,24 @@ export default class Filter {
     const categoryRemainder = uiElement.querySelectorAll('.category-remainder');
     const items = foundItems.map((item) => goodsData.products[item - 1]);
     if (foundItems.length > 0) {
-      brandRemainder.forEach(
-        (item) => {
-          const a1 = items.filter((v) => {
-            return v.brand === item.id.toString().slice(item.id.indexOf(' ') + 1);
-          });
-          const a2 = goodsData.products.filter((v) => {
-            return v.brand === item.id.toString().slice(item.id.indexOf(' ') + 1);
-          });
-          item.innerHTML = `(${a1.length}/${a2.length})`;
-        }
-      );
-      categoryRemainder.forEach(
-        (item) => {
-          const a1 = items.filter((v) => {
-            return v.category === item.id.toString().slice(item.id.indexOf(' ') + 1);
-          });
-          const a2 = goodsData.products.filter((v) => {
-            return v.category === item.id.toString().slice(item.id.indexOf(' ') + 1);
-          });
-          item.innerHTML = `(${a1.length}/${a2.length})`;
-        }
-      );
+      brandRemainder.forEach((item) => {
+        const a1 = items.filter((v) => {
+          return v.brand === item.id.toString().slice(item.id.indexOf(' ') + 1);
+        });
+        const a2 = goodsData.products.filter((v) => {
+          return v.brand === item.id.toString().slice(item.id.indexOf(' ') + 1);
+        });
+        item.innerHTML = `(${a1.length}/${a2.length})`;
+      });
+      categoryRemainder.forEach((item) => {
+        const a1 = items.filter((v) => {
+          return v.category === item.id.toString().slice(item.id.indexOf(' ') + 1);
+        });
+        const a2 = goodsData.products.filter((v) => {
+          return v.category === item.id.toString().slice(item.id.indexOf(' ') + 1);
+        });
+        item.innerHTML = `(${a1.length}/${a2.length})`;
+      });
     }
   }
 }
