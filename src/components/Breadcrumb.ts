@@ -11,7 +11,7 @@ export default class Breadcrumb {
     this.name = name;
   }
 
-  fill(categoryBox: Element, brandBox: Element, nameBox: Element) {
+  fill(categoryBox: Element, brandBox: Element, nameBox: Element): void {
     categoryBox.innerHTML = this.category + ' /';
     categoryBox.setAttribute('href', `./?${SearchQueryParameters.category}=${this.category}`);
 

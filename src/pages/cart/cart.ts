@@ -1,19 +1,21 @@
 import './cart.scss';
+import '../../modules/purchase';
+
+import Cart from '../../components/Cart';
+import Header from '../../components/Header';
 
 import { elementNullCheck } from '../../modules/helpers';
 import { isCartPage } from '../../modules/pages';
-import Header from '../../components/Header';
-import Cart from '../../components/Cart';
+import { CustomActions, SearchQueryParameters } from '../../modules/enums';
 import promoCodes from '../../modules/promo-codes';
-import '../../modules/purchase';
 
 if (isCartPage(document.location.pathname)) {
-  function onCartChanged() {
+  function onCartChanged(): void {
     cart.draw();
     header.refresh();
   }
 
-  function onPromoCodeInput(event: Event) {
+  function onPromoCodeInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     const code = promoCodes.find((code) => code.id === input.value);
 
@@ -23,7 +25,7 @@ if (isCartPage(document.location.pathname)) {
     }
   }
 
-  function onItemsOnPageKeyPress(event: KeyboardEvent) {
+  function onItemsOnPageKeyPress(event: KeyboardEvent): void {
     const input = event.target as HTMLInputElement;
     const numbers = '0123456789'.split('');
 
@@ -69,7 +71,7 @@ if (isCartPage(document.location.pathname)) {
   uiPromoOptions.addEventListener('click', copyPromoCode);
 
   window.addEventListener('load', () => {
-    cart.parseQueryString(cart.searchQuery);
+    cart.parseQueryString();
   });
 
   // -------------------------------------------------------------
@@ -82,7 +84,7 @@ if (isCartPage(document.location.pathname)) {
   const uiTitle = document.querySelector('.error-message>.title') as HTMLElement;
   let sec = 5;
 
-  function displayMessage() {
+  function displayMessage(): void {
     if (sec === 0) {
       location.href = './';
     } else {
@@ -91,7 +93,7 @@ if (isCartPage(document.location.pathname)) {
     }
   }
 
-  if (searchParams.get('action') === 'submit') {
+  if (searchParams.get(SearchQueryParameters.action) === CustomActions.submit) {
     cart.clear();
     displayMessage();
   }

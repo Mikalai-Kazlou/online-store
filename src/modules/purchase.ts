@@ -1,5 +1,7 @@
 import * as validations from './validations';
 import { isCartPage } from './pages';
+import { PaymentSystems } from './types';
+import { SearchQueryParameters, CustomActions } from './enums';
 
 enum ValidatedFields {
   name,
@@ -12,7 +14,7 @@ enum ValidatedFields {
 }
 
 if (isCartPage(document.location.pathname)) {
-  const paymentSystems: Map<string, string> = new Map();
+  const paymentSystems: PaymentSystems = new Map();
   paymentSystems.set('4', 'Visa');
   paymentSystems.set('5', 'MasterCard');
   paymentSystems.set('6', 'UnionPay');
@@ -24,11 +26,11 @@ if (isCartPage(document.location.pathname)) {
   const search = document.location.search;
   const searchParams = new URLSearchParams(search);
 
-  if (searchParams.get('action') === 'buy') {
+  if (searchParams.get(SearchQueryParameters.action) === CustomActions.buy) {
     showPurchaseWindow();
   }
 
-  function showPurchaseWindow() {
+  function showPurchaseWindow(): void {
     const uiPurchaseBackground = document.querySelector('.purchase-background');
     uiPurchaseBackground?.classList.remove('no-display');
     document.body.classList.add('no-scroll');
@@ -37,15 +39,15 @@ if (isCartPage(document.location.pathname)) {
     uiErrors.forEach((uiError) => (uiError.textContent = ''));
   }
 
-  function hidePurchaseWindow(event: Event) {
+  function hidePurchaseWindow(event: Event): void {
     const target = event.target as HTMLElement;
     if (!target?.classList.contains('purchase-background')) return;
 
     target?.classList.add('no-display');
     document.body.classList.remove('no-scroll');
 
-    if (searchParams.has('action')) {
-      searchParams.delete('action');
+    if (searchParams.has(SearchQueryParameters.action)) {
+      searchParams.delete(SearchQueryParameters.action);
       document.location.search = searchParams.toString();
     }
   }
@@ -167,24 +169,24 @@ if (isCartPage(document.location.pathname)) {
   // Input control
   // -------------------------------------------------------------
 
-  function definePaymentSystem(digit: string) {
+  function definePaymentSystem(digit: string): string {
     const system = paymentSystems.get(digit);
     return system ? system : '';
   }
 
-  function onCardInput(event: Event) {
+  function onCardInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     uiPaymentSystem.textContent = definePaymentSystem(input.value.toString()[0]);
   }
 
-  function onPhoneKeyPress(event: KeyboardEvent) {
+  function onPhoneKeyPress(event: KeyboardEvent): void {
     const allowedCharacters = '0123456789+'.split('');
     if (!allowedCharacters.includes(event.key)) {
       event.preventDefault();
     }
   }
 
-  function onCardKeyPress(event: KeyboardEvent) {
+  function onCardKeyPress(event: KeyboardEvent): void {
     const allowedCharacters = '0123456789'.split('');
     const input = event.target as HTMLInputElement;
 
@@ -196,7 +198,7 @@ if (isCartPage(document.location.pathname)) {
     }
   }
 
-  function onValidKeyPress(event: KeyboardEvent) {
+  function onValidKeyPress(event: KeyboardEvent): void {
     const allowedCharacters = '0123456789/'.split('');
     const input = event.target as HTMLInputElement;
 
@@ -214,7 +216,7 @@ if (isCartPage(document.location.pathname)) {
     }
   }
 
-  function onCvvKeyPress(event: KeyboardEvent) {
+  function onCvvKeyPress(event: KeyboardEvent): void {
     const allowedCharacters = '0123456789'.split('');
     const input = event.target as HTMLInputElement;
 

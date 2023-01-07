@@ -30,4 +30,10 @@ export enum SearchQueryParameters {
   brand = 'brand',
   price = 'price',
   stock = 'stock',
+  action = 'action',
+}
+
+export enum CustomActions {
+  buy = 'buy',
+  submit = 'submit',
 }

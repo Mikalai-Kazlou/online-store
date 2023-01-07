@@ -1,5 +1,5 @@
-import * as helpers from '../modules/helpers';
 import Cart from './Cart';
+import * as helpers from '../modules/helpers';
 
 export default class Header {
   public uiHeader: HTMLElement;

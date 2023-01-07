@@ -94,7 +94,7 @@ if (isDetailsPage(document.location.pathname)) {
   pageBreadcrumb.fill(categoryContainer, brandContainer, nameContainer);
   fillProductPage(currentProduct);
 
-  function buyNow() {
+  function buyNow(): void {
     if (!cart.has(currentProduct)) {
       currentItem.addToCart();
     }

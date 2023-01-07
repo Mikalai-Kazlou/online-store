@@ -54,9 +54,11 @@ if (isCatalogPage(document.location.pathname)) {
 
     parent.appendChild(closeIcon);
     parent.appendChild(good);
+
     good.setAttribute('id', goodsData.products[id - 1].id.toString());
     good.appendChild(picture);
     good.appendChild(goodInfo);
+
     goodInfo.appendChild(productName);
     goodInfo.appendChild(brand);
     goodInfo.appendChild(price);

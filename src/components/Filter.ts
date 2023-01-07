@@ -1,10 +1,12 @@
 import Goods from './Goods';
+
 import goodsData from '../modules/goods';
 import { sortingType, viewType, FilterType, SearchQueryParameters } from '../modules/enums';
 
 export default class Filter {
   private uiElement: HTMLElement;
   private counter: HTMLElement;
+
   public foundItems: number[] = [];
   public searchQuery: URLSearchParams = new URLSearchParams(window.location.search);
 
@@ -28,8 +30,7 @@ export default class Filter {
     }
   }
 
-  getMatchedResults(filterType: FilterType) {
-    // this method is for use on clicks
+  getMatchedResults(filterType: FilterType): void {
     this.setMatchedResults(this.uiElement, filterType);
     this.refreshCounter(this.foundItems);
     this.hideItems();
@@ -52,12 +53,11 @@ export default class Filter {
         }
       }
     }
-    const questionMark = !searchQuery.toString() || searchQuery.toString()[0] === '?' ? '' : '?';
+    const questionMark: string = !searchQuery.toString() || searchQuery.toString()[0] === '?' ? '' : '?';
     window.history.replaceState({}, '', `${window.location.pathname}${questionMark}${searchQuery.toString()}`);
   }
 
   parseQueryString(searchQuery: URLSearchParams): void {
-    // this method is for use on load
     const matrix: Goods[][] = [];
     if (searchQuery) {
       if (searchQuery.has(SearchQueryParameters.brand)) {
@@ -201,7 +201,7 @@ export default class Filter {
     container.value = value;
   }
 
-  reset() {
+  reset(): void {
     const allItems = document.querySelectorAll('.good-item');
     const categories = document.querySelectorAll('.category-button');
     const brands = document.querySelectorAll('.brand-button');
@@ -217,7 +217,7 @@ export default class Filter {
     this.getMatchedResults(FilterType.reset);
   }
 
-  private setMatchedResults(uiElement: HTMLElement, filterType: FilterType) {
+  private setMatchedResults(uiElement: HTMLElement, filterType: FilterType): void {
     const matrix: Goods[][] = [];
     matrix.push(goodsData.products);
 
@@ -276,10 +276,11 @@ export default class Filter {
     }
   }
 
-  private findByText(uiElement: HTMLElement) {
+  private findByText(uiElement: HTMLElement): Goods[] {
     const searchQueryContainer = uiElement.querySelector('.search-input') as HTMLInputElement;
     const searchQueryInput = searchQueryContainer.value;
     const searchResults: Goods[] = [];
+
     searchQueryContainer.setAttribute('value', `${searchQueryContainer.value}`);
     for (let i = 0; i < goodsData.products.length; i++) {
       if (goodsData.products[i].brand.toLowerCase().includes(searchQueryInput.toLowerCase())) {
@@ -304,6 +305,7 @@ export default class Filter {
         searchResults.push(goodsData.products[i]);
       }
     }
+
     const result = [...new Set(searchResults)];
     if (searchQueryInput.length > 0 && result.length === 0) {
       searchQueryContainer.setAttribute('maxlength', `${searchQueryInput.length - 1}`);
@@ -339,7 +341,6 @@ export default class Filter {
 
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
     this.buttonsDisabler(result, brands, selectedCategories.length, 'brand', 'disabled2');
-
     return result;
   }
 
@@ -360,7 +361,6 @@ export default class Filter {
 
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     this.buttonsDisabler(result, categories, selectedBrands.length, 'category', 'disabled3');
-
     return result;
   }
 
@@ -369,6 +369,7 @@ export default class Filter {
     const toPriceContainer = uiElement.querySelector('.price-slider-to') as HTMLInputElement;
     const minPrice = Math.min(+fromPriceContainer.value, +toPriceContainer.value);
     const maxPrice = Math.max(+fromPriceContainer.value, +toPriceContainer.value);
+
     fromPriceContainer.setAttribute('value', `${fromPriceContainer.value}`);
     toPriceContainer.setAttribute('value', `${toPriceContainer.value}`);
     const result = goodsData.products.filter((item) => item.price >= minPrice && item.price <= maxPrice);
@@ -389,6 +390,7 @@ export default class Filter {
     const toStockContainer = uiElement.querySelector('.stock-slider-to') as HTMLInputElement;
     const minStock = Math.min(+fromStockContainer.value, +toStockContainer.value);
     const maxStock = Math.max(+fromStockContainer.value, +toStockContainer.value);
+
     fromStockContainer.setAttribute('value', `${fromStockContainer.value}`);
     toStockContainer.setAttribute('value', `${toStockContainer.value}`);
     const result = goodsData.products.filter((item) => item.stock >= minStock && item.stock <= maxStock);
@@ -404,14 +406,14 @@ export default class Filter {
     return result;
   }
 
-  searchQueryAppend(name: string, value: string, query: URLSearchParams) {
+  searchQueryAppend(name: string, value: string, query: URLSearchParams): void {
     query.delete(name);
     if (value.length > 0) {
       query.append(name, value);
     }
   }
 
-  searchQueryRefresh() {
+  searchQueryRefresh(): void {
     this.searchQuery = new URLSearchParams(document.location.search);
   }
 
@@ -427,7 +429,7 @@ export default class Filter {
     });
   }
 
-  setPriceSlider(foundItems: number[]) {
+  setPriceSlider(foundItems: number[]): void {
     const minPrice = document.querySelector('.price-slider-from') as HTMLInputElement;
     const maxPrice = document.querySelector('.price-slider-to') as HTMLInputElement;
     const prices = foundItems.map((item) => goodsData.products[item - 1].price);
@@ -446,7 +448,7 @@ export default class Filter {
     }
   }
 
-  setStockSlider(foundItems: number[]) {
+  setStockSlider(foundItems: number[]): void {
     const minStock = document.querySelector('.stock-slider-from') as HTMLInputElement;
     const maxStock = document.querySelector('.stock-slider-to') as HTMLInputElement;
     const stock = foundItems.map((item) => goodsData.products[item - 1].stock);
@@ -483,10 +485,11 @@ export default class Filter {
     });
   }
 
-  private setAmountRemainder(uiElement: HTMLElement, foundItems: number[]) {
+  private setAmountRemainder(uiElement: HTMLElement, foundItems: number[]): void {
     const brandRemainder = uiElement.querySelectorAll('.brand-remainder');
     const categoryRemainder = uiElement.querySelectorAll('.category-remainder');
     const items = foundItems.map((item) => goodsData.products[item - 1]);
+
     if (foundItems.length > 0) {
       brandRemainder.forEach((item) => {
         const a1 = items.filter((v) => {

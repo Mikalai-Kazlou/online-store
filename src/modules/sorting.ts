@@ -1,7 +1,8 @@
+import Filter from '../components/Filter';
+
 import goodsData from './goods';
 import { elementNullCheck } from './helpers';
 import { isCatalogPage } from './pages';
-import Filter from '../components/Filter';
 import { FilterType, sortingType, viewType, SearchQueryParameters } from './enums';
 
 if (isCatalogPage(document.location.pathname)) {
@@ -13,7 +14,7 @@ if (isCatalogPage(document.location.pathname)) {
   const filterContent = elementNullCheck(document, '.filters-content') as HTMLElement;
   const filter = new Filter(filterContent, goodsNumber);
 
-  function disableDefaultSort() {
+  function disableDefaultSort(): void {
     const defaultSortValue = document.querySelector('#sort-by>option[value=default]') as HTMLOptionElement;
     defaultSortValue.disabled = true;
   }
@@ -33,11 +34,9 @@ if (isCatalogPage(document.location.pathname)) {
       }
 
       itemsArr.sort(function (a, b) {
-        return goodsData.products[+a.id - 1].price == goodsData.products[+b.id - 1].price
-          ? 0
-          : goodsData.products[+a.id - 1].price > goodsData.products[+b.id - 1].price
-          ? 1
-          : -1;
+        const productAPrice = goodsData.products[+a.id - 1].price;
+        const productBPrice = goodsData.products[+b.id - 1].price;
+        return productAPrice == productBPrice ? 0 : productAPrice > productBPrice ? 1 : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {
@@ -53,11 +52,9 @@ if (isCatalogPage(document.location.pathname)) {
       }
 
       itemsArr.sort(function (a, b) {
-        return goodsData.products[+a.id - 1].price == goodsData.products[+b.id - 1].price
-          ? 0
-          : goodsData.products[+a.id - 1].price < goodsData.products[+b.id - 1].price
-          ? 1
-          : -1;
+        const productAPrice = goodsData.products[+a.id - 1].price;
+        const productBPrice = goodsData.products[+b.id - 1].price;
+        return productAPrice == productBPrice ? 0 : productAPrice < productBPrice ? 1 : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {
@@ -73,11 +70,9 @@ if (isCatalogPage(document.location.pathname)) {
       }
 
       itemsArr.sort(function (a, b) {
-        return goodsData.products[+a.id - 1].title == goodsData.products[+b.id - 1].title
-          ? 0
-          : goodsData.products[+a.id - 1].title > goodsData.products[+b.id - 1].title
-          ? 1
-          : -1;
+        const productATitle = goodsData.products[+a.id - 1].title;
+        const productBTitle = goodsData.products[+b.id - 1].title;
+        return productATitle == productBTitle ? 0 : productATitle > productBTitle ? 1 : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {
@@ -93,11 +88,9 @@ if (isCatalogPage(document.location.pathname)) {
       }
 
       itemsArr.sort(function (a, b) {
-        return goodsData.products[+a.id - 1].title == goodsData.products[+b.id - 1].title
-          ? 0
-          : goodsData.products[+a.id - 1].title < goodsData.products[+b.id - 1].title
-          ? 1
-          : -1;
+        const productATitle = goodsData.products[+a.id - 1].title;
+        const productBTitle = goodsData.products[+b.id - 1].title;
+        return productATitle == productBTitle ? 0 : productATitle < productBTitle ? 1 : -1;
       });
 
       for (let i = 0; i < itemsArr.length; ++i) {

@@ -1,5 +1,6 @@
 import CartItem from './CartItem';
 import Goods from './Goods';
+
 import { PromoCode } from '../modules/types';
 import promoCodes from '../modules/promo-codes';
 import * as helpers from '../modules/helpers';
@@ -20,14 +21,14 @@ export default class Cart {
   promoCodes: Set<PromoCode> = new Set();
   page = 1;
   itemsOnPage = 3;
-  public searchQuery: URLSearchParams = new URLSearchParams(window.location.search);
+  searchQuery: URLSearchParams = new URLSearchParams(window.location.search);
 
   constructor(uiCart?: HTMLElement) {
     this.uiCart = uiCart;
     this.restore();
 
     if (this.uiCart) {
-      this.parseQueryString(this.searchQuery);
+      this.parseQueryString();
       const uiItemsOnPage = this.uiCart.querySelector('.items-on-page-value') as HTMLInputElement;
       uiItemsOnPage.value = this.itemsOnPage.toString();
       uiItemsOnPage.addEventListener('change', () => this.setItemsOnPage());
@@ -51,7 +52,7 @@ export default class Cart {
 
     const uiTemplate: HTMLTemplateElement = this.uiCart.querySelector('#cart-item-template') as HTMLTemplateElement;
     const uiFragment: DocumentFragment = document.createDocumentFragment();
-    const visibleItems = this.getVisibleItems();
+    const visibleItems: CartItem[] = this.getVisibleItems();
 
     visibleItems.forEach((item) => {
       const clone: HTMLElement = uiTemplate.content.cloneNode(true) as HTMLElement;
@@ -160,9 +161,9 @@ export default class Cart {
   }
 
   getTotalAmount(): number {
-    const fullAmount = this.getFullAmount();
+    const fullAmount: number = this.getFullAmount();
 
-    let totalAmount = fullAmount;
+    let totalAmount: number = fullAmount;
     this.promoCodes.forEach((code) => {
       totalAmount -= (fullAmount * code.discount) / 100;
     });
@@ -260,16 +261,16 @@ export default class Cart {
     this.itemsOnPage = cart.itemsOnPage;
   }
 
-  parseQueryString(searchQuery: URLSearchParams): void {
-    if (searchQuery && this.uiCart) {
-      if (searchQuery.has('page')) {
-        const page = searchQuery.get('page') as string;
+  parseQueryString(): void {
+    if (this.searchQuery && this.uiCart) {
+      if (this.searchQuery.has('page')) {
+        const page = this.searchQuery.get('page') as string;
         this.page = +page;
         const uiCurrentPage = this.uiCart.querySelector('.current-page') as HTMLElement;
         uiCurrentPage.textContent = `${this.page}/${this.getMaxPage()}`;
       }
-      if (searchQuery.has('items')) {
-        const itemsPerPage = searchQuery.get('items') as string;
+      if (this.searchQuery.has('items')) {
+        const itemsPerPage = this.searchQuery.get('items') as string;
         this.itemsOnPage = +itemsPerPage;
         const uiItemsOnPage = this.uiCart.querySelector('.items-on-page-value') as HTMLInputElement;
         uiItemsOnPage.value = this.itemsOnPage.toString();

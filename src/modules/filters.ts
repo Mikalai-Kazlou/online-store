@@ -1,7 +1,8 @@
+import Filter from '../components/Filter';
+
 import { getValues } from './get-values';
 import { elementNullCheck, formatAmount } from './helpers';
 import { isCatalogPage } from './pages';
-import Filter from '../components/Filter';
 import { FilterType } from './enums';
 
 if (isCatalogPage(document.location.pathname)) {

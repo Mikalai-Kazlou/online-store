@@ -1,8 +1,9 @@
-import './modal.ts';
-import '../../components/Filter';
-import goodsData from '../../modules/goods';
+import './modal';
+
 import GoodsCatalog from '../../components/GoodsCatalog';
 import Header from '../../components/Header';
+
+import goodsData from '../../modules/goods';
 import { elementNullCheck } from '../../modules/helpers';
 import { isCatalogPage } from '../../modules/pages';
 
