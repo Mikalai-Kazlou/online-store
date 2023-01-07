@@ -1,34 +1,15 @@
 import './details.scss';
+
 import Goods from '../../components/Goods';
 import GoodsCatalogItem from '../../components/GoodsCatalogItem';
-import { elementNullCheck } from '../../modules/helpers';
 import Cart from '../../components/Cart';
 import Header from '../../components/Header';
 import StockButtons from '../../components/StockButtons';
+import Breadcrumb from '../../components/Breadcrumb';
+
+import { elementNullCheck } from '../../modules/helpers';
 import * as helpers from '../../modules/helpers';
 import { isDetailsPage } from '../../modules/pages';
-import { SearchQueryParameters } from '../../modules/enums';
-
-export default class Breadcrumb {
-  private category: string;
-  private brand: string;
-  private name: string;
-
-  constructor(category: string, brand: string, name: string) {
-    this.category = category;
-    this.brand = brand;
-    this.name = name;
-  }
-
-  fillBreadcrumb(categoryBox: Element, brandBox: Element, nameBox: Element) {
-    categoryBox.innerHTML = this.category + ' /';
-    categoryBox.setAttribute('href', `./?${SearchQueryParameters.category}=${this.category}`);
-    brandBox.innerHTML = this.brand + ' /';
-    brandBox.setAttribute('href', `./?${SearchQueryParameters.brand}=${this.brand}`);
-    nameBox.innerHTML = this.name;
-    nameBox.setAttribute('href', `./?${SearchQueryParameters.search}=${this.name.split(' ').slice(0, 1).join(' ')}`);
-  }
-}
 
 if (isDetailsPage(document.location.pathname)) {
   const categoryContainer = elementNullCheck(document, '.product-category');
@@ -110,7 +91,7 @@ if (isDetailsPage(document.location.pathname)) {
   }
 
   const pageBreadcrumb = new Breadcrumb(currentProduct.category, currentProduct.brand, currentProduct.title);
-  pageBreadcrumb.fillBreadcrumb(categoryContainer, brandContainer, nameContainer);
+  pageBreadcrumb.fill(categoryContainer, brandContainer, nameContainer);
   fillProductPage(currentProduct);
 
   function buyNow() {
