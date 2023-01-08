@@ -73,12 +73,14 @@ if (isCatalogPage(document.location.pathname)) {
   const openModal = function (event: Event): void {
     if (event.target) {
       const target = event.target as HTMLButtonElement;
-      const clickedOption = target.closest('button');
-      if (clickedOption) {
-        const id: number = +clickedOption.id;
-        addModalProduct(id, modal);
-        modal.classList.remove('hide');
-        overlay.classList.remove('hide');
+      if (!target.classList.contains('goods-button')) {
+        const clickedOption = target.closest('button');
+        if (clickedOption) {
+          const id: number = +clickedOption.id;
+          addModalProduct(id, modal);
+          modal.classList.remove('hide');
+          overlay.classList.remove('hide');
+        }
       }
     }
   };
