@@ -15,12 +15,23 @@ export default class CartItem {
   draw(uiCartItem: HTMLElement, index: number) {
     let uiElement: HTMLElement;
 
+    const loadImage = (src: string, alt: string, uiImage: HTMLElement): void => {
+      const image = new Image();
+      image.src = src;
+      image.onload = () => {
+        uiImage.setAttribute('src', src);
+        uiImage.setAttribute('alt', alt);
+      };
+      image.onerror = () => {
+        setTimeout(() => loadImage(src, alt, uiImage), 1000);
+      };
+    }
+
     uiElement = uiCartItem.querySelector('.info-index') as HTMLElement;
     uiElement.textContent = `${index + 1}`;
 
     const uiImage: HTMLImageElement = uiCartItem.querySelector('.small-picture') as HTMLImageElement;
-    uiImage.src = this.goods.thumbnail;
-    uiImage.alt = this.goods.title;
+    loadImage(this.goods.thumbnail, this.goods.title, uiImage);
 
     uiElement = uiCartItem.querySelector('.info-title') as HTMLElement;
     uiElement.textContent = `Title: ${this.goods.title}`;
