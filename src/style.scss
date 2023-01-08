@@ -1,3 +1,4 @@
+@import './styles/constants';
 @import './styles/text';
 @import './styles/buttons';
 @import './styles/header';
@@ -18,8 +19,8 @@ html {
 }
 
 body {
-    background-color: #ffffff;
-    color: #222222;
+    background-color: $color-light-end;
+    color: $color-text-darker;
     transition: 0.25s;
     min-height: 100vh;
 }
@@ -42,7 +43,7 @@ body {
 
 .link {
     font-size: 2rem;
-    color: rgb(223, 223, 223);
+    color: $color-light;
     text-decoration: none;
     transition: 0.25s;
 
@@ -52,20 +53,20 @@ body {
 
     &:hover {
         scale: 1.02;
-        color: rgb(255, 255, 255);
+        color: $color-lightest;
     }
 }
 
 .header-link {
     font-size: 2rem;
-    color: rgb(178, 178, 178);
+    color: $color-shadow;
     text-decoration: none;
     transition: 0.25s;
 
     &:hover {
         text-decoration: none;
-        color: rgb(64, 64, 64);
-        text-shadow: 0.1rem 0.1rem 0.1rem #7e7e7e;
+        color: $color-text-primary;
+        text-shadow: 0.1rem 0.1rem 0.1rem $color-shadow;
     }
 }
 
@@ -121,13 +122,13 @@ body {
 }
 
 .intersection {
-    background: linear-gradient(90deg, rgba(132, 128, 194, 1) 0%, rgb(136, 132, 194) 47%, rgb(147, 143, 202) 100%);
+    background: $color-main-gradient;
     width: 100%;
     min-height: 21vh;
     display: flex;
     -webkit-box-align: center;
     align-items: center;
-    color: #222222;
+    color: $color-text-darker;
 
     @media screen and (max-width: 500px) {
         min-height: 15vh;
@@ -158,7 +159,7 @@ body {
     justify-content: center;
     -webkit-box-align: center;
     align-items: center;
-    background: #404040;
+    background: $color-text-primary;
     text-align: center;
 }
 
@@ -193,7 +194,7 @@ body {
 .search-input,
 .promo-input {
     padding: 0.5rem;
-    background: #f1f5f8;
+    background: $color-lightest;
     border-radius: 0.5rem;
     border-color: transparent;
     letter-spacing: 0.1rem;
@@ -201,14 +202,14 @@ body {
     width: 95%;
 
     &:focus {
-        color: #3d621f;
-        background: #bcff86;
+        color: $color-text-primary;
+        background: $color-button-hover;
     }
 
     &:invalid {
-        color: crimson;
-        border-color: crimson;
-        background: rgb(255, 164, 182);
+        color: $color-invalid;
+        border-color: $color-invalid;
+        background: $color-invalid-muted;
     }
 }
 
@@ -237,7 +238,7 @@ body {
     height: 0.3rem;
     width: 100%;
     position: absolute;
-    background-color: #C6C6C6;
+    background-color: $color-light;
     pointer-events: none;
     margin-top: 1.7rem;
     opacity: 1;
@@ -248,9 +249,9 @@ body {
     pointer-events: all;
     width: 2rem;
     height: 2rem;
-    background-color: #fff;
+    background-color: $color-light-end;
     border-radius: 50%;
-    box-shadow: 0 0 0 0.1rem #C6C6C6;
+    box-shadow: 0 0 0 0.1rem $color-light;
     cursor: pointer;
 }
 
@@ -260,37 +261,24 @@ body {
     pointer-events: all;
     width: 2rem;
     height: 2rem;
-    background-color: #fff;
+    background-color: $color-light-end;
     border-radius: 50%;
-    box-shadow: 0 0 0 0.1rem #C6C6C6;
+    box-shadow: 0 0 0 0.1rem $color-shadow-lighter;
     cursor: pointer;
 }
 
 .slider::-webkit-slider-thumb:hover {
-    background: #f7f7f7;
+    background: $color-lightest;
 }
 
 .slider::-webkit-slider-thumb:active {
-    box-shadow: inset 0 0 0.3rem #8708ff, 0 0 0.6rem #8708ff;
-    -webkit-box-shadow: inset 0 0 0.3rem #8708ff, 0 0 0.6rem #8708ff;
+    box-shadow: inset 0 0 0.3rem $color-main-accent, 0 0 0.6rem $color-main-accent;
+    -webkit-box-shadow: inset 0 0 0.3rem $color-main-accent, 0 0 0.6rem $color-main-accent;
 }
 
 .fromSlider {
     height: 0;
     z-index: 1;
-}
-
-.nice-scrollbar-border {
-    display: flex;
-    padding: 0;
-    position: relative;
-    align-items: center;
-    align-self: center;
-    background: linear-gradient(90deg, rgba(132, 128, 194, 1) 0%, rgb(222, 222, 255) 47%, rgba(0, 212, 255, 1) 100%);
-    border-radius: 0.5rem;
-    margin-bottom: 0.9rem;
-    height: 1rem;
-    width: 100%;
 }
 
 .scrollbar::-webkit-slider-thumb {
@@ -299,12 +287,12 @@ body {
     height: 0.6rem;
     border-radius: 0.5rem;
     cursor: pointer;
-    background: #8708ff;
+    background: $color-main;
     transition: 0.2s;
 }
 
 .scrollbar::-webkit-slider-thumb:active {
-    background: #9f3df9;
+    background: $color-main-bright-accent;
 }
 
 .scrollbar::-webkit-slider-runnable-track {
@@ -317,7 +305,7 @@ body {
     display: flex;
     align-items: center;
     align-self: center;
-    background-color: rgb(208, 205, 205);
+    background-color: $color-light;
     border-radius: 0.5rem;
     width: 99.5%;
     height: 0.7rem;
@@ -353,12 +341,12 @@ body {
 }
 
 .link-active {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid $color-text-darker;
     cursor: default;
     user-select: none;
     text-decoration: none;
     pointer-events: none;
-    color: #404040;
+    color: $color-text-primary;
 }
 
 .goods-container {
@@ -381,7 +369,7 @@ body {
     @media screen and (max-width: 500px) {
         position: sticky;
         top: 0;
-        background-color: #ffffff;
+        background-color: $color-light-end;
         z-index: 1;
     }
 }
@@ -410,7 +398,7 @@ body {
     transform: 0.2s;
     transition: 0.2s;
     border-radius: 0.5rem;
-    border: 0.1rem solid #e8e8e8;
+    border: 0.1rem solid $color-light;
     cursor: pointer;
     justify-content: flex-start;
     background: transparent;
@@ -432,7 +420,7 @@ body {
     width: 100%;
     height: 21.5rem;
     border-radius: 1rem;
-    background-color: aliceblue;
+    background-color: $color-lightest;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -492,10 +480,10 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80vw;
-    background-color: rgba(235, 235, 235, 0.8);
+    background-color: $color-light-transparent;
     padding: 2rem;
     border-radius: 1rem;
-    box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3rem 5rem $color-dark-overlay;
     z-index: 100;
 }
 
@@ -505,7 +493,7 @@ body {
     left: 0;
     width: 100%;
     height: 123rem;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: $color-dark-overlay;
     backdrop-filter: blur(3px);
     z-index: 90;
 }
@@ -515,7 +503,7 @@ body {
     top: -5rem;
     right: -2rem;
     font-size: 5rem;
-    color: aliceblue;
+    color: $color-lightest;
     cursor: pointer;
     border: none;
     background: none;
@@ -560,8 +548,8 @@ body {
 }
 
 .selected {
-    color: darkorchid;
-    border-bottom: 0.1rem solid darkorchid;
+    color: $color-main-bright-accent;
+    border-bottom: 0.1rem solid $color-main-bright-accent;
 }
 
 .disabled,
@@ -585,7 +573,7 @@ body {
 
     &::-webkit-scrollbar-track {
         border-radius: 0.5rem;
-        background: #f3f2f2;
+        background: $color-light;
         margin: 0 0.2em;
         opacity: 0.5;
 
@@ -595,9 +583,9 @@ body {
     }
 
     &::-webkit-scrollbar-thumb {
-        background-color: #8884c2;
+        background-color: $color-main;
         border-radius: 0.5rem;
-        border: 0.2rem solid #f3f2f2;
+        border: 0.2rem solid $color-lightest;
         opacity: 0.5;
 
         &:hover {

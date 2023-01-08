@@ -7,7 +7,7 @@
     text-align: justify;
 
     &:hover {
-        color: black;
+        color: $color-dark-end;
         text-shadow: 0.1rem 0.1rem 0.1rem $color-shadow;
     }
 }
@@ -22,7 +22,7 @@
     &:hover {
         cursor: pointer;
         box-shadow: 0 0.5rem 0.5rem $color-shadow-lighter;
-        border: 0.1rem solid #bcff86;
+        border: 0.1rem solid $color-button-hover;
     }
 
     &:active {

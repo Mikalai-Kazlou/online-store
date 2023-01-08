@@ -32,7 +32,7 @@
   align-items: center;
 
   padding: 2rem;
-  background-color: white;
+  background-color: $color-light-end;
   border-radius: 10px;
 
   cursor: auto;
@@ -84,7 +84,7 @@
 
   &:focus {
     border-color: $color-button-hover;
-    background-color: #f8fff0;
+    background-color: $color-lightest;
   }
 
   &.valid {
@@ -93,8 +93,8 @@
   }
 
   &.invalid {
-    border: 1px solid red;
-    background-color: #fcd7d7;
+    border: 1px solid $color-invalid;
+    background-color: $color-invalid-muted;
   }
 
   @media screen and (max-width: 450px) {
@@ -103,10 +103,10 @@
 }
 
 .payment-system {
-  color: violet;
+  color: $color-main-bright-accent;
 }
 
 .error {
   font-size: 10px;
-  color: red;
+  color: $color-invalid;
 }
