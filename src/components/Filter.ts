@@ -317,8 +317,8 @@ export default class Filter {
 
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
-    this.buttonsDisabler(result, categories, result.length, 'category', 'disabled1');
-    this.buttonsDisabler(result, brands, result.length, 'brand', 'disabled1');
+    this.buttonsDisabler(result, categories, 'category', 'disabled1');
+    this.buttonsDisabler(result, brands, 'brand', 'disabled1');
 
     this.searchQueryAppend(SearchQueryParameters.search, `${searchQueryInput}`, this.searchQuery);
     return result;
@@ -340,7 +340,7 @@ export default class Filter {
     }
 
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
-    this.buttonsDisabler(result, brands, selectedCategories.length, 'brand', 'disabled2');
+    this.buttonsDisabler(result, brands, 'brand', 'disabled2');
     return result;
   }
 
@@ -360,7 +360,7 @@ export default class Filter {
     }
 
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
-    this.buttonsDisabler(result, categories, selectedBrands.length, 'category', 'disabled3');
+    this.buttonsDisabler(result, categories, 'category', 'disabled3');
     return result;
   }
 
@@ -376,8 +376,8 @@ export default class Filter {
 
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
-    this.buttonsDisabler(result, categories, result.length, 'category', 'disabled4');
-    this.buttonsDisabler(result, brands, result.length, 'brand', 'disabled4');
+    this.buttonsDisabler(result, categories, 'category', 'disabled4');
+    this.buttonsDisabler(result, brands, 'brand', 'disabled4');
 
     if (result.length !== goodsData.products.length) {
       this.searchQueryAppend(SearchQueryParameters.price, `${minPrice}/${maxPrice}`, this.searchQuery);
@@ -397,8 +397,8 @@ export default class Filter {
 
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
-    this.buttonsDisabler(result, categories, result.length, 'category', 'disabled5');
-    this.buttonsDisabler(result, brands, result.length, 'brand', 'disabled5');
+    this.buttonsDisabler(result, categories, 'category', 'disabled5');
+    this.buttonsDisabler(result, brands, 'brand', 'disabled5');
 
     if (result.length !== goodsData.products.length) {
       this.searchQueryAppend(SearchQueryParameters.stock, `${minStock}/${maxStock}`, this.searchQuery);
@@ -468,18 +468,12 @@ export default class Filter {
     }
   }
 
-  private buttonsDisabler(
-    result: Goods[],
-    buttons: Element[],
-    selected: number,
-    property: keyof Goods,
-    classCSS: string
-  ): void {
+  private buttonsDisabler(result: Goods[], buttons: Element[], property: keyof Goods, classCSS: string): void {
     buttons.forEach((item) => {
       if (item.classList.contains(classCSS)) item.classList.remove(classCSS);
     });
     buttons.forEach((item) => {
-      if (!result.map((v) => v[property]).includes(item.id) && selected > 0) {
+      if (!result.map((v) => v[property]).includes(item.id)) {
         item.classList.add(classCSS);
       }
     });
@@ -490,25 +484,23 @@ export default class Filter {
     const categoryRemainder = uiElement.querySelectorAll('.category-remainder');
     const items = foundItems.map((item) => goodsData.products[item - 1]);
 
-    if (foundItems.length > 0) {
-      brandRemainder.forEach((item) => {
-        const a1 = items.filter((v) => {
-          return v.brand === item.id.toString().slice(item.id.indexOf(' ') + 1);
-        });
-        const a2 = goodsData.products.filter((v) => {
-          return v.brand === item.id.toString().slice(item.id.indexOf(' ') + 1);
-        });
-        item.innerHTML = `(${a1.length}/${a2.length})`;
+    brandRemainder.forEach((item) => {
+      const a1 = items.filter((v) => {
+        return v.brand === item.id.toString().slice(item.id.indexOf(' ') + 1);
       });
-      categoryRemainder.forEach((item) => {
-        const a1 = items.filter((v) => {
-          return v.category === item.id.toString().slice(item.id.indexOf(' ') + 1);
-        });
-        const a2 = goodsData.products.filter((v) => {
-          return v.category === item.id.toString().slice(item.id.indexOf(' ') + 1);
-        });
-        item.innerHTML = `(${a1.length}/${a2.length})`;
+      const a2 = goodsData.products.filter((v) => {
+        return v.brand === item.id.toString().slice(item.id.indexOf(' ') + 1);
       });
-    }
+      item.innerHTML = `(${a1.length}/${a2.length})`;
+    });
+    categoryRemainder.forEach((item) => {
+      const a1 = items.filter((v) => {
+        return v.category === item.id.toString().slice(item.id.indexOf(' ') + 1);
+      });
+      const a2 = goodsData.products.filter((v) => {
+        return v.category === item.id.toString().slice(item.id.indexOf(' ') + 1);
+      });
+      item.innerHTML = `(${a1.length}/${a2.length})`;
+    });
   }
 }

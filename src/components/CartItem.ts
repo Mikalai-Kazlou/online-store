@@ -25,7 +25,7 @@ export default class CartItem {
       image.onerror = () => {
         setTimeout(() => loadImage(src, alt, uiImage), 1000);
       };
-    }
+    };
 
     uiElement = uiCartItem.querySelector('.info-index') as HTMLElement;
     uiElement.textContent = `${index + 1}`;

@@ -95,7 +95,7 @@ if (isDetailsPage(document.location.pathname)) {
       image.onerror = () => {
         setTimeout(() => loadImage(src, alt, uiImage), 1000);
       };
-    }
+    };
     loadImage(src, alt, parent);
   }
 
