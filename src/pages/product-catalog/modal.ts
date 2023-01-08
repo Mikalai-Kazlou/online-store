@@ -1,12 +1,9 @@
 import goodsData from '../../modules/goods';
-import { elementNullCheck, formatAmount } from '../../modules/helpers';
+import { getNullCheckedElement, formatAmount } from '../../modules/helpers';
+import { isCatalogPage } from '../../modules/pages';
 
-if (
-  document.location.pathname === '/' ||
-  document.location.pathname === '/online-store/' ||
-  document.location.pathname.includes('index')
-) {
-  const modal: HTMLElement = elementNullCheck(document, '.modal') as HTMLElement;
+if (isCatalogPage(document.location.pathname)) {
+  const modal: HTMLElement = getNullCheckedElement(document, '.modal') as HTMLElement;
   const overlay: HTMLElement = document.querySelector('.overlay') as HTMLElement;
   const btnOpenModal: HTMLElement = document.querySelector('.goods-items') as HTMLElement;
 
@@ -57,9 +54,11 @@ if (
 
     parent.appendChild(closeIcon);
     parent.appendChild(good);
+
     good.setAttribute('id', goodsData.products[id - 1].id.toString());
     good.appendChild(picture);
     good.appendChild(goodInfo);
+
     goodInfo.appendChild(productName);
     goodInfo.appendChild(brand);
     goodInfo.appendChild(price);
@@ -74,12 +73,14 @@ if (
   const openModal = function (event: Event): void {
     if (event.target) {
       const target = event.target as HTMLButtonElement;
-      const clickedOption = target.closest('button');
-      if (clickedOption) {
-        const id: number = +clickedOption.id;
-        addModalProduct(id, modal);
-        modal.classList.remove('hide');
-        overlay.classList.remove('hide');
+      if (!target.classList.contains('goods-button')) {
+        const clickedOption = target.closest('button');
+        if (clickedOption) {
+          const id: number = +clickedOption.id;
+          addModalProduct(id, modal);
+          modal.classList.remove('hide');
+          overlay.classList.remove('hide');
+        }
       }
     }
   };

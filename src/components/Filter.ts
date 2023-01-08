@@ -1,10 +1,12 @@
 import Goods from './Goods';
+
 import goodsData from '../modules/goods';
-import { sortingType, viewType, FilterType, SearchQueryParameters } from '../modules/enums';
+import { SortingType, ViewType, FilterType, SearchQueryParameters } from '../modules/enums';
 
 export default class Filter {
   private uiElement: HTMLElement;
   private counter: HTMLElement;
+
   public foundItems: number[] = [];
   public searchQuery: URLSearchParams = new URLSearchParams(window.location.search);
 
@@ -28,8 +30,7 @@ export default class Filter {
     }
   }
 
-  getMatchedResults(filterType: FilterType) {
-    // this method is for use on clicks
+  getMatchedResults(filterType: FilterType): void {
     this.setMatchedResults(this.uiElement, filterType);
     this.refreshCounter(this.foundItems);
     this.hideItems();
@@ -52,12 +53,11 @@ export default class Filter {
         }
       }
     }
-    const questionMark = !searchQuery.toString() || searchQuery.toString()[0] === '?' ? '' : '?';
+    const questionMark: string = !searchQuery.toString() || searchQuery.toString()[0] === '?' ? '' : '?';
     window.history.replaceState({}, '', `${window.location.pathname}${questionMark}${searchQuery.toString()}`);
   }
 
   parseQueryString(searchQuery: URLSearchParams): void {
-    // this method is for use on load
     const matrix: Goods[][] = [];
     if (searchQuery) {
       if (searchQuery.has(SearchQueryParameters.brand)) {
@@ -157,27 +157,27 @@ export default class Filter {
       if (searchQuery.has(SearchQueryParameters.sorting)) {
         const sorting = searchQuery.get(SearchQueryParameters.sorting);
         const sortInput = document.querySelector('.sort-input') as HTMLSelectElement;
-        if (sorting === sortingType.NameAscending) {
-          sortInput.value = sortingType.NameAscending;
+        if (sorting === SortingType.NameAscending) {
+          sortInput.value = SortingType.NameAscending;
         }
-        if (sorting === sortingType.NameDescending) {
-          sortInput.value = sortingType.NameDescending;
+        if (sorting === SortingType.NameDescending) {
+          sortInput.value = SortingType.NameDescending;
         }
-        if (sorting === sortingType.PriceAscending) {
-          sortInput.value = sortingType.PriceAscending;
+        if (sorting === SortingType.PriceAscending) {
+          sortInput.value = SortingType.PriceAscending;
         }
-        if (sorting === sortingType.PriceDescending) {
-          sortInput.value = sortingType.PriceDescending;
+        if (sorting === SortingType.PriceDescending) {
+          sortInput.value = SortingType.PriceDescending;
         }
       }
       if (searchQuery.has(SearchQueryParameters.view)) {
         const view = searchQuery.get(SearchQueryParameters.view);
         const viewInput = document.querySelector('.view-input') as HTMLSelectElement;
-        if (view === viewType.Standard) {
-          viewInput.value = viewType.Standard;
+        if (view === ViewType.Standard) {
+          viewInput.value = ViewType.Standard;
         }
-        if (view === viewType.Small) {
-          viewInput.value = viewType.Small;
+        if (view === ViewType.Small) {
+          viewInput.value = ViewType.Small;
         }
       }
     }
@@ -201,7 +201,7 @@ export default class Filter {
     container.value = value;
   }
 
-  reset() {
+  reset(): void {
     const allItems = document.querySelectorAll('.good-item');
     const categories = document.querySelectorAll('.category-button');
     const brands = document.querySelectorAll('.brand-button');
@@ -217,7 +217,7 @@ export default class Filter {
     this.getMatchedResults(FilterType.reset);
   }
 
-  private setMatchedResults(uiElement: HTMLElement, filterType: FilterType) {
+  private setMatchedResults(uiElement: HTMLElement, filterType: FilterType): void {
     const matrix: Goods[][] = [];
     matrix.push(goodsData.products);
 
@@ -276,10 +276,11 @@ export default class Filter {
     }
   }
 
-  private findByText(uiElement: HTMLElement) {
+  private findByText(uiElement: HTMLElement): Goods[] {
     const searchQueryContainer = uiElement.querySelector('.search-input') as HTMLInputElement;
     const searchQueryInput = searchQueryContainer.value;
     const searchResults: Goods[] = [];
+
     searchQueryContainer.setAttribute('value', `${searchQueryContainer.value}`);
     for (let i = 0; i < goodsData.products.length; i++) {
       if (goodsData.products[i].brand.toLowerCase().includes(searchQueryInput.toLowerCase())) {
@@ -304,6 +305,7 @@ export default class Filter {
         searchResults.push(goodsData.products[i]);
       }
     }
+
     const result = [...new Set(searchResults)];
     if (searchQueryInput.length > 0 && result.length === 0) {
       searchQueryContainer.setAttribute('maxlength', `${searchQueryInput.length - 1}`);
@@ -315,8 +317,8 @@ export default class Filter {
 
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
-    this.buttonsDisabler(result, categories, result.length, 'category', 'disabled1');
-    this.buttonsDisabler(result, brands, result.length, 'brand', 'disabled1');
+    this.buttonsDisabler(result, categories, 'category', 'disabled1');
+    this.buttonsDisabler(result, brands, 'brand', 'disabled1');
 
     this.searchQueryAppend(SearchQueryParameters.search, `${searchQueryInput}`, this.searchQuery);
     return result;
@@ -338,8 +340,7 @@ export default class Filter {
     }
 
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
-    this.buttonsDisabler(result, brands, selectedCategories.length, 'brand', 'disabled2');
-
+    this.buttonsDisabler(result, brands, 'brand', 'disabled2');
     return result;
   }
 
@@ -359,8 +360,7 @@ export default class Filter {
     }
 
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
-    this.buttonsDisabler(result, categories, selectedBrands.length, 'category', 'disabled3');
-
+    this.buttonsDisabler(result, categories, 'category', 'disabled3');
     return result;
   }
 
@@ -369,14 +369,15 @@ export default class Filter {
     const toPriceContainer = uiElement.querySelector('.price-slider-to') as HTMLInputElement;
     const minPrice = Math.min(+fromPriceContainer.value, +toPriceContainer.value);
     const maxPrice = Math.max(+fromPriceContainer.value, +toPriceContainer.value);
+
     fromPriceContainer.setAttribute('value', `${fromPriceContainer.value}`);
     toPriceContainer.setAttribute('value', `${toPriceContainer.value}`);
     const result = goodsData.products.filter((item) => item.price >= minPrice && item.price <= maxPrice);
 
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
-    this.buttonsDisabler(result, categories, result.length, 'category', 'disabled4');
-    this.buttonsDisabler(result, brands, result.length, 'brand', 'disabled4');
+    this.buttonsDisabler(result, categories, 'category', 'disabled4');
+    this.buttonsDisabler(result, brands, 'brand', 'disabled4');
 
     if (result.length !== goodsData.products.length) {
       this.searchQueryAppend(SearchQueryParameters.price, `${minPrice}/${maxPrice}`, this.searchQuery);
@@ -389,14 +390,15 @@ export default class Filter {
     const toStockContainer = uiElement.querySelector('.stock-slider-to') as HTMLInputElement;
     const minStock = Math.min(+fromStockContainer.value, +toStockContainer.value);
     const maxStock = Math.max(+fromStockContainer.value, +toStockContainer.value);
+
     fromStockContainer.setAttribute('value', `${fromStockContainer.value}`);
     toStockContainer.setAttribute('value', `${toStockContainer.value}`);
     const result = goodsData.products.filter((item) => item.stock >= minStock && item.stock <= maxStock);
 
     const categories = Array.from(uiElement.querySelectorAll('.category-button'));
     const brands = Array.from(uiElement.querySelectorAll('.brand-button'));
-    this.buttonsDisabler(result, categories, result.length, 'category', 'disabled5');
-    this.buttonsDisabler(result, brands, result.length, 'brand', 'disabled5');
+    this.buttonsDisabler(result, categories, 'category', 'disabled5');
+    this.buttonsDisabler(result, brands, 'brand', 'disabled5');
 
     if (result.length !== goodsData.products.length) {
       this.searchQueryAppend(SearchQueryParameters.stock, `${minStock}/${maxStock}`, this.searchQuery);
@@ -404,14 +406,14 @@ export default class Filter {
     return result;
   }
 
-  searchQueryAppend(name: string, value: string, query: URLSearchParams) {
+  searchQueryAppend(name: string, value: string, query: URLSearchParams): void {
     query.delete(name);
     if (value.length > 0) {
       query.append(name, value);
     }
   }
 
-  searchQueryRefresh() {
+  searchQueryRefresh(): void {
     this.searchQuery = new URLSearchParams(document.location.search);
   }
 
@@ -427,7 +429,7 @@ export default class Filter {
     });
   }
 
-  setPriceSlider(foundItems: number[]) {
+  setPriceSlider(foundItems: number[]): void {
     const minPrice = document.querySelector('.price-slider-from') as HTMLInputElement;
     const maxPrice = document.querySelector('.price-slider-to') as HTMLInputElement;
     const prices = foundItems.map((item) => goodsData.products[item - 1].price);
@@ -446,7 +448,7 @@ export default class Filter {
     }
   }
 
-  setStockSlider(foundItems: number[]) {
+  setStockSlider(foundItems: number[]): void {
     const minStock = document.querySelector('.stock-slider-from') as HTMLInputElement;
     const maxStock = document.querySelector('.stock-slider-to') as HTMLInputElement;
     const stock = foundItems.map((item) => goodsData.products[item - 1].stock);
@@ -466,46 +468,39 @@ export default class Filter {
     }
   }
 
-  private buttonsDisabler(
-    result: Goods[],
-    buttons: Element[],
-    selected: number,
-    property: keyof Goods,
-    classCSS: string
-  ): void {
+  private buttonsDisabler(result: Goods[], buttons: Element[], property: keyof Goods, classCSS: string): void {
     buttons.forEach((item) => {
       if (item.classList.contains(classCSS)) item.classList.remove(classCSS);
     });
     buttons.forEach((item) => {
-      if (!result.map((v) => v[property]).includes(item.id) && selected > 0) {
+      if (!result.map((v) => v[property]).includes(item.id)) {
         item.classList.add(classCSS);
       }
     });
   }
 
-  private setAmountRemainder(uiElement: HTMLElement, foundItems: number[]) {
+  private setAmountRemainder(uiElement: HTMLElement, foundItems: number[]): void {
     const brandRemainder = uiElement.querySelectorAll('.brand-remainder');
     const categoryRemainder = uiElement.querySelectorAll('.category-remainder');
     const items = foundItems.map((item) => goodsData.products[item - 1]);
-    if (foundItems.length > 0) {
-      brandRemainder.forEach((item) => {
-        const a1 = items.filter((v) => {
-          return v.brand === item.id.toString().slice(item.id.indexOf(' ') + 1);
-        });
-        const a2 = goodsData.products.filter((v) => {
-          return v.brand === item.id.toString().slice(item.id.indexOf(' ') + 1);
-        });
-        item.innerHTML = `(${a1.length}/${a2.length})`;
+
+    brandRemainder.forEach((item) => {
+      const a1 = items.filter((v) => {
+        return v.brand === item.id.toString().slice(item.id.indexOf(' ') + 1);
       });
-      categoryRemainder.forEach((item) => {
-        const a1 = items.filter((v) => {
-          return v.category === item.id.toString().slice(item.id.indexOf(' ') + 1);
-        });
-        const a2 = goodsData.products.filter((v) => {
-          return v.category === item.id.toString().slice(item.id.indexOf(' ') + 1);
-        });
-        item.innerHTML = `(${a1.length}/${a2.length})`;
+      const a2 = goodsData.products.filter((v) => {
+        return v.brand === item.id.toString().slice(item.id.indexOf(' ') + 1);
       });
-    }
+      item.innerHTML = `(${a1.length}/${a2.length})`;
+    });
+    categoryRemainder.forEach((item) => {
+      const a1 = items.filter((v) => {
+        return v.category === item.id.toString().slice(item.id.indexOf(' ') + 1);
+      });
+      const a2 = goodsData.products.filter((v) => {
+        return v.category === item.id.toString().slice(item.id.indexOf(' ') + 1);
+      });
+      item.innerHTML = `(${a1.length}/${a2.length})`;
+    });
   }
 }

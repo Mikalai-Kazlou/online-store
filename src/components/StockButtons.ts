@@ -58,7 +58,7 @@ export default class StockButtons {
     this.header.refresh();
   }
 
-  incrementStock(goods: Goods, stock: HTMLParagraphElement, cart: Cart) {
+  incrementStock(goods: Goods, stock: HTMLParagraphElement, cart: Cart): void {
     const amount = this.getCurrentAmount(goods);
     const maxStock = goods.stock;
     const currentStock = +stock.innerHTML;
