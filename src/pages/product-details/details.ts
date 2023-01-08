@@ -71,8 +71,7 @@ if (isDetailsPage(document.location.pathname)) {
     sidePicturesContainer.addEventListener('click', findImageID);
 
     addPictures(sidePicturesContainer, product.images);
-    displaySelectedPicture(selectedPicture, product.images, product.title, 0);
-    helpers.loadImage(product.images[0], selectedPicture);
+    displaySelectedPicture(selectedPicture, product.images[0], product.title);
   }
 
   function addPictures(parent: Element, images: string[]): void {
@@ -85,9 +84,19 @@ if (isDetailsPage(document.location.pathname)) {
     }
   }
 
-  function displaySelectedPicture(parent: Element, images: string[], productName: string, imageID: number): void {
-    parent.setAttribute('alt', `${productName}`);
-    parent.setAttribute('src', images[imageID]);
+  function displaySelectedPicture(parent: HTMLElement, src: string, alt: string): void {
+    const loadImage = (src: string, alt: string, uiImage: HTMLElement): void => {
+      const image = new Image();
+      image.src = src;
+      image.onload = () => {
+        uiImage.setAttribute('src', src);
+        uiImage.setAttribute('alt', alt);
+      };
+      image.onerror = () => {
+        setTimeout(() => loadImage(src, alt, uiImage), 1000);
+      };
+    }
+    loadImage(src, alt, parent);
   }
 
   const pageBreadcrumb = new Breadcrumb(currentProduct.category, currentProduct.brand, currentProduct.title);
