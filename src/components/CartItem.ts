@@ -3,6 +3,7 @@ import * as helpers from '../modules/helpers';
 
 export default class CartItem {
   private uiQuantity: HTMLElement | undefined;
+
   goods: Goods;
   quantity = 1;
 

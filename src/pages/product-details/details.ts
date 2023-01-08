@@ -7,42 +7,42 @@ import Header from '../../components/Header';
 import StockButtons from '../../components/StockButtons';
 import Breadcrumb from '../../components/Breadcrumb';
 
-import { elementNullCheck } from '../../modules/helpers';
+import { getNullCheckedElement } from '../../modules/helpers';
 import * as helpers from '../../modules/helpers';
 import { isDetailsPage } from '../../modules/pages';
 
 if (isDetailsPage(document.location.pathname)) {
-  const categoryContainer = elementNullCheck(document, '.product-category');
-  const brandContainer = elementNullCheck(document, '.product-brand');
-  const nameContainer = elementNullCheck(document, '.product-name');
+  const categoryContainer = getNullCheckedElement(document, '.product-category');
+  const brandContainer = getNullCheckedElement(document, '.product-brand');
+  const nameContainer = getNullCheckedElement(document, '.product-name');
   const currentProductID = +document.location.search.toString().split('=')[1];
   const currentProduct = new Goods(currentProductID);
 
   const cart = new Cart();
 
-  const uiHeader = elementNullCheck(document, '.header-content') as HTMLElement;
+  const uiHeader = getNullCheckedElement(document, '.header-content') as HTMLElement;
   const header = new Header(uiHeader);
   header.refresh();
 
-  const infoContainer = elementNullCheck(document, '.info-stock-container') as HTMLElement;
+  const infoContainer = getNullCheckedElement(document, '.info-stock-container') as HTMLElement;
   const stock = new StockButtons(infoContainer, currentProduct, cart, header);
   stock.draw();
 
-  const uiElement = elementNullCheck(document, '.main-container-product') as HTMLElement;
+  const uiElement = getNullCheckedElement(document, '.main-container-product') as HTMLElement;
   const currentItem = new GoodsCatalogItem(uiElement, currentProduct, cart);
   currentItem.fillProductInfo();
 
   function fillProductPage(product: Goods): void {
-    const fullName = elementNullCheck(document, '.brand-and-title');
-    const sidePicturesContainer = elementNullCheck(document, '.side-pictures');
-    const selectedPicture = elementNullCheck(document, '.selected-picture') as HTMLElement;
-    const infoTitle = elementNullCheck(document, '.info-title');
-    const infoBrand = elementNullCheck(document, '.info-brand');
-    const infoRating = elementNullCheck(document, '.info-rating');
-    const infoDiscount = elementNullCheck(document, '.info-discount');
-    const infoDescription = elementNullCheck(document, '.info-description');
-    const infoStock = elementNullCheck(document, '.info-stock');
-    const infoPrice = elementNullCheck(document, '.info-price');
+    const fullName = getNullCheckedElement(document, '.brand-and-title');
+    const sidePicturesContainer = getNullCheckedElement(document, '.side-pictures');
+    const selectedPicture = getNullCheckedElement(document, '.selected-picture') as HTMLElement;
+    const infoTitle = getNullCheckedElement(document, '.info-title');
+    const infoBrand = getNullCheckedElement(document, '.info-brand');
+    const infoRating = getNullCheckedElement(document, '.info-rating');
+    const infoDiscount = getNullCheckedElement(document, '.info-discount');
+    const infoDescription = getNullCheckedElement(document, '.info-description');
+    const infoStock = getNullCheckedElement(document, '.info-stock');
+    const infoPrice = getNullCheckedElement(document, '.info-price');
 
     fullName.innerHTML = `${product.brand} ${product.title}`;
     infoTitle.innerHTML = `Product name: ${product.title}`;

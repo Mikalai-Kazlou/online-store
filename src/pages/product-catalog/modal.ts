@@ -1,9 +1,9 @@
 import goodsData from '../../modules/goods';
-import { elementNullCheck, formatAmount } from '../../modules/helpers';
+import { getNullCheckedElement, formatAmount } from '../../modules/helpers';
 import { isCatalogPage } from '../../modules/pages';
 
 if (isCatalogPage(document.location.pathname)) {
-  const modal: HTMLElement = elementNullCheck(document, '.modal') as HTMLElement;
+  const modal: HTMLElement = getNullCheckedElement(document, '.modal') as HTMLElement;
   const overlay: HTMLElement = document.querySelector('.overlay') as HTMLElement;
   const btnOpenModal: HTMLElement = document.querySelector('.goods-items') as HTMLElement;
 

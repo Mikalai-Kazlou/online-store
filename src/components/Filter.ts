@@ -1,7 +1,7 @@
 import Goods from './Goods';
 
 import goodsData from '../modules/goods';
-import { sortingType, viewType, FilterType, SearchQueryParameters } from '../modules/enums';
+import { SortingType, ViewType, FilterType, SearchQueryParameters } from '../modules/enums';
 
 export default class Filter {
   private uiElement: HTMLElement;
@@ -157,27 +157,27 @@ export default class Filter {
       if (searchQuery.has(SearchQueryParameters.sorting)) {
         const sorting = searchQuery.get(SearchQueryParameters.sorting);
         const sortInput = document.querySelector('.sort-input') as HTMLSelectElement;
-        if (sorting === sortingType.NameAscending) {
-          sortInput.value = sortingType.NameAscending;
+        if (sorting === SortingType.NameAscending) {
+          sortInput.value = SortingType.NameAscending;
         }
-        if (sorting === sortingType.NameDescending) {
-          sortInput.value = sortingType.NameDescending;
+        if (sorting === SortingType.NameDescending) {
+          sortInput.value = SortingType.NameDescending;
         }
-        if (sorting === sortingType.PriceAscending) {
-          sortInput.value = sortingType.PriceAscending;
+        if (sorting === SortingType.PriceAscending) {
+          sortInput.value = SortingType.PriceAscending;
         }
-        if (sorting === sortingType.PriceDescending) {
-          sortInput.value = sortingType.PriceDescending;
+        if (sorting === SortingType.PriceDescending) {
+          sortInput.value = SortingType.PriceDescending;
         }
       }
       if (searchQuery.has(SearchQueryParameters.view)) {
         const view = searchQuery.get(SearchQueryParameters.view);
         const viewInput = document.querySelector('.view-input') as HTMLSelectElement;
-        if (view === viewType.Standard) {
-          viewInput.value = viewType.Standard;
+        if (view === ViewType.Standard) {
+          viewInput.value = ViewType.Standard;
         }
-        if (view === viewType.Small) {
-          viewInput.value = viewType.Small;
+        if (view === ViewType.Small) {
+          viewInput.value = ViewType.Small;
         }
       }
     }

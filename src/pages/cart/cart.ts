@@ -4,7 +4,7 @@ import '../../modules/purchase';
 import Cart from '../../components/Cart';
 import Header from '../../components/Header';
 
-import { elementNullCheck } from '../../modules/helpers';
+import { getNullCheckedElement } from '../../modules/helpers';
 import { isCartPage } from '../../modules/pages';
 import { CustomActions, SearchQueryParameters } from '../../modules/enums';
 import promoCodes from '../../modules/promo-codes';
@@ -37,24 +37,6 @@ if (isCartPage(document.location.pathname)) {
     }
   }
 
-  document.body.addEventListener('carthasbeenchanged', onCartChanged, false);
-
-  const uiCart = elementNullCheck(document, '.main-container-cart') as HTMLElement;
-  const cart = new Cart(uiCart);
-  cart.draw();
-
-  const uiHeader = elementNullCheck(document, '.header-content') as HTMLElement;
-  const header = new Header(uiHeader);
-  header.refresh();
-
-  const uiPromoInput = elementNullCheck(document, '.promo-input') as HTMLInputElement;
-  uiPromoInput.addEventListener('input', onPromoCodeInput);
-
-  const uiItemsOnPage = elementNullCheck(document, '.items-on-page-value') as HTMLInputElement;
-  uiItemsOnPage.addEventListener('keypress', onItemsOnPageKeyPress);
-
-  const uiPromoOptions = elementNullCheck(document, '.promo-container') as HTMLElement;
-
   function copyPromoCode(event: Event): void {
     const target: HTMLElement = event.target as HTMLElement;
     if (target !== null) {
@@ -68,6 +50,23 @@ if (isCartPage(document.location.pathname)) {
     }
   }
 
+  document.body.addEventListener('carthasbeenchanged', onCartChanged, false);
+
+  const uiCart = getNullCheckedElement(document, '.main-container-cart') as HTMLElement;
+  const cart = new Cart(uiCart);
+  cart.draw();
+
+  const uiHeader = getNullCheckedElement(document, '.header-content') as HTMLElement;
+  const header = new Header(uiHeader);
+  header.refresh();
+
+  const uiPromoInput = getNullCheckedElement(document, '.promo-input') as HTMLInputElement;
+  uiPromoInput.addEventListener('input', onPromoCodeInput);
+
+  const uiItemsOnPage = getNullCheckedElement(document, '.items-on-page-value') as HTMLInputElement;
+  uiItemsOnPage.addEventListener('keypress', onItemsOnPageKeyPress);
+
+  const uiPromoOptions = getNullCheckedElement(document, '.promo-container') as HTMLElement;
   uiPromoOptions.addEventListener('click', copyPromoCode);
 
   window.addEventListener('load', () => {

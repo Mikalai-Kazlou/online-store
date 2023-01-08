@@ -1,17 +1,17 @@
 import Filter from '../components/Filter';
 
 import goodsData from './goods';
-import { elementNullCheck } from './helpers';
+import { getNullCheckedElement } from './helpers';
 import { isCatalogPage } from './pages';
-import { FilterType, sortingType, viewType, SearchQueryParameters } from './enums';
+import { FilterType, SortingType, ViewType, SearchQueryParameters } from './enums';
 
 if (isCatalogPage(document.location.pathname)) {
-  const sortingContainer = elementNullCheck(document, '.sort-input') as HTMLSelectElement;
-  const viewContainer = elementNullCheck(document, '.view-input') as HTMLSelectElement;
-  const goodsItems = elementNullCheck(document, '.goods-items');
+  const sortingContainer = getNullCheckedElement(document, '.sort-input') as HTMLSelectElement;
+  const viewContainer = getNullCheckedElement(document, '.view-input') as HTMLSelectElement;
+  const goodsItems = getNullCheckedElement(document, '.goods-items');
 
-  const goodsNumber = elementNullCheck(document, '.goods-number') as HTMLElement;
-  const filterContent = elementNullCheck(document, '.filters-content') as HTMLElement;
+  const goodsNumber = getNullCheckedElement(document, '.goods-number') as HTMLElement;
+  const filterContent = getNullCheckedElement(document, '.filters-content') as HTMLElement;
   const filter = new Filter(filterContent, goodsNumber);
 
   function disableDefaultSort(): void {
@@ -24,8 +24,8 @@ if (isCatalogPage(document.location.pathname)) {
 
     filter.searchQueryRefresh();
 
-    if (uiElement.value === sortingType.PriceAscending) {
-      filter.searchQueryAppend(SearchQueryParameters.sorting, sortingType.PriceAscending, filter.searchQuery);
+    if (uiElement.value === SortingType.PriceAscending) {
+      filter.searchQueryAppend(SearchQueryParameters.sorting, SortingType.PriceAscending, filter.searchQuery);
       const itemsArr = [];
       for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
@@ -42,9 +42,9 @@ if (isCatalogPage(document.location.pathname)) {
       for (let i = 0; i < itemsArr.length; ++i) {
         goodsItems.appendChild(itemsArr[i]);
       }
-    } else if (uiElement.value === sortingType.PriceDescending) {
+    } else if (uiElement.value === SortingType.PriceDescending) {
       const itemsArr = [];
-      filter.searchQueryAppend(SearchQueryParameters.sorting, sortingType.PriceDescending, filter.searchQuery);
+      filter.searchQueryAppend(SearchQueryParameters.sorting, SortingType.PriceDescending, filter.searchQuery);
       for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
           itemsArr.push(allItems[i]);
@@ -60,8 +60,8 @@ if (isCatalogPage(document.location.pathname)) {
       for (let i = 0; i < itemsArr.length; ++i) {
         goodsItems.appendChild(itemsArr[i]);
       }
-    } else if (uiElement.value === sortingType.NameAscending) {
-      filter.searchQueryAppend(SearchQueryParameters.sorting, sortingType.NameAscending, filter.searchQuery);
+    } else if (uiElement.value === SortingType.NameAscending) {
+      filter.searchQueryAppend(SearchQueryParameters.sorting, SortingType.NameAscending, filter.searchQuery);
       const itemsArr = [];
       for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
@@ -78,8 +78,8 @@ if (isCatalogPage(document.location.pathname)) {
       for (let i = 0; i < itemsArr.length; ++i) {
         goodsItems.appendChild(itemsArr[i]);
       }
-    } else if (uiElement.value === sortingType.NameDescending) {
-      filter.searchQueryAppend(SearchQueryParameters.sorting, sortingType.NameDescending, filter.searchQuery);
+    } else if (uiElement.value === SortingType.NameDescending) {
+      filter.searchQueryAppend(SearchQueryParameters.sorting, SortingType.NameDescending, filter.searchQuery);
       const itemsArr = [];
       for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
@@ -107,18 +107,18 @@ if (isCatalogPage(document.location.pathname)) {
 
     filter.searchQueryRefresh();
 
-    if (uiElement.value === viewType.Standard) {
-      filter.searchQueryAppend(SearchQueryParameters.view, viewType.Standard, filter.searchQuery);
+    if (uiElement.value === ViewType.Standard) {
+      filter.searchQueryAppend(SearchQueryParameters.view, ViewType.Standard, filter.searchQuery);
       allItems.forEach((item) => {
-        if (item.classList.contains(viewType.Small)) item.classList.remove(viewType.Small);
+        if (item.classList.contains(ViewType.Small)) item.classList.remove(ViewType.Small);
       });
       allDescriptions.forEach((item) => {
         if (item.classList.contains('hide')) item.classList.remove('hide');
       });
-    } else if (uiElement.value === viewType.Small) {
-      filter.searchQueryAppend(SearchQueryParameters.view, viewType.Small, filter.searchQuery);
+    } else if (uiElement.value === ViewType.Small) {
+      filter.searchQueryAppend(SearchQueryParameters.view, ViewType.Small, filter.searchQuery);
       allItems.forEach((item) => {
-        if (!item.classList.contains(viewType.Small)) item.classList.add(viewType.Small);
+        if (!item.classList.contains(ViewType.Small)) item.classList.add(ViewType.Small);
       });
       allDescriptions.forEach((item) => {
         if (!item.classList.contains('hide')) item.classList.add('hide');

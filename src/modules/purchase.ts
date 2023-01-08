@@ -1,17 +1,7 @@
 import * as validations from './validations';
 import { isCartPage } from './pages';
-import { PaymentSystems } from './types';
-import { SearchQueryParameters, CustomActions } from './enums';
-
-enum ValidatedFields {
-  name,
-  phone,
-  address,
-  email,
-  card,
-  valid,
-  cvv,
-}
+import { PaymentSystems, ValidatingFunction } from './types';
+import { SearchQueryParameters, CustomActions, ValidatedFields } from './enums';
 
 if (isCartPage(document.location.pathname)) {
   const paymentSystems: PaymentSystems = new Map();
@@ -129,7 +119,7 @@ if (isCartPage(document.location.pathname)) {
     field: ValidatedFields,
     uiValue: HTMLInputElement,
     uiError: HTMLElement,
-    isValid: (value: string) => boolean
+    isValid: ValidatingFunction
   ): boolean {
     switch (false) {
       case uiValue.validity.valid:

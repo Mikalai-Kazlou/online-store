@@ -1,27 +1,18 @@
 import CartItem from './CartItem';
 import Goods from './Goods';
 
-import { PromoCode } from '../modules/types';
+import { PromoCodes, PromoCode, SavedCart } from '../modules/types';
 import promoCodes from '../modules/promo-codes';
 import * as helpers from '../modules/helpers';
 
-interface SavedCart {
-  promo: string[];
-  items: {
-    id: number;
-    qnt: number;
-  }[];
-  page: number;
-  itemsOnPage: number;
-}
-
 export default class Cart {
   private readonly uiCart: HTMLElement | undefined;
+
   items: CartItem[] = [];
-  promoCodes: Set<PromoCode> = new Set();
+  promoCodes: PromoCodes = new Set();
+  searchQuery: URLSearchParams = new URLSearchParams(window.location.search);
   page = 1;
   itemsOnPage = 3;
-  searchQuery: URLSearchParams = new URLSearchParams(window.location.search);
 
   constructor(uiCart?: HTMLElement) {
     this.uiCart = uiCart;
