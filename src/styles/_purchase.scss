@@ -20,6 +20,7 @@
 
   background-color: $color-dark-overlay;
   backdrop-filter: blur(3px);
+  animation: fadeIn 0.25s;
 
   &:hover {
     cursor: pointer;
@@ -34,6 +35,7 @@
   padding: 2rem;
   background-color: $color-light-end;
   border-radius: 10px;
+  animation: fadeIn 0.25s;
 
   cursor: auto;
 

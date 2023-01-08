@@ -161,7 +161,7 @@ body {
     border-color: transparent;
     letter-spacing: 0.1rem;
     margin-bottom: 1.2rem;
-    width: 95%;
+    width: 100%;
 
     &:focus {
         color: $color-text-primary;
@@ -373,6 +373,8 @@ body {
 .view-input {
     border-color: transparent;
     text-transform: capitalize;
+    cursor: pointer;
+    animation: fadeIn 0.25s;
 }
 
 .error-message {
@@ -398,6 +400,7 @@ body {
     border-radius: 1rem;
     box-shadow: 0 3rem 5rem $color-dark-overlay;
     z-index: 100;
+    animation: fadeIn 0.25s;
 }
 
 .overlay {
@@ -409,6 +412,7 @@ body {
     background-color: $color-dark-overlay;
     backdrop-filter: blur(3px);
     z-index: 90;
+    animation: fadeIn 0.25s;
 }
 
 .close-modal {
@@ -421,6 +425,16 @@ body {
     border: none;
     background: none;
     z-index: 110;
+
+    @media screen and (max-width: 860px) {
+        font-size: 4rem;
+        top: -4rem;
+    }
+
+    @media screen and (max-width: 600px) {
+        font-size: 3.5rem;
+        top: -3rem;
+    }
 }
 
 .good-item-modal {
@@ -536,3 +550,13 @@ body {
         display: none;
     }
 }
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+  
+    100% {
+      opacity: 1;
+    }
+  }
