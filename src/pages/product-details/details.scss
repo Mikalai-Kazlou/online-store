@@ -1,17 +1,10 @@
+@import '../../styles/constants';
+
 .main {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
-
-// .big-text {
-//   font-size: 3rem;
-//   font-weight: 400;
-
-//   @media screen and (max-width: 550px) {
-//     font-size: 2.2rem;
-//   }
-// }
 
 .product-wrapper {
   display: flex;
@@ -28,8 +21,8 @@
   gap: 1rem;
   width: 100%;
   height: 100%;
-  max-width: 85vw;
-  border: 0.1rem solid #e8e8e8;
+  max-width: 120rem;
+  border: 0.1rem solid $color-light;
   border-radius: 0.5rem;
   margin: 2vh auto;
   padding: 2rem;
@@ -78,8 +71,8 @@
   width: 10rem;
   height: 10rem;
   border-radius: 1rem;
-  border: 0.1rem solid #e8e8e8;
-  background-color: aliceblue;
+  border: 0.1rem solid $color-light;
+  background-color: $color-lightest;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -89,12 +82,12 @@
 
   &:hover {
     cursor: pointer;
-    box-shadow: 0 0.5rem 0.5rem rgba(202, 202, 202, 0.3);
-    border: 0.1rem solid #bcff86;
+    box-shadow: 0 0.5rem 0.5rem $color-shadow-lighter;
+    border: 0.1rem solid $color-button-hover;
   }
 
   &:active {
-    border: 0.1rem solid darkorchid;
+    border: 0.1rem solid $color-main-bright-accent;
   }
 
   @media screen and (max-width: 1070px) {
@@ -125,8 +118,9 @@
   max-height: 40vh;
   width: auto;
   max-width: 100%;
-  border: 0.1rem solid #e8e8e8;
+  border: 0.1rem solid $color-light;
   border-radius: 1rem;
+  transition: 0.3s;
   animation: fadeIn 0.25s;
 }
 
@@ -172,77 +166,6 @@
   flex-direction: column;
   gap: 1rem;
 }
-
-// .goods-button {
-//   display: block;
-//   background: transparent;
-//   border: transparent;
-//   border-radius: 0.5rem;
-//   border: 0.1rem solid #e8e8e8;
-//   padding: 1rem;
-//   width: 12vw;
-
-//   &:hover {
-//     cursor: pointer;
-//     box-shadow: 0 0.5rem 0.5rem rgba(196, 196, 196, 0.3);
-//     background: #f3f2f2;
-//   }
-
-//   &:active {
-//     border: 0.1rem solid darkorchid;
-//   }
-
-//   @media screen and (max-width: 768px) {
-//     width: 15rem;
-//     height: 4rem;
-//     padding: 0.2rem;
-//   }
-
-//   @media screen and (max-width: 400px) {
-//     width: 12rem;
-//     height: auto;
-//     padding: 0.1rem;
-//   }
-// }
-
-// .product-button {
-//   display: block;
-//   background: transparent;
-//   border: transparent;
-//   border-radius: 0.5rem;
-//   border: 0.1rem solid #e8e8e8;
-//   padding: 1rem;
-//   width: 100%;
-//   text-align: center;
-
-//   &:hover {
-//     cursor: pointer;
-//     box-shadow: 0 0.5rem 0.5rem rgba(196, 196, 196, 0.3);
-//     background: #d0eeab;
-//   }
-
-//   &:active {
-//     border: 0.1rem solid rgb(50, 204, 50);
-//   }
-// }
-
-// .bread-text {
-//   font-size: 3rem;
-//   font-weight: 500;
-//   text-transform: capitalize;
-//   text-decoration: none;
-//   color: black;
-
-//   &:hover {
-//     cursor: pointer;
-//     color: darkorchid;
-//   }
-
-//   @media screen and (max-width: 500px) {
-//     font-size: 2rem;
-//     font-weight: 400;
-//   }
-// }
 
 .breadcrumb {
   display: flex;

@@ -1,3 +1,5 @@
+@import './constants';
+
 .header-container {
     height: 10rem;
     display: flex;
@@ -66,7 +68,7 @@
     position: absolute;
     top: -1rem;
     right: -0.5rem;
-    background: rgba(132, 128, 194, 1);
+    background: $color-main;
     width: 0.9rem;
     height: 0.9rem;
     display: flex;
@@ -76,7 +78,7 @@
     justify-content: center;
     border-radius: 50%;
     font-size: 0.75rem;
-    color: #fff;
+    color: $color-light-end;
     padding: 1rem;
 }
 

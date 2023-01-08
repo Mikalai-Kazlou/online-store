@@ -1,6 +1,8 @@
+@import './constants';
+
 .main-text {
     font-size: 2.2rem;
-    color: #252323;
+    color: $color-text-primary;
     text-decoration: none;
     font-weight: 400;
     text-transform: capitalize;
@@ -22,7 +24,7 @@
 
 .small-text {
     font-size: 1.5rem;
-    color: #413f3f;
+    color: $color-text-primary;
     text-decoration: none;
     text-transform: capitalize;
     white-space: pre-line;
@@ -44,11 +46,11 @@
     font-weight: 500;
     text-transform: capitalize;
     text-decoration: none;
-    color: black;
+    color: $color-text-darker;
 
     &:hover {
         cursor: pointer;
-        color: darkorchid;
+        color: $color-main-bright-accent;
     }
 
     @media screen and (max-width: 500px) {

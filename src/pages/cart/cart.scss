@@ -1,4 +1,5 @@
 @import '../../styles/purchase';
+@import '../../styles/constants';
 
 .cart-wrapper {
   display: flex;
@@ -36,7 +37,7 @@
 .cart-content {
   flex-grow: 1;
   padding: 1rem;
-  border: 0.1rem solid #e8e8e8;
+  border: 0.1rem solid $color-light;
   border-radius: 0.5rem;
 }
 
@@ -51,9 +52,9 @@
     gap: 1rem;
     position: sticky;
     top: 0;
-    background-color: white;
+    background-color: $color-light-end;
     padding-bottom: 1rem;
-    box-shadow: 0px -5px 5px -5px rgba(229, 229, 229, 0.6) inset;
+    box-shadow: 0px -5px 5px -5px $color-shadow-lighter inset;
     border-radius: 0.5rem;
   }
 }
@@ -62,19 +63,19 @@
 .items-on-page-label,
 .items-on-page-value {
   font-size: 1.5rem;
-  color: #413f3f;
+  color: $color-text-primary;
   display: flex;
   gap: 1rem;
 }
 
 .items-on-page-value {
   width: 5rem;
-  border-color: #8080801f;
+  border-color: $color-shadow-lighter;
   border-radius: 0.5rem;
   text-align: center;
 
   &:focus {
-    background-color: #bcff8661;
+    background-color: $color-input-focus;
   }
 }
 
@@ -90,7 +91,7 @@
   border-radius: 0.5rem;
 
   &:hover {
-    background-color: #e6fdd3;
+    background-color: $color-button-hover;
   }
 
   &:active {
@@ -120,7 +121,7 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  border: 0.1rem solid #e8e8e8;
+  border: 0.1rem solid $color-light;
   border-radius: 0.5rem;
 
   .info-container {
@@ -173,7 +174,7 @@
   align-items: center;
   min-width: 20vw;
   padding: 1rem;
-  border: 0.1rem solid #e8e8e8;
+  border: 0.1rem solid $color-light;
   border-radius: 0.5rem;
   height: fit-content;
   position: sticky;
@@ -199,27 +200,32 @@
 
 .promo-codes {
   list-style: none;
+  width: 100%;
 }
 
 .promo-code {
   display: flex;
   margin: 1rem;
+  gap: 0.2rem;
+  justify-content: center;
 }
 
 .promo-text {
-  display: inline-block;
-  width: 200px;
+  display: flex;
+  max-width: 20rem;
   text-align: center;
   text-transform: uppercase;
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 400;
-  border-radius: 10px;
-  background: linear-gradient(90deg, #8480c2 0%, #8884c2 47%, #938fca 100%);
+  border-radius: 0.5rem;
+  background: $color-main-gradient;
+  justify-content: center;
+  width: 100%;
 }
 
 .promo-delete {
-  width: 24px;
-  height: 24px;
+  width: 2.4rem;
+  height: 2.4rem;
   text-align: center;
   text-transform: uppercase;
   font-size: 2rem;
@@ -252,7 +258,7 @@
   text-align: center;
   border-radius: 0.5rem;
   border-color: transparent;
-  background: linear-gradient(90deg, #8480c2 0%, #8884c2 47%, #938fca 100%);
+  background: $color-main-gradient;
   align-self: center;
   opacity: 0.7;
 
