@@ -115,10 +115,10 @@ if (isCatalogPage(document.location.pathname)) {
     const target: HTMLElement = event.target as HTMLElement;
     if (target !== null) {
       const clickedOption = target.closest('button') as HTMLButtonElement;
-      if (clickedOption.classList.contains('selected')) {
-        clickedOption.classList.remove('selected');
+      if (clickedOption?.classList.contains('selected')) {
+        clickedOption?.classList.remove('selected');
       } else {
-        clickedOption.classList.add('selected');
+        clickedOption?.classList.add('selected');
       }
     }
     refreshFilters(FilterType.category);
@@ -128,10 +128,10 @@ if (isCatalogPage(document.location.pathname)) {
     const target: HTMLElement = event.target as HTMLElement;
     if (target !== null) {
       const clickedOption = target.closest('button') as HTMLButtonElement;
-      if (clickedOption.classList.contains('selected')) {
-        clickedOption.classList.remove('selected');
+      if (clickedOption?.classList.contains('selected')) {
+        clickedOption?.classList.remove('selected');
       } else {
-        clickedOption.classList.add('selected');
+        clickedOption?.classList.add('selected');
       }
     }
     refreshFilters(FilterType.brand);
