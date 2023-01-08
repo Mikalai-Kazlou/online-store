@@ -18,4 +18,4 @@ export interface SavedCart {
   itemsOnPage: number;
 }
 
-export type ValidatingFunction = (value: string) => boolean;
+export type ValidatingFunction<T> = (value: T) => boolean;

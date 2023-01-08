@@ -119,7 +119,7 @@ if (isCartPage(document.location.pathname)) {
     field: ValidatedFields,
     uiValue: HTMLInputElement,
     uiError: HTMLElement,
-    isValid: ValidatingFunction
+    isValid: ValidatingFunction<string>
   ): boolean {
     switch (false) {
       case uiValue.validity.valid:
