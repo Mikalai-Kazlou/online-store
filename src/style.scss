@@ -422,6 +422,10 @@ body {
 
 .big-picture {
     height: 45rem;
+
+    @media screen and (max-height: 620px) {
+        height: 80%;
+    }
 }
 
 .sort-input,
@@ -456,6 +460,7 @@ body {
     box-shadow: 0 3rem 5rem $color-dark-overlay;
     z-index: 100;
     animation: fadeIn 0.25s;
+    max-height: 80vh;
 }
 
 .overlay {
@@ -516,6 +521,11 @@ body {
 
     @media screen and (max-width: 860px) {
         height: auto;
+        gap: 1.2rem;
+    }
+
+    @media screen and (max-height: 500px) {
+        gap: 0.5rem;
     }
 }
 
