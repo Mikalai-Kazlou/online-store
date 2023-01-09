@@ -188,8 +188,9 @@ body {
         border-color: $color-invalid;
         background: $color-invalid-muted;
 
-    @media screen and (max-height: 680px) {
-        margin-bottom: 0.2rem;
+        @media screen and (max-height: 680px) {
+            margin-bottom: 0.2rem;
+        }
     }
 }
 
@@ -607,10 +608,10 @@ body {
 
 @keyframes fadeIn {
     0% {
-      opacity: 0;
+        opacity: 0;
     }
-  
+
     100% {
-      opacity: 1;
+        opacity: 1;
     }
-  }
+}
