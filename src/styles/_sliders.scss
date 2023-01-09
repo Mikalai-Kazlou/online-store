@@ -8,6 +8,10 @@
     pointer-events: none;
     margin-top: 1.7rem;
     opacity: 1;
+
+    @media screen and (max-height: 500px) {
+        margin-top: 1.3rem;
+    }
 }
 
 .slider::-webkit-slider-thumb {

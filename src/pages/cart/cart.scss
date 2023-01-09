@@ -179,6 +179,7 @@
   height: fit-content;
   position: sticky;
   top: 1rem;
+  gap: 1rem;
 
   @media screen and (max-width: 670px) {
     position: static;
@@ -186,8 +187,6 @@
 }
 
 .totals {
-  padding: 1rem 0;
-
   @media screen and (max-width: 670px) {
     display: flex;
     gap: 2rem;
