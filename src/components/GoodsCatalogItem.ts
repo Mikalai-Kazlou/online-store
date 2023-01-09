@@ -1,28 +1,26 @@
 import Cart from './Cart';
 import Goods from './Goods';
 import Header from './Header';
+
 import * as helpers from '../modules/helpers';
 
 export default class GoodsCatalogItem {
   private uiElement: HTMLElement;
   private goods: Goods;
   private cart: Cart;
-  private header?: Header;
 
-  constructor(uiElement: HTMLElement, goods: Goods, cart: Cart, header?: Header) {
+  constructor(uiElement: HTMLElement, goods: Goods, cart: Cart) {
     this.uiElement = uiElement;
     this.goods = goods;
     this.cart = cart;
-    this.header = header;
   }
 
-  draw() {
+  draw(): void {
     const uiHeader = document.querySelector('.header-content') as HTMLElement;
     const header = new Header(uiHeader);
 
     const uiPicture = document.createElement('div');
     uiPicture.classList.add('picture');
-    //uiPicture.style.backgroundImage = `url("${this.goods.thumbnail}")`;
     helpers.loadImage(this.goods.thumbnail, uiPicture);
 
     const uiProductName = document.createElement('div');
@@ -66,13 +64,13 @@ export default class GoodsCatalogItem {
     this.refresh();
   }
 
-  fillProductInfo() {
+  fillProductInfo(): void {
     const uiAddToCart = this.uiElement.querySelector('.add-to-cart') as HTMLButtonElement;
     uiAddToCart.addEventListener('click', () => this.addToCart());
     this.refresh();
   }
 
-  private refresh() {
+  private refresh(): void {
     const uiHeader = document.querySelector('.header-content') as HTMLElement;
     const header = new Header(uiHeader);
 
@@ -85,7 +83,7 @@ export default class GoodsCatalogItem {
     header.refresh();
   }
 
-  addToCart() {
+  addToCart(): void {
     if (this.cart.has(this.goods)) {
       this.cart.drop(this.goods);
     } else {
@@ -99,7 +97,7 @@ export default class GoodsCatalogItem {
     this.refresh();
   }
 
-  private showDetails() {
+  private showDetails(): void {
     location.href = `./details.html?id=${this.goods.id}`;
   }
 }

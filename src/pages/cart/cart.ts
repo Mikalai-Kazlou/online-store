@@ -1,18 +1,21 @@
 import './cart.scss';
-
-import { elementNullCheck } from '../../modules/helpers';
-import Header from '../../components/Header';
-import Cart from '../../components/Cart';
-import promoCodes from '../../modules/promo-codes';
 import '../../modules/purchase';
 
-if (document.location.pathname.includes('cart')) {
-  function onCartChanged() {
+import Cart from '../../components/Cart';
+import Header from '../../components/Header';
+
+import { getNullCheckedElement } from '../../modules/helpers';
+import { isCartPage } from '../../modules/pages';
+import { CustomActions, SearchQueryParameters } from '../../modules/enums';
+import promoCodes from '../../modules/promo-codes';
+
+if (isCartPage(document.location.pathname)) {
+  function onCartChanged(): void {
     cart.draw();
     header.refresh();
   }
 
-  function onPromoCodeInput(event: Event) {
+  function onPromoCodeInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     const code = promoCodes.find((code) => code.id === input.value);
 
@@ -22,7 +25,7 @@ if (document.location.pathname.includes('cart')) {
     }
   }
 
-  function onItemsOnPageKeyPress(event: KeyboardEvent) {
+  function onItemsOnPageKeyPress(event: KeyboardEvent): void {
     const input = event.target as HTMLInputElement;
     const numbers = '0123456789'.split('');
 
@@ -33,24 +36,6 @@ if (document.location.pathname.includes('cart')) {
       event.preventDefault();
     }
   }
-
-  document.body.addEventListener('carthasbeenchanged', onCartChanged, false);
-
-  const uiCart = elementNullCheck(document, '.main-container-cart') as HTMLElement;
-  const cart = new Cart(uiCart);
-  cart.draw();
-
-  const uiHeader = elementNullCheck(document, '.header-content') as HTMLElement;
-  const header = new Header(uiHeader);
-  header.refresh();
-
-  const uiPromoInput = elementNullCheck(document, '.promo-input') as HTMLInputElement;
-  uiPromoInput.addEventListener('input', onPromoCodeInput);
-
-  const uiItemsOnPage = elementNullCheck(document, '.items-on-page-value') as HTMLInputElement;
-  uiItemsOnPage.addEventListener('keypress', onItemsOnPageKeyPress);
-
-  const uiPromoOptions = elementNullCheck(document, '.promo-container') as HTMLElement;
 
   function copyPromoCode(event: Event): void {
     const target: HTMLElement = event.target as HTMLElement;
@@ -65,10 +50,27 @@ if (document.location.pathname.includes('cart')) {
     }
   }
 
+  document.body.addEventListener('carthasbeenchanged', onCartChanged, false);
+
+  const uiCart = getNullCheckedElement(document, '.main-container-cart') as HTMLElement;
+  const cart = new Cart(uiCart);
+  cart.draw();
+
+  const uiHeader = getNullCheckedElement(document, '.header-content') as HTMLElement;
+  const header = new Header(uiHeader);
+  header.refresh();
+
+  const uiPromoInput = getNullCheckedElement(document, '.promo-input') as HTMLInputElement;
+  uiPromoInput.addEventListener('input', onPromoCodeInput);
+
+  const uiItemsOnPage = getNullCheckedElement(document, '.items-on-page-value') as HTMLInputElement;
+  uiItemsOnPage.addEventListener('keypress', onItemsOnPageKeyPress);
+
+  const uiPromoOptions = getNullCheckedElement(document, '.promo-container') as HTMLElement;
   uiPromoOptions.addEventListener('click', copyPromoCode);
 
   window.addEventListener('load', () => {
-    cart.parseQueryString(cart.searchQuery);
+    cart.parseQueryString();
   });
 
   // -------------------------------------------------------------
@@ -81,7 +83,7 @@ if (document.location.pathname.includes('cart')) {
   const uiTitle = document.querySelector('.error-message>.title') as HTMLElement;
   let sec = 5;
 
-  function displayMessage() {
+  function displayMessage(): void {
     if (sec === 0) {
       location.href = './';
     } else {
@@ -90,7 +92,7 @@ if (document.location.pathname.includes('cart')) {
     }
   }
 
-  if (searchParams.get('action') === 'submit') {
+  if (searchParams.get(SearchQueryParameters.action) === CustomActions.submit) {
     cart.clear();
     displayMessage();
   }

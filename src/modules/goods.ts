@@ -13,10 +13,8 @@ const goodsData = {
       thumbnail: 'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
       images: [
         'https://i.dummyjson.com/data/products/1/1.jpg',
-        //'https://i.dummyjson.com/data/products/1/2.jpg',
         'https://i.dummyjson.com/data/products/1/3.jpg',
         'https://i.dummyjson.com/data/products/1/4.jpg',
-        //'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
       ],
     },
     {
@@ -176,7 +174,6 @@ const goodsData = {
       thumbnail: 'https://i.dummyjson.com/data/products/10/thumbnail.jpeg',
       images: [
         'https://i.dummyjson.com/data/products/10/1.jpg',
-        //'https://i.dummyjson.com/data/products/10/2.jpg',
         'https://i.dummyjson.com/data/products/10/3.jpg',
         'https://i.dummyjson.com/data/products/10/thumbnail.jpeg',
       ],
@@ -480,7 +477,6 @@ const goodsData = {
         'https://i.dummyjson.com/data/products/26/2.jpg',
         'https://i.dummyjson.com/data/products/26/3.jpg',
         'https://i.dummyjson.com/data/products/26/4.jpg',
-        //'https://i.dummyjson.com/data/products/26/5.jpg',
         'https://i.dummyjson.com/data/products/26/thumbnail.jpg',
       ],
     },

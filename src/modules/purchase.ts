@@ -1,15 +1,10 @@
-enum ValidatedFields {
-  name,
-  phone,
-  address,
-  email,
-  card,
-  valid,
-  cvv,
-}
+import * as validations from './validations';
+import { isCartPage } from './pages';
+import { PaymentSystems, ValidatingFunction } from './types';
+import { SearchQueryParameters, CustomActions, ValidatedFields } from './enums';
 
-if (document.location.pathname.includes('cart')) {
-  const paymentSystems: Map<string, string> = new Map();
+if (isCartPage(document.location.pathname)) {
+  const paymentSystems: PaymentSystems = new Map();
   paymentSystems.set('4', 'Visa');
   paymentSystems.set('5', 'MasterCard');
   paymentSystems.set('6', 'UnionPay');
@@ -21,11 +16,11 @@ if (document.location.pathname.includes('cart')) {
   const search = document.location.search;
   const searchParams = new URLSearchParams(search);
 
-  if (searchParams.get('action') === 'buy') {
+  if (searchParams.get(SearchQueryParameters.action) === CustomActions.buy) {
     showPurchaseWindow();
   }
 
-  function showPurchaseWindow() {
+  function showPurchaseWindow(): void {
     const uiPurchaseBackground = document.querySelector('.purchase-background');
     uiPurchaseBackground?.classList.remove('no-display');
     document.body.classList.add('no-scroll');
@@ -34,15 +29,15 @@ if (document.location.pathname.includes('cart')) {
     uiErrors.forEach((uiError) => (uiError.textContent = ''));
   }
 
-  function hidePurchaseWindow(event: Event) {
+  function hidePurchaseWindow(event: Event): void {
     const target = event.target as HTMLElement;
     if (!target?.classList.contains('purchase-background')) return;
 
     target?.classList.add('no-display');
     document.body.classList.remove('no-scroll');
 
-    if (searchParams.has('action')) {
-      searchParams.delete('action');
+    if (searchParams.has(SearchQueryParameters.action)) {
+      searchParams.delete(SearchQueryParameters.action);
       document.location.search = searchParams.toString();
     }
   }
@@ -87,36 +82,6 @@ if (document.location.pathname.includes('cart')) {
   const uiCvvError = document.querySelector('.purchase-cvv-error') as HTMLElement;
   uiCvvValue.addEventListener('keypress', onCvvKeyPress);
 
-  function isNameValid(value: string): boolean {
-    const words = value.split(' ');
-    return words.length >= 2 && words.every((word) => word.length >= 3);
-  }
-
-  function isPhoneValid(value: string): boolean {
-    return /^\+[0-9]{9,}$/.test(value);
-  }
-
-  function isAddressValid(value: string): boolean {
-    const words = value.split(' ');
-    return words.length >= 3 && words.every((word) => word.length >= 5);
-  }
-
-  function isEmailValid(value: string): boolean {
-    return /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(value);
-  }
-
-  function isCardValid(value: string): boolean {
-    return /^[0-9]{16}$/.test(value);
-  }
-
-  function isValidValid(value: string): boolean {
-    return /^(0[1-9])|(1[0-2])\/[0-9]{2}$/.test(value);
-  }
-
-  function isCvvValid(value: string): boolean {
-    return /^[0-9]{3}$/.test(value);
-  }
-
   function showValidationMessage(uiValue: HTMLInputElement, uiError: HTMLElement) {
     uiError.textContent = uiValue.validationMessage;
   }
@@ -154,7 +119,7 @@ if (document.location.pathname.includes('cart')) {
     field: ValidatedFields,
     uiValue: HTMLInputElement,
     uiError: HTMLElement,
-    isValid: (value: string) => boolean
+    isValid: ValidatingFunction<string>
   ): boolean {
     switch (false) {
       case uiValue.validity.valid:
@@ -177,13 +142,13 @@ if (document.location.pathname.includes('cart')) {
 
   function validateFields(event: Event): void {
     const isAllFieldsValid =
-      isValidationPassed(ValidatedFields.name, uiNameValue, uiNameError, isNameValid) &&
-      isValidationPassed(ValidatedFields.phone, uiPhoneValue, uiPhoneError, isPhoneValid) &&
-      isValidationPassed(ValidatedFields.address, uiAddressValue, uiAddressError, isAddressValid) &&
-      isValidationPassed(ValidatedFields.email, uiEmailValue, uiEmailError, isEmailValid) &&
-      isValidationPassed(ValidatedFields.card, uiCardValue, uiCardError, isCardValid) &&
-      isValidationPassed(ValidatedFields.valid, uiValidValue, uiValidError, isValidValid) &&
-      isValidationPassed(ValidatedFields.cvv, uiCvvValue, uiCvvError, isCvvValid);
+      isValidationPassed(ValidatedFields.name, uiNameValue, uiNameError, validations.isNameValid) &&
+      isValidationPassed(ValidatedFields.phone, uiPhoneValue, uiPhoneError, validations.isPhoneValid) &&
+      isValidationPassed(ValidatedFields.address, uiAddressValue, uiAddressError, validations.isAddressValid) &&
+      isValidationPassed(ValidatedFields.email, uiEmailValue, uiEmailError, validations.isEmailValid) &&
+      isValidationPassed(ValidatedFields.card, uiCardValue, uiCardError, validations.isCardValid) &&
+      isValidationPassed(ValidatedFields.valid, uiValidValue, uiValidError, validations.isValidValid) &&
+      isValidationPassed(ValidatedFields.cvv, uiCvvValue, uiCvvError, validations.isCvvValid);
 
     if (!isAllFieldsValid) {
       event.preventDefault();
@@ -194,24 +159,24 @@ if (document.location.pathname.includes('cart')) {
   // Input control
   // -------------------------------------------------------------
 
-  function definePaymentSystem(digit: string) {
+  function definePaymentSystem(digit: string): string {
     const system = paymentSystems.get(digit);
     return system ? system : '';
   }
 
-  function onCardInput(event: Event) {
+  function onCardInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     uiPaymentSystem.textContent = definePaymentSystem(input.value.toString()[0]);
   }
 
-  function onPhoneKeyPress(event: KeyboardEvent) {
+  function onPhoneKeyPress(event: KeyboardEvent): void {
     const allowedCharacters = '0123456789+'.split('');
     if (!allowedCharacters.includes(event.key)) {
       event.preventDefault();
     }
   }
 
-  function onCardKeyPress(event: KeyboardEvent) {
+  function onCardKeyPress(event: KeyboardEvent): void {
     const allowedCharacters = '0123456789'.split('');
     const input = event.target as HTMLInputElement;
 
@@ -223,7 +188,7 @@ if (document.location.pathname.includes('cart')) {
     }
   }
 
-  function onValidKeyPress(event: KeyboardEvent) {
+  function onValidKeyPress(event: KeyboardEvent): void {
     const allowedCharacters = '0123456789/'.split('');
     const input = event.target as HTMLInputElement;
 
@@ -241,7 +206,7 @@ if (document.location.pathname.includes('cart')) {
     }
   }
 
-  function onCvvKeyPress(event: KeyboardEvent) {
+  function onCvvKeyPress(event: KeyboardEvent): void {
     const allowedCharacters = '0123456789'.split('');
     const input = event.target as HTMLInputElement;
 

@@ -1,11 +1,11 @@
-export enum sortingType {
+export enum SortingType {
   PriceAscending = 'price-lowest',
   PriceDescending = 'price-highest',
   NameAscending = 'name-a',
   NameDescending = 'name-z',
 }
 
-export enum viewType {
+export enum ViewType {
   Standard = 'view-standard',
   Small = 'view-small',
 }
@@ -30,4 +30,20 @@ export enum SearchQueryParameters {
   brand = 'brand',
   price = 'price',
   stock = 'stock',
+  action = 'action',
+}
+
+export enum CustomActions {
+  buy = 'buy',
+  submit = 'submit',
+}
+
+export enum ValidatedFields {
+  name,
+  phone,
+  address,
+  email,
+  card,
+  valid,
+  cvv,
 }
