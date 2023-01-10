@@ -113,7 +113,7 @@ if (isCatalogPage(document.location.pathname)) {
 
   function categoryFilter(event: Event): void {
     const target: HTMLElement = event.target as HTMLElement;
-    if (target !== null) {
+    if (target) {
       const clickedOption = target.closest('button') as HTMLButtonElement;
       if (clickedOption?.classList.contains('selected')) {
         clickedOption?.classList.remove('selected');
@@ -126,7 +126,7 @@ if (isCatalogPage(document.location.pathname)) {
 
   function brandFilter(event: Event): void {
     const target: HTMLElement = event.target as HTMLElement;
-    if (target !== null) {
+    if (target) {
       const clickedOption = target.closest('button') as HTMLButtonElement;
       if (clickedOption?.classList.contains('selected')) {
         clickedOption?.classList.remove('selected');
