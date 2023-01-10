@@ -38,8 +38,7 @@ if (isCatalogPage(document.location.pathname)) {
   function printButtons(array: string[], parent: Element, cls: string): void {
     for (let i = 0; i < array.length; i++) {
       const btn = document.createElement('button');
-      btn.classList.add('button');
-      btn.classList.add(`${cls}`);
+      btn.classList.add('button', `${cls}`);
       const buttonName = document.createElement('div');
       buttonName.classList.add('button-name');
       const buttonAmount = document.createElement('div');

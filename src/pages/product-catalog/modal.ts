@@ -16,8 +16,7 @@ if (isCatalogPage(document.location.pathname)) {
     good.classList.add('good-item-modal');
 
     const picture = document.createElement('div');
-    picture.classList.add('picture');
-    picture.classList.add('big-picture');
+    picture.classList.add('picture', 'big-picture');
     picture.style.backgroundImage = `url("${goodsData.products[id - 1].images[0] || goodsData.products[0].images[0]}")`;
 
     const goodInfo = document.createElement('div');
