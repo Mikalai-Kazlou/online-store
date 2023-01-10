@@ -26,24 +26,23 @@ if (isCatalogPage(document.location.pathname)) {
 
     if (uiElement.value === SortingType.PriceAscending) {
       filter.searchQueryAppend(SearchQueryParameters.sorting, SortingType.PriceAscending, filter.searchQuery);
-      const itemsArr = [];
+      const itemsArr: Element[] = [];
       for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
           itemsArr.push(allItems[i]);
         }
       }
 
-      itemsArr.sort(function (a, b) {
-        const productAPrice = goodsData.products[+a.id - 1].price;
-        const productBPrice = goodsData.products[+b.id - 1].price;
-        return productAPrice == productBPrice ? 0 : productAPrice > productBPrice ? 1 : -1;
-      });
+      itemsArr
+        .sort(function (a, b) {
+          const productAPrice = goodsData.products[+a.id - 1].price;
+          const productBPrice = goodsData.products[+b.id - 1].price;
+          return productAPrice == productBPrice ? 0 : productAPrice > productBPrice ? 1 : -1;
+        })
+        .forEach((item) => goodsItems.appendChild(item));
 
-      for (let i = 0; i < itemsArr.length; ++i) {
-        goodsItems.appendChild(itemsArr[i]);
-      }
     } else if (uiElement.value === SortingType.PriceDescending) {
-      const itemsArr = [];
+      const itemsArr: Element[] = [];
       filter.searchQueryAppend(SearchQueryParameters.sorting, SortingType.PriceDescending, filter.searchQuery);
       for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
@@ -51,51 +50,47 @@ if (isCatalogPage(document.location.pathname)) {
         }
       }
 
-      itemsArr.sort(function (a, b) {
-        const productAPrice = goodsData.products[+a.id - 1].price;
-        const productBPrice = goodsData.products[+b.id - 1].price;
-        return productAPrice == productBPrice ? 0 : productAPrice < productBPrice ? 1 : -1;
-      });
+      itemsArr
+        .sort(function (a, b) {
+          const productAPrice = goodsData.products[+a.id - 1].price;
+          const productBPrice = goodsData.products[+b.id - 1].price;
+          return productAPrice == productBPrice ? 0 : productAPrice < productBPrice ? 1 : -1;
+        })
+        .forEach((item) => goodsItems.appendChild(item));
 
-      for (let i = 0; i < itemsArr.length; ++i) {
-        goodsItems.appendChild(itemsArr[i]);
-      }
     } else if (uiElement.value === SortingType.NameAscending) {
       filter.searchQueryAppend(SearchQueryParameters.sorting, SortingType.NameAscending, filter.searchQuery);
-      const itemsArr = [];
+      const itemsArr: Element[] = [];
       for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
           itemsArr.push(allItems[i]);
         }
       }
 
-      itemsArr.sort(function (a, b) {
-        const productATitle = goodsData.products[+a.id - 1].title;
-        const productBTitle = goodsData.products[+b.id - 1].title;
-        return productATitle == productBTitle ? 0 : productATitle > productBTitle ? 1 : -1;
-      });
+      itemsArr
+        .sort(function (a, b) {
+          const productATitle = goodsData.products[+a.id - 1].title;
+          const productBTitle = goodsData.products[+b.id - 1].title;
+          return productATitle == productBTitle ? 0 : productATitle > productBTitle ? 1 : -1;
+        })
+        .forEach((item) => goodsItems.appendChild(item));
 
-      for (let i = 0; i < itemsArr.length; ++i) {
-        goodsItems.appendChild(itemsArr[i]);
-      }
     } else if (uiElement.value === SortingType.NameDescending) {
       filter.searchQueryAppend(SearchQueryParameters.sorting, SortingType.NameDescending, filter.searchQuery);
-      const itemsArr = [];
+      const itemsArr: Element[] = [];
       for (const i in allItems) {
         if (allItems[i].nodeType == 1) {
           itemsArr.push(allItems[i]);
         }
       }
 
-      itemsArr.sort(function (a, b) {
-        const productATitle = goodsData.products[+a.id - 1].title;
-        const productBTitle = goodsData.products[+b.id - 1].title;
-        return productATitle == productBTitle ? 0 : productATitle < productBTitle ? 1 : -1;
-      });
-
-      for (let i = 0; i < itemsArr.length; ++i) {
-        goodsItems.appendChild(itemsArr[i]);
-      }
+      itemsArr
+        .sort(function (a, b) {
+          const productATitle = goodsData.products[+a.id - 1].title;
+          const productBTitle = goodsData.products[+b.id - 1].title;
+          return productATitle == productBTitle ? 0 : productATitle < productBTitle ? 1 : -1;
+        })
+        .forEach((item) => goodsItems.appendChild(item));
     }
 
     filter.getMatchedResults(FilterType.sorting);
