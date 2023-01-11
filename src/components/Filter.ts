@@ -157,27 +157,27 @@ export default class Filter {
       if (searchQuery.has(SearchQueryParameters.sorting)) {
         const sorting = searchQuery.get(SearchQueryParameters.sorting);
         const sortInput = document.querySelector('.sort-input') as HTMLSelectElement;
-        if (sorting === SortingType.NameAscending) {
-          sortInput.value = SortingType.NameAscending;
+        if (sorting === SortingType.nameAscending) {
+          sortInput.value = SortingType.nameAscending;
         }
-        if (sorting === SortingType.NameDescending) {
-          sortInput.value = SortingType.NameDescending;
+        if (sorting === SortingType.nameDescending) {
+          sortInput.value = SortingType.nameDescending;
         }
-        if (sorting === SortingType.PriceAscending) {
-          sortInput.value = SortingType.PriceAscending;
+        if (sorting === SortingType.priceAscending) {
+          sortInput.value = SortingType.priceAscending;
         }
-        if (sorting === SortingType.PriceDescending) {
-          sortInput.value = SortingType.PriceDescending;
+        if (sorting === SortingType.priceDescending) {
+          sortInput.value = SortingType.priceDescending;
         }
       }
       if (searchQuery.has(SearchQueryParameters.view)) {
         const view = searchQuery.get(SearchQueryParameters.view);
         const viewInput = document.querySelector('.view-input') as HTMLSelectElement;
-        if (view === ViewType.Standard) {
-          viewInput.value = ViewType.Standard;
+        if (view === ViewType.standard) {
+          viewInput.value = ViewType.standard;
         }
-        if (view === ViewType.Small) {
-          viewInput.value = ViewType.Small;
+        if (view === ViewType.small) {
+          viewInput.value = ViewType.small;
         }
       }
     }

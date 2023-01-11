@@ -10,7 +10,7 @@ export default class GoodsData {
   }
 
   static getMaxPrice(): number {
-    return Math.max(...this.getAllPrice());;
+    return Math.max(...this.getAllPrice());
   }
 
   static getAllStock(): number[] {

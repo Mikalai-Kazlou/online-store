@@ -70,14 +70,14 @@ if (isCatalogPage(document.location.pathname)) {
   }
 
   const openModal = function (event: Event): void {
-      const target = event.target as HTMLButtonElement;
-      if (!target.classList.contains('goods-button')) {
-        const clickedOption = target.closest('button') as HTMLButtonElement;
-          const id: number = +clickedOption.id;
-          addModalProduct(id, modal);
-          modal.classList.remove('hide');
-          overlay.classList.remove('hide');
-      }
+    const target = event.target as HTMLButtonElement;
+    if (!target.classList.contains('goods-button')) {
+      const clickedOption = target.closest('button') as HTMLButtonElement;
+      const id: number = +clickedOption.id;
+      addModalProduct(id, modal);
+      modal.classList.remove('hide');
+      overlay.classList.remove('hide');
+    }
   };
 
   const closeModal = function (): void {

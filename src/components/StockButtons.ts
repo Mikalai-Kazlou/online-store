@@ -35,7 +35,7 @@ export default class StockButtons {
     selectedAmount.innerHTML = `${this.getCurrentAmount(this.goods)}`;
 
     const plusButton = document.createElement('button');
-    plusButton.classList.add('amount-button', 'main-text','button-increment');
+    plusButton.classList.add('amount-button', 'main-text', 'button-increment');
     plusButton.innerHTML = '+';
 
     plusButton.addEventListener('click', () => this.incrementStock(this.goods, selectedAmount, this.cart));
