@@ -18,20 +18,12 @@ if (isCatalogPage(document.location.pathname)) {
   const brandButtons = getNullCheckedElement(document, '.filter-brand-buttons');
 
   function getCategories(): Set<string> {
-    const length = goodsData.products.length;
-    const result: string[] = [];
-    for (let i = 0; i < length; i++) {
-      result.push(goodsData.products[i].category);
-    }
+    const result = goodsData.products.map((product) => product.category);
     return new Set(result);
   }
 
   function getBrands(): Set<string> {
-    const length = goodsData.products.length;
-    const result: string[] = [];
-    for (let i = 0; i < length; i++) {
-      result.push(goodsData.products[i].brand);
-    }
+    const result = goodsData.products.map((product) => product.brand);
     return new Set(result);
   }
 
