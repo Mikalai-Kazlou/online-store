@@ -57,6 +57,19 @@ export default class Filter {
     window.history.replaceState({}, '', `${window.location.pathname}${questionMark}${searchQuery.toString()}`);
   }
 
+  private isExistsInGoodsData(goods: Goods, str: string): boolean {
+    const isFound =
+      goods.brand.toLowerCase().includes(str.toLowerCase()) ||
+      goods.title.toLowerCase().includes(str.toLowerCase()) ||
+      goods.description.toLowerCase().includes(str.toLowerCase()) ||
+      goods.category.toLowerCase().includes(str.toLowerCase()) ||
+      goods.rating.toString().includes(str.toLowerCase()) ||
+      goods.price.toString().includes(str.toLowerCase()) ||
+      goods.stock.toString().includes(str.toLowerCase());
+
+    return isFound;
+  }
+
   parseQueryString(searchQuery: URLSearchParams): void {
     const matrix: Goods[][] = [];
     if (searchQuery) {
@@ -92,15 +105,15 @@ export default class Filter {
           let minPrice = range.slice(0, range.indexOf('/'));
           let maxPrice = range.slice(range.indexOf('/') + 1);
           if (+minPrice > +maxPrice) {
-            const temp = minPrice;
-            minPrice = maxPrice;
-            maxPrice = temp;
+            [minPrice, maxPrice] = [maxPrice, minPrice];
           }
           const result = goodsData.products.filter((item) => item.price >= +minPrice && item.price <= +maxPrice);
           const fromPriceCOntainer = document.querySelector('.price-slider-from') as HTMLInputElement;
           const toPriceContainer = document.querySelector('.price-slider-to') as HTMLInputElement;
+
           this.setSliderValue(fromPriceCOntainer, minPrice);
           this.setSliderValue(toPriceContainer, maxPrice);
+
           if (result.length !== goodsData.products.length && result.length > 0) {
             matrix.push(result);
           }
@@ -112,15 +125,15 @@ export default class Filter {
           let minStock = range.slice(0, range.indexOf('/'));
           let maxStock = range.slice(range.indexOf('/') + 1);
           if (+minStock > +maxStock) {
-            const temp = minStock;
-            minStock = maxStock;
-            maxStock = temp;
+            [minStock, maxStock] = [maxStock, minStock];
           }
           const result = goodsData.products.filter((item) => item.stock >= +minStock && item.stock <= +maxStock);
           const fromStockCOntainer = document.querySelector('.stock-slider-from') as HTMLInputElement;
           const toStockContainer = document.querySelector('.stock-slider-to') as HTMLInputElement;
+
           this.setSliderValue(fromStockCOntainer, minStock);
           this.setSliderValue(toStockContainer, maxStock);
+
           if (result.length !== goodsData.products.length && result.length > 0) {
             matrix.push(result);
           }
@@ -130,22 +143,7 @@ export default class Filter {
         const searchText = searchQuery.get(SearchQueryParameters.search) || '';
         const searchResults: Goods[] = [];
         for (let i = 0; i < goodsData.products.length; i++) {
-          if (goodsData.products[i].brand.toLowerCase().includes(searchText.toLowerCase())) {
-            searchResults.push(goodsData.products[i]);
-          }
-          if (goodsData.products[i].title.toLowerCase().includes(searchText.toLowerCase())) {
-            searchResults.push(goodsData.products[i]);
-          }
-          if (goodsData.products[i].price.toString().includes(searchText.toLowerCase())) {
-            searchResults.push(goodsData.products[i]);
-          }
-          if (goodsData.products[i].stock.toString().includes(searchText.toLowerCase())) {
-            searchResults.push(goodsData.products[i]);
-          }
-          if (goodsData.products[i].description.toLowerCase().includes(searchText.toLowerCase())) {
-            searchResults.push(goodsData.products[i]);
-          }
-          if (goodsData.products[i].rating.toString().includes(searchText.toLowerCase())) {
+          if (this.isExistsInGoodsData(goodsData.products[i], searchText)) {
             searchResults.push(goodsData.products[i]);
           }
         }
@@ -283,25 +281,7 @@ export default class Filter {
 
     searchQueryContainer.setAttribute('value', `${searchQueryContainer.value}`);
     for (let i = 0; i < goodsData.products.length; i++) {
-      if (goodsData.products[i].brand.toLowerCase().includes(searchQueryInput.toLowerCase())) {
-        searchResults.push(goodsData.products[i]);
-      }
-      if (goodsData.products[i].title.toLowerCase().includes(searchQueryInput.toLowerCase())) {
-        searchResults.push(goodsData.products[i]);
-      }
-      if (goodsData.products[i].description.toLowerCase().includes(searchQueryInput.toLowerCase())) {
-        searchResults.push(goodsData.products[i]);
-      }
-      if (goodsData.products[i].category.toLowerCase().includes(searchQueryInput.toLowerCase())) {
-        searchResults.push(goodsData.products[i]);
-      }
-      if (goodsData.products[i].rating.toString().includes(searchQueryInput.toLowerCase())) {
-        searchResults.push(goodsData.products[i]);
-      }
-      if (goodsData.products[i].price.toString().includes(searchQueryInput.toLowerCase())) {
-        searchResults.push(goodsData.products[i]);
-      }
-      if (goodsData.products[i].stock.toString().includes(searchQueryInput.toLowerCase())) {
+      if (this.isExistsInGoodsData(goodsData.products[i], searchQueryInput)) {
         searchResults.push(goodsData.products[i]);
       }
     }

@@ -24,16 +24,4 @@ export default class GoodsData {
   static getMaxStock(): number {
     return Math.max(...this.getAllStock());
   }
-
-  static getProductStock(id: number): number {
-    return goodsData.products[id + 1].stock;
-  }
-
-  static getProductPrice(id: number): number {
-    return goodsData.products[id + 1].price;
-  }
-
-  static getProductDiscount(id: number): number {
-    return goodsData.products[id + 1].discountPercentage;
-  }
 }

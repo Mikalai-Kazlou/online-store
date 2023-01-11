@@ -34,11 +34,7 @@ if (isCatalogPage(document.location.pathname)) {
       }
 
       itemsArr
-        .sort(function (a, b) {
-          const productAPrice: number = goodsData.products[+a.id - 1].price;
-          const productBPrice: number = goodsData.products[+b.id - 1].price;
-          return productAPrice == productBPrice ? 0 : productAPrice > productBPrice ? 1 : -1;
-        })
+        .sort((a, b) => goodsData.products[+a.id - 1].price - goodsData.products[+b.id - 1].price)
         .forEach((item) => goodsItems.appendChild(item));
     } else if (uiElement.value === SortingType.priceDescending) {
       const itemsArr: Element[] = [];
@@ -50,11 +46,7 @@ if (isCatalogPage(document.location.pathname)) {
       }
 
       itemsArr
-        .sort(function (a, b) {
-          const productAPrice: number = goodsData.products[+a.id - 1].price;
-          const productBPrice: number = goodsData.products[+b.id - 1].price;
-          return productAPrice == productBPrice ? 0 : productAPrice < productBPrice ? 1 : -1;
-        })
+        .sort((a, b) => goodsData.products[+b.id - 1].price - goodsData.products[+a.id - 1].price)
         .forEach((item) => goodsItems.appendChild(item));
     } else if (uiElement.value === SortingType.nameAscending) {
       filter.searchQueryAppend(SearchQueryParameters.sorting, SortingType.nameAscending, filter.searchQuery);

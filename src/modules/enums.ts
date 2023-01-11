@@ -47,3 +47,16 @@ export enum ValidatedFields {
   valid,
   cvv,
 }
+
+export enum CustomEvents {
+  cartHasBeenChanged = 'carthasbeenchanged',
+}
+
+export enum LocalStorageParameters {
+  cart = 'rs-online-store-cart',
+}
+
+export enum Colors {
+  slider = '#C6C6C6',
+  range = '#8708ff',
+}

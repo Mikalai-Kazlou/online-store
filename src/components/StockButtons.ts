@@ -42,11 +42,14 @@ export default class StockButtons {
     minusButton.addEventListener('click', () => this.decrementStock(this.goods, selectedAmount, this.cart));
 
     this.parent.appendChild(stockSelector);
+
     stockSelector.appendChild(itemPrice);
     stockSelector.appendChild(amountButtons);
+
     amountButtons.appendChild(minusButton);
     amountButtons.appendChild(selectedAmount);
     amountButtons.appendChild(plusButton);
+
     this.header.refresh();
   }
 
