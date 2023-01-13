@@ -1,0 +1,117 @@
+@import './constants';
+
+.button {
+    background: transparent;
+    border: transparent;
+    cursor: pointer;
+    text-align: justify;
+
+    &:hover {
+        color: $color-dark-end;
+        text-shadow: 0.1rem 0.1rem 0.1rem $color-shadow;
+    }
+}
+
+.amount-button {
+    background: transparent;
+    width: 3rem;
+    border-radius: 5rem;
+    border: 0.1rem solid $color-shadow;
+    text-align: center;
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0 0.5rem 0.5rem $color-shadow-lighter;
+        border: 0.1rem solid $color-button-hover;
+    }
+
+    &:active {
+        border: 0.1rem solid $color-main-bright-accent;
+    }
+
+    @media screen and (max-width: 780px) {
+        width: 2.3rem;
+    }
+}
+
+.big-button {
+    display: block;
+    background: transparent;
+    border: transparent;
+    border-radius: 0.5rem;
+    border: 0.1rem solid $color-light;
+    padding: 1rem;
+    width: 100%;
+    font-size: 2rem;
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0 0.5rem 0.5rem $color-dark-overlay;
+        background: $color-lightest;
+    }
+
+    &:active {
+        border: 0.1rem solid $color-main-bright-accent;
+    }
+}
+
+.goods-button {
+    display: block;
+    background: transparent;
+    border: transparent;
+    border-radius: 0.5rem;
+    border: 0.1rem solid $color-light;
+    padding: 1rem;
+    width: 12vw;
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0 0.5rem 0.5rem $color-shadow-lighter;
+        background: $color-lightest;
+    }
+
+    &:active {
+        border: 0.1rem solid $color-main-bright-accent;
+    }
+
+    @media screen and (max-width: 768px) {
+        width: 15rem;
+        height: 4rem;
+        padding: 0.2rem;
+    }
+
+    @media screen and (max-width: 400px) {
+        width: 12rem;
+        height: auto;
+        padding: 0.1rem;
+    }
+
+    @media screen and (max-height: 500px) {
+        height: auto;
+    }
+}
+
+.product-button {
+    display: block;
+    background: transparent;
+    border: transparent;
+    border-radius: 0.5rem;
+    border: 0.1rem solid $color-light;
+    padding: 1rem;
+    width: 100%;
+    text-align: center;
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0 0.5rem 0.5rem rgba(196, 196, 196, 0.3);
+        background: $color-button-hover;
+    }
+
+    &:active {
+        border: 0.1rem solid $color-button-active;
+    }
+}
+
+.button-add-card {
+    cursor: pointer;
+}
