@@ -2,6 +2,7 @@ import CartItem from './CartItem';
 import Goods from './Goods';
 
 import { PromoCodes, PromoCode, SavedCart } from '../modules/types';
+import { CustomEvents, LocalStorageParameters } from '../modules/enums';
 import promoCodes from '../modules/promo-codes';
 import * as helpers from '../modules/helpers';
 
@@ -59,6 +60,23 @@ export default class Cart {
 
   refresh(): void {
     if (!this.uiCart) return;
+    this.displayContent();
+
+    const uiTotalQuantity = this.uiCart.querySelector('.total-quantity') as HTMLElement;
+    uiTotalQuantity.textContent = `Products: ${this.getTotalQuantity()}`;
+
+    const uiTotalAmount = this.uiCart.querySelector('.total-amount') as HTMLElement;
+    uiTotalAmount.textContent = `Total: ${helpers.formatAmount(this.getTotalAmount())}`;
+
+    const uiCurrentPage = this.uiCart.querySelector('.current-page') as HTMLElement;
+    uiCurrentPage.textContent = `${this.page}/${this.getMaxPage()}`;
+
+    this.displayPromoCodes(uiTotalAmount);
+    this.searchQueryChange();
+  }
+
+  private displayContent(): void {
+    if (!this.uiCart) return;
 
     const uiMessage = this.uiCart.querySelector('.error-message') as HTMLElement;
     const uiCartContent = this.uiCart.querySelector('.cart-content') as HTMLElement;
@@ -73,15 +91,10 @@ export default class Cart {
       uiCartContent.classList.add('no-display');
       uiCartSummary.classList.add('no-display');
     }
+  }
 
-    const uiTotalQuantity = this.uiCart.querySelector('.total-quantity') as HTMLElement;
-    uiTotalQuantity.textContent = `Products: ${this.getTotalQuantity()}`;
-
-    const uiTotalAmount = this.uiCart.querySelector('.total-amount') as HTMLElement;
-    uiTotalAmount.textContent = `Total: ${helpers.formatAmount(this.getTotalAmount())}`;
-
-    const uiCurrentPage = this.uiCart.querySelector('.current-page') as HTMLElement;
-    uiCurrentPage.textContent = `${this.page}/${this.getMaxPage()}`;
+  private displayPromoCodes(uiTotalAmount: HTMLElement): void {
+    if (!this.uiCart) return;
 
     const uiPromoCodes = this.uiCart.querySelector('.promo-codes') as HTMLElement;
     uiPromoCodes.innerHTML = '';
@@ -108,8 +121,6 @@ export default class Cart {
       const uiFullAmount = this.uiCart.querySelector('full-amount') as HTMLElement;
       uiFullAmount?.remove();
     }
-
-    this.searchQueryChange();
   }
 
   has(goods: Goods): boolean {
@@ -168,12 +179,12 @@ export default class Cart {
 
   addPromoCode(code: PromoCode): void {
     this.promoCodes.add(code);
-    document.body.dispatchEvent(new Event('carthasbeenchanged'));
+    document.body.dispatchEvent(new Event(CustomEvents.cartHasBeenChanged));
   }
 
   deletePromoCode(code: PromoCode): void {
     this.promoCodes.delete(code);
-    document.body.dispatchEvent(new Event('carthasbeenchanged'));
+    document.body.dispatchEvent(new Event(CustomEvents.cartHasBeenChanged));
   }
 
   private getVisibleItems(): CartItem[] {
@@ -230,16 +241,18 @@ export default class Cart {
       page: this.page,
       itemsOnPage: this.itemsOnPage,
     };
-    localStorage.setItem('rs-online-store-cart', JSON.stringify(cart));
+    localStorage.setItem(LocalStorageParameters.cart, JSON.stringify(cart));
   }
 
   private restore(): void {
-    const cart: SavedCart = JSON.parse(localStorage.getItem('rs-online-store-cart') as string) || {
+    const initialCart: SavedCart = {
       promo: [],
       items: [],
       page: this.page,
       itemsOnPage: this.itemsOnPage,
     };
+
+    const cart: SavedCart = JSON.parse(localStorage.getItem(LocalStorageParameters.cart) as string) || initialCart;
 
     this.items = cart.items.map((item) => new CartItem(new Goods(item.id), item.qnt));
     cart.promo.forEach((promo) => {

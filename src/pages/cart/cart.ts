@@ -6,7 +6,7 @@ import Header from '../../components/Header';
 
 import { getNullCheckedElement } from '../../modules/helpers';
 import { isCartPage } from '../../modules/pages';
-import { CustomActions, SearchQueryParameters } from '../../modules/enums';
+import { CustomActions, SearchQueryParameters, CustomEvents } from '../../modules/enums';
 import promoCodes from '../../modules/promo-codes';
 
 if (isCartPage(document.location.pathname)) {
@@ -38,8 +38,8 @@ if (isCartPage(document.location.pathname)) {
   }
 
   function copyPromoCode(event: Event): void {
-    const target: HTMLElement = event.target as HTMLElement;
-    if (target !== null) {
+    const target = event.target as HTMLElement;
+    if (target) {
       const clickedOption = target.closest('button') as HTMLButtonElement;
       const textContent = clickedOption.innerHTML;
       navigator.clipboard.writeText(textContent);
@@ -50,7 +50,7 @@ if (isCartPage(document.location.pathname)) {
     }
   }
 
-  document.body.addEventListener('carthasbeenchanged', onCartChanged, false);
+  document.body.addEventListener(CustomEvents.cartHasBeenChanged, onCartChanged, false);
 
   const uiCart = getNullCheckedElement(document, '.main-container-cart') as HTMLElement;
   const cart = new Cart(uiCart);

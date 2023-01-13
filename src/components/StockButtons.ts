@@ -17,44 +17,39 @@ export default class StockButtons {
 
   draw(): void {
     const stockSelector = document.createElement('div');
-    stockSelector.classList.add('main-text');
-    stockSelector.classList.add('stock-selector');
+    stockSelector.classList.add('main-text', 'stock-selector');
 
     const itemPrice = document.createElement('p');
-    itemPrice.classList.add('info-price');
-    itemPrice.classList.add('main-text');
+    itemPrice.classList.add('info-price', 'main-text');
     itemPrice.innerHTML = `Price: $${this.goods.price}`;
 
     const amountButtons = document.createElement('div');
-    amountButtons.classList.add('amount-buttons');
-    amountButtons.classList.add('main-text');
+    amountButtons.classList.add('amount-buttons', 'main-text');
 
     const minusButton = document.createElement('button');
-    minusButton.classList.add('amount-button');
-    minusButton.classList.add('main-text');
-    minusButton.classList.add('button-decrement');
+    minusButton.classList.add('amount-button', 'main-text', 'button-decrement');
     minusButton.innerHTML = '-';
 
     const selectedAmount = document.createElement('p');
-    selectedAmount.classList.add('selected-stock');
-    selectedAmount.classList.add('main-text');
+    selectedAmount.classList.add('selected-stock', 'main-text');
     selectedAmount.innerHTML = `${this.getCurrentAmount(this.goods)}`;
 
     const plusButton = document.createElement('button');
-    plusButton.classList.add('amount-button');
-    plusButton.classList.add('main-text');
-    plusButton.classList.add('button-increment');
+    plusButton.classList.add('amount-button', 'main-text', 'button-increment');
     plusButton.innerHTML = '+';
 
     plusButton.addEventListener('click', () => this.incrementStock(this.goods, selectedAmount, this.cart));
     minusButton.addEventListener('click', () => this.decrementStock(this.goods, selectedAmount, this.cart));
 
     this.parent.appendChild(stockSelector);
+
     stockSelector.appendChild(itemPrice);
     stockSelector.appendChild(amountButtons);
+
     amountButtons.appendChild(minusButton);
     amountButtons.appendChild(selectedAmount);
     amountButtons.appendChild(plusButton);
+
     this.header.refresh();
   }
 

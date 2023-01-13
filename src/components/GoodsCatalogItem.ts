@@ -32,22 +32,19 @@ export default class GoodsCatalogItem {
     uiPrice.innerHTML = `${helpers.formatAmount(this.goods.price)}`;
 
     const uiDescription = document.createElement('div');
-    uiDescription.classList.add('small-text');
-    uiDescription.classList.add('product-description');
+    uiDescription.classList.add('small-text', 'product-description');
     uiDescription.innerHTML = `${this.goods.description}`;
 
     const uiGoodButtons = document.createElement('div');
     uiGoodButtons.classList.add('good-buttons');
 
     const uiAddToCart = document.createElement('button');
-    uiAddToCart.classList.add('add-to-cart');
-    uiAddToCart.classList.add('goods-button');
+    uiAddToCart.classList.add('add-to-cart', 'goods-button');
     uiAddToCart.addEventListener('click', () => this.addToCart());
     uiAddToCart.addEventListener('click', () => header.refresh());
 
     const uiDetails = document.createElement('button');
-    uiDetails.classList.add('details');
-    uiDetails.classList.add('goods-button');
+    uiDetails.classList.add('details', 'goods-button');
     uiDetails.textContent = 'Details';
     uiDetails.addEventListener('click', () => this.showDetails());
 

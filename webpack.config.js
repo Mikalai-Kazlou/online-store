@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const miniCss = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const EslingPlugin = require('eslint-webpack-plugin');
 
 const baseConfig = {
     entry: path.resolve(__dirname, './src/index.ts'),
@@ -67,6 +68,7 @@ const baseConfig = {
                     { from: './src/.htaccess', to: './' }]
             },
         ),
+        new EslingPlugin({ extensions: 'ts' }),
     ],
 };
 

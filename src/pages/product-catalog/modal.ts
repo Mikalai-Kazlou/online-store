@@ -16,8 +16,7 @@ if (isCatalogPage(document.location.pathname)) {
     good.classList.add('good-item-modal');
 
     const picture = document.createElement('div');
-    picture.classList.add('picture');
-    picture.classList.add('big-picture');
+    picture.classList.add('picture', 'big-picture');
     picture.style.backgroundImage = `url("${goodsData.products[id - 1].images[0] || goodsData.products[0].images[0]}")`;
 
     const goodInfo = document.createElement('div');
@@ -71,17 +70,13 @@ if (isCatalogPage(document.location.pathname)) {
   }
 
   const openModal = function (event: Event): void {
-    if (event.target) {
-      const target = event.target as HTMLButtonElement;
-      if (!target.classList.contains('goods-button')) {
-        const clickedOption = target.closest('button');
-        if (clickedOption) {
-          const id: number = +clickedOption.id;
-          addModalProduct(id, modal);
-          modal.classList.remove('hide');
-          overlay.classList.remove('hide');
-        }
-      }
+    const target = event.target as HTMLButtonElement;
+    if (!target.classList.contains('goods-button')) {
+      const clickedOption = target.closest('button') as HTMLButtonElement;
+      const id: number = +clickedOption.id;
+      addModalProduct(id, modal);
+      modal.classList.remove('hide');
+      overlay.classList.remove('hide');
     }
   };
 

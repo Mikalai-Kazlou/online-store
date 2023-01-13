@@ -1,13 +1,13 @@
 export enum SortingType {
-  PriceAscending = 'price-lowest',
-  PriceDescending = 'price-highest',
-  NameAscending = 'name-a',
-  NameDescending = 'name-z',
+  priceAscending = 'price-lowest',
+  priceDescending = 'price-highest',
+  nameAscending = 'name-a',
+  nameDescending = 'name-z',
 }
 
 export enum ViewType {
-  Standard = 'view-standard',
-  Small = 'view-small',
+  standard = 'view-standard',
+  small = 'view-small',
 }
 
 export enum FilterType {
@@ -46,4 +46,17 @@ export enum ValidatedFields {
   card,
   valid,
   cvv,
+}
+
+export enum CustomEvents {
+  cartHasBeenChanged = 'carthasbeenchanged',
+}
+
+export enum LocalStorageParameters {
+  cart = 'rs-online-store-cart',
+}
+
+export enum Colors {
+  slider = '#C6C6C6',
+  range = '#8708ff',
 }

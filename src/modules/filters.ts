@@ -3,7 +3,7 @@ import GoodsData from '../components/GoodsData';
 
 import { getNullCheckedElement, formatAmount } from './helpers';
 import { isCatalogPage } from './pages';
-import { FilterType } from './enums';
+import { FilterType, Colors } from './enums';
 
 if (isCatalogPage(document.location.pathname)) {
   const goodsNumber = getNullCheckedElement(document, '.goods-number') as HTMLElement;
@@ -96,24 +96,23 @@ if (isCatalogPage(document.location.pathname)) {
   }
 
   function paintRange(fromSlider: HTMLInputElement, toSlider: HTMLInputElement): void {
-    const sliderColor = '#C6C6C6';
-    const rangeColor = '#8708ff';
     const rangeDistance = +toSlider.max - +toSlider.min;
     const fromPosition = +fromSlider.value - +toSlider.min;
     const toPosition = +toSlider.value - +toSlider.min;
+
     toSlider.style.background = `linear-gradient(
       to right,
-      ${sliderColor} 0%,
-      ${sliderColor} ${(fromPosition / rangeDistance) * 100}%,
-      ${rangeColor} ${(fromPosition / rangeDistance) * 100}%,
-      ${rangeColor} ${(toPosition / rangeDistance) * 100}%,
-      ${sliderColor} ${(toPosition / rangeDistance) * 100}%,
-      ${sliderColor} 100%)`;
+      ${Colors.slider} 0%,
+      ${Colors.slider} ${(fromPosition / rangeDistance) * 100}%,
+      ${Colors.range} ${(fromPosition / rangeDistance) * 100}%,
+      ${Colors.range} ${(toPosition / rangeDistance) * 100}%,
+      ${Colors.slider} ${(toPosition / rangeDistance) * 100}%,
+      ${Colors.slider} 100%)`;
   }
 
   function categoryFilter(event: Event): void {
     const target: HTMLElement = event.target as HTMLElement;
-    if (target !== null) {
+    if (target) {
       const clickedOption = target.closest('button') as HTMLButtonElement;
       if (clickedOption?.classList.contains('selected')) {
         clickedOption?.classList.remove('selected');
@@ -126,7 +125,7 @@ if (isCatalogPage(document.location.pathname)) {
 
   function brandFilter(event: Event): void {
     const target: HTMLElement = event.target as HTMLElement;
-    if (target !== null) {
+    if (target) {
       const clickedOption = target.closest('button') as HTMLButtonElement;
       if (clickedOption?.classList.contains('selected')) {
         clickedOption?.classList.remove('selected');

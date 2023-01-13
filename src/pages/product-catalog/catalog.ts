@@ -18,28 +18,19 @@ if (isCatalogPage(document.location.pathname)) {
   const brandButtons = getNullCheckedElement(document, '.filter-brand-buttons');
 
   function getCategories(): Set<string> {
-    const length = goodsData.products.length;
-    const result: string[] = [];
-    for (let i = 0; i < length; i++) {
-      result.push(goodsData.products[i].category);
-    }
+    const result = goodsData.products.map((product) => product.category);
     return new Set(result);
   }
 
   function getBrands(): Set<string> {
-    const length = goodsData.products.length;
-    const result: string[] = [];
-    for (let i = 0; i < length; i++) {
-      result.push(goodsData.products[i].brand);
-    }
+    const result = goodsData.products.map((product) => product.brand);
     return new Set(result);
   }
 
   function printButtons(array: string[], parent: Element, cls: string): void {
     for (let i = 0; i < array.length; i++) {
       const btn = document.createElement('button');
-      btn.classList.add('button');
-      btn.classList.add(`${cls}`);
+      btn.classList.add('button', `${cls}`);
       const buttonName = document.createElement('div');
       buttonName.classList.add('button-name');
       const buttonAmount = document.createElement('div');
